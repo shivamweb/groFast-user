@@ -187,25 +187,29 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/resend_otp_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/textview_design"
+                    android:background="@drawable/color_button"
+                    android:textColor="@color/button_text_color"
                     android:text="Resend SMS"
                     android:textAllCaps="false"
-                    android:textColor="@color/default_color"
                     android:textSize="@dimen/hint_text_size" />
 
-                <androidx.appcompat.widget.AppCompatButton
+                <TextView
+                    android:id="@+id/countdown_timer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:padding="13dp"
                     android:background="@drawable/textview_design"
                     android:text="Time"
                     android:textAllCaps="false"
-                    android:textColor="@color/default_color"
+                    android:textColor="@color/color_button"
                     android:textSize="@dimen/hint_text_size" />
 
             </LinearLayout>

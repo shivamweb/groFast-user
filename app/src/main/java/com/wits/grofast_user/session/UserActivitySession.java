@@ -1,0 +1,25 @@
+package com.wits.grofast_user.session;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+public class UserActivitySession {
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
+
+
+    public UserActivitySession(Context context) {
+        sharedPreferences = context.getSharedPreferences("UserActivity", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+    }
+
+    public void setLoginStaus(boolean status) {
+        editor.putBoolean("loginStatus", status);
+        editor.apply();
+    }
+
+    public boolean isUserLoggedIn() {
+        return sharedPreferences.getBoolean("loginStatus", false);
+    }
+
+}

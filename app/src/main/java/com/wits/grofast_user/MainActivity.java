@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (response.isSuccessful()) {
                             LoginResponse loginResponse = response.body();
-
+                            Toast.makeText(getApplicationContext(), ""+loginResponse.getMessage() , Toast.LENGTH_SHORT).show();
                             Log.i(TAG, "onResponse: message " + loginResponse.getMessage());
                             Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
                             Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
