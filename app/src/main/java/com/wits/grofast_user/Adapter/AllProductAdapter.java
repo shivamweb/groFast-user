@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolders> {
     private List<Map<String, Object>> AllproductItems;
-    Context context;
+    private Context context;
 
     public AllProductAdapter(Context context, List<Map<String, Object>> AllproductItems) {
         this.context = context;
