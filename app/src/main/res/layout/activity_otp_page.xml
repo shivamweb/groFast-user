@@ -77,9 +77,10 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/otp_phone_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9638251444"
+                    android:text="0000000000"
                     android:textColor="@color/textview_text_color"
                     android:textSize="16sp" />
 
@@ -102,6 +103,7 @@
                     app:cardElevation="4dp">
 
                     <EditText
+                        android:id="@+id/otp_digit1"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/textview_design"
@@ -122,6 +124,7 @@
                     app:cardElevation="4dp">
 
                     <EditText
+                        android:id="@+id/otp_digit2"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/textview_design"
@@ -142,6 +145,7 @@
                     app:cardElevation="4dp">
 
                     <EditText
+                        android:id="@+id/otp_digit3"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/textview_design"
@@ -162,6 +166,7 @@
                     app:cardElevation="4dp">
 
                     <EditText
+                        android:id="@+id/otp_digit4"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/textview_design"

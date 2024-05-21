@@ -57,11 +57,17 @@
         android:title="Edit Profile" />
 
     <item
+        android:id="@+id/menu_my_address"
         android:icon="@drawable/myaddress"
         android:title="My Address" />
 
     <item
         android:icon="@drawable/support"
         android:title="Support" />
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/baseline_logout_24"
+        android:title="Log Out" />
 
 </menu>

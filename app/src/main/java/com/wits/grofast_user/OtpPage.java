@@ -5,15 +5,27 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wits.grofast_user.MainHomePage.HomePage;
 
 public class OtpPage extends AppCompatActivity {
 
     AppCompatButton Continue;
+    TextView phone;
+    String receivedPhone, receivedOtp, enteredOtp = "";
+    EditText digit1, digit2, digit3, digit4;
+
+    String TAG = "OtpPage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +35,132 @@ public class OtpPage extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_otp_page);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            receivedPhone = intent.getStringExtra("mobileNo");
+            receivedOtp = intent.getStringExtra("mobileOtp");
+
+            Log.e(TAG, "onCreate: receivedPhone " + receivedPhone);
+            Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
+        }
+
+        digit1 = findViewById(R.id.otp_digit1);
+        digit2 = findViewById(R.id.otp_digit2);
+        digit3 = findViewById(R.id.otp_digit3);
+        digit4 = findViewById(R.id.otp_digit4);
+        setEditTextListeners();
+
         Continue = findViewById(R.id.Continue_otp_page);
+        phone = findViewById(R.id.otp_phone_no);
+        phone.setText(receivedPhone);
+
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), HomePage.class);
-                startActivity(i);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
+                Log.e(TAG, "onCreate: enteredOtp " + enteredOtp);
+                Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
+
+                if (enteredOtp.equals(receivedOtp)) {
+                    startActivity(i);
+                } else {
+                    Toast.makeText(OtpPage.this, "Please enter correct otp", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
+    private void setEditTextListeners() {
+        digit1.requestFocus();
+        digit1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit2.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        digit2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit3.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        digit3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit4.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+        digit2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit2.getText().toString().isEmpty()) {
+                        digit1.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        digit3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit3.getText().toString().isEmpty()) {
+                        digit2.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        digit4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit4.getText().toString().isEmpty()) {
+                        digit3.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }

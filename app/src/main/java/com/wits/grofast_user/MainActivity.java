@@ -5,13 +5,31 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.UserInterface;
+import com.wits.grofast_user.Api.responseModels.LoginResponse;
+
+import java.io.IOException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
     AppCompatButton Continue;
+    EditText phoneNo;
+    String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +39,61 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Continue = findViewById(R.id.Continue);
+        phoneNo = findViewById(R.id.phone_no);
+
+
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(),OtpPage.class);
-                startActivity(in);
+                String phone = phoneNo.getText().toString().trim();
+                Log.e(TAG, "onClick: phone no " + phone);
+                UserInterface userInterface = RetrofitService.getClient().create(UserInterface.class);
+                Call<LoginResponse> call = userInterface.login(phone);
+
+                call.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()) {
+                            LoginResponse loginResponse = response.body();
+
+                            Log.i(TAG, "onResponse: message " + loginResponse.getMessage());
+                            Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
+                            Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
+
+                            Intent in = new Intent(getApplicationContext(), OtpPage.class);
+                            in.putExtra("mobileNo", loginResponse.getPhone_no());
+                            in.putExtra("mobileOtp", loginResponse.getOtp());
+                            startActivity(in);
+                        } else {
+
+                            try {
+                                Log.e(TAG, "login status " + response.code());
+
+                                Gson gson = new Gson();
+                                JsonObject errorBodyJson = gson.fromJson(response.errorBody().string(), JsonObject.class);
+
+                                String errorMessage = errorBodyJson.get("errorMessage").getAsString();
+                                String status = errorBodyJson.get("status").getAsString();
+                                String message = errorBodyJson.get("message").getAsString();
+
+                                Log.e("TAG", "onResponse: Error ErrorMessege " + errorMessage);
+                                Log.e("TAG", "onResponse: Error status " + status);
+                                Log.e("TAG", "onResponse: Error message " + message);
+
+                                Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+//
             }
         });
 

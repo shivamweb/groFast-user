@@ -24,7 +24,9 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
+import com.wits.grofast_user.Details.Coupon;
 import com.wits.grofast_user.Details.EditProfile;
+import com.wits.grofast_user.Details.MyAddress;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
@@ -104,8 +106,12 @@ public class HomePage extends AppCompatActivity {
                     loadfragment(new HomeFragment(), false);
                 } else if (id == R.id.menu_enable_location) {
                     loadfragment(new ProductFragment(), false);
-                } else if (id ==R.id.menu_edit_profile){
+                } else if (id == R.id.menu_coupon) {
+                    startActivity(new Intent(HomePage.this, Coupon.class));
+                } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
+                } else if (id == R.id.menu_my_address) {
+                    startActivity(new Intent(HomePage.this, MyAddress.class));
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
