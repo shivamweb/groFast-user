@@ -1,7 +1,10 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +14,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProductAdapter.ViewHolders> {
-    private List<Map<String, Object>> productItems;
+    private List<ProductModel> productList;
     private Context context;
+    private String TAG="HomeViewProductAdapter";
 
-    public HomeViewProductAdapter(Context context, List<Map<String, Object>> productItems) {
+    public HomeViewProductAdapter(List<ProductModel> productList, Context context) {
+        this.productList = productList;
         this.context = context;
-        this.productItems = productItems;
     }
 
     @NonNull
@@ -34,20 +41,20 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewProductAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = productItems.get(position);
-        holder.name.setText((String) item.get("Name"));
-        holder.weight.setText((String) item.get("Weight"));
-        holder.price.setText((String) item.get("Price"));
-        holder.image.setImageResource((int) item.get("image"));
+        ProductModel item = productList.get(position);
+        holder.name.setText("cabage");
+        holder.weight.setText(item.getQuantity().toString());
+        holder.price.setText(item.getPrice().toString());
+        Glide.with(context).load(domain+item.getImage()).placeholder(R.drawable.gobhi_image).into(holder.image);
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("Name", (String) item.get("Name"));
-                intent.putExtra("Weight", (String) item.get("Weight"));
-                intent.putExtra("Price", (String) item.get("Price"));
-                intent.putExtra("image", (int) item.get("image"));
+                intent.putExtra("Name",  "cabbage");
+                intent.putExtra("Weight",  item.getQuantity());
+                intent.putExtra("Price",  item.getPrice());
+                intent.putExtra("image", domain+item.getImage());
                 context.startActivity(intent);
             }
         });
@@ -55,7 +62,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
 
     @Override
     public int getItemCount() {
-        return productItems.size();
+        return productList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

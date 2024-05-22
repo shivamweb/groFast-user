@@ -4,12 +4,9 @@ import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CategoryInterface {
-
     @GET("fetchCategories")
     Call<CategoryResponse> fetchCategories(@Query("page") int page);
-
 }

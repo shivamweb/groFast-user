@@ -5,13 +5,11 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,9 +20,13 @@ import com.wits.grofast_user.Adapter.HomeViewProductAdapter;
 import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CategoryInterface;
-import com.wits.grofast_user.Api.responseClasses.CategoryPaginatedResponse;
+import com.wits.grofast_user.Api.interfaces.ProductInerface;
+import com.wits.grofast_user.Api.paginatedResponses.CategoryPaginatedRes;
+import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
+import com.wits.grofast_user.Api.responseClasses.ProductResponse;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class HomeFragment extends Fragment {
     TopCategoriesAdapter topStoreAdapter;
     HomeViewProductAdapter productAdapter;
     private List<CategoryModel> categoryList = new ArrayList<>();
+    private List<ProductModel> productList = new ArrayList<>();
     List<Map<String, Object>> ProductItem;
     private GridLayoutManager layoutManager;
     TextView view_all_categories, view_all_product;
@@ -59,9 +62,6 @@ public class HomeFragment extends Fragment {
         view_all_categories = root.findViewById(R.id.view_all_categories_homepage);
         view_all_product = root.findViewById(R.id.view_all_product);
 
-        ProductItem = new ArrayList<>();
-        loadProductItems();
-
         //Top Stores Item
         layoutManager = new GridLayoutManager(getContext(), 4);
         top_stores_recycleview.setLayoutManager(layoutManager);
@@ -70,8 +70,7 @@ public class HomeFragment extends Fragment {
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
         product_recycleview.setLayoutManager(layoutManager);
-        productAdapter = new HomeViewProductAdapter(getContext(),ProductItem);
-        product_recycleview.setAdapter(productAdapter);
+        getProducts();
 
         view_all_categories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,51 +97,6 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    private void loadProductItems() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Gobhi");
-        item1.put("Weight", "500Kg");
-        item1.put("Price", "2000");
-        item1.put("image", R.drawable.gobhi_image);
-
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "Gobhi");
-        item2.put("Weight", "500Kg");
-        item2.put("Price", "2000");
-        item2.put("image", R.drawable.gobhi_image);
-
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("Name", "Gobhi");
-        item3.put("Weight", "500Kg");
-        item3.put("Price", "2000");
-        item3.put("image", R.drawable.gobhi_image);
-
-        Map<String, Object> item4 = new HashMap<>();
-        item4.put("Name", "Gobhi");
-        item4.put("Weight", "500Kg");
-        item4.put("Price", "2000");
-        item4.put("image", R.drawable.gobhi_image);
-
-        Map<String, Object> item5 = new HashMap<>();
-        item5.put("Name", "Gobhi");
-        item5.put("Weight", "500Kg");
-        item5.put("Price", "2000");
-        item5.put("image", R.drawable.gobhi_image);
-
-        Map<String, Object> item6 = new HashMap<>();
-        item6.put("Name", "Gobhi");
-        item6.put("Weight", "500Kg");
-        item6.put("Price", "2000");
-        item6.put("image", R.drawable.gobhi_image);
-
-        ProductItem.add(item1);
-        ProductItem.add(item2);
-        ProductItem.add(item3);
-        ProductItem.add(item4);
-        ProductItem.add(item5);
-        ProductItem.add(item6);
-    }
-
     private void getCategories() {
         Call<CategoryResponse> call = RetrofitService.getClient().create(CategoryInterface.class).fetchCategories(1);
         call.enqueue(new Callback<CategoryResponse>() {
@@ -151,7 +105,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
-                    CategoryPaginatedResponse paginatedResponse = categoryResponse.getPaginatedCategories();
+                    CategoryPaginatedRes paginatedResponse = categoryResponse.getPaginatedCategories();
                     categoryList = categoryResponse.getPaginatedCategories().getCategoryList();
                     topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext());
                     top_stores_recycleview.setAdapter(topStoreAdapter);
@@ -166,6 +120,34 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+    private void getProducts() {
+        Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(1);
+        call.enqueue(new Callback<ProductResponse>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                if (response.isSuccessful()) {
+                    ProductResponse productResponse = response.body();
+                    ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
+                    productList = paginatedResponse.getProductList();
+
+                    productAdapter = new HomeViewProductAdapter(productList,getContext());
+                    product_recycleview.setAdapter(productAdapter);
+
+                    Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
+                    Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+                } else {
+                    if (isAdded())
+                        handleApiError(TAG, response, getContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });
