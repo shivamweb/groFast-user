@@ -192,8 +192,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/color_button"
-                    android:textColor="@color/button_text_color"
                     android:text="Resend SMS"
                     android:textAllCaps="false"
                     android:textSize="@dimen/hint_text_size" />
