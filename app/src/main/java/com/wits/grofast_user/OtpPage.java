@@ -1,5 +1,7 @@
 package com.wits.grofast_user;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,15 +19,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseModels.LoginResponse;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -93,39 +92,20 @@ public class OtpPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (countDownTimer.getText().toString().equals("00:00")) {
-                    startCountdown();
                     Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(receivedPhone);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
+                                startCountdown();
                                 LoginResponse loginResponse = response.body();
                                 if (loginResponse != null) {
                                     receivedOtp = loginResponse.getOtp();
                                     Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-
-                                try {
-                                    Log.e(TAG, "login status " + response.code());
-
-                                    Gson gson = new Gson();
-                                    JsonObject errorBodyJson = gson.fromJson(response.errorBody().string(), JsonObject.class);
-
-                                    String errorMessage = errorBodyJson.get("errorMessage").getAsString();
-                                    String status = errorBodyJson.get("status").getAsString();
-                                    String message = errorBodyJson.get("message").getAsString();
-
-                                    Log.e("TAG", "onResponse: Error ErrorMessege " + errorMessage);
-                                    Log.e("TAG", "onResponse: Error status " + status);
-                                    Log.e("TAG", "onResponse: Error message " + message);
-
-                                    Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                handleApiError(TAG,response,getApplicationContext());
                             }
                         }
 
@@ -241,11 +221,18 @@ public class OtpPage extends AppCompatActivity {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
                 countDownTimer.setText(timeLeftFormatted);
+
+                resend.setClickable(false);
+                resend.setBackgroundDrawable(getDrawable(R.drawable.textview_design));
+                resend.setTextColor(getColor(R.color.default_color));
             }
 
             @Override
             public void onFinish() {
+                resend.setClickable(true);
                 countDownTimer.setText("00:00");
+                resend.setBackgroundDrawable(getDrawable(R.drawable.color_button));
+                resend.setTextColor(getColor(R.color.button_text_color));
             }
         }.start();
     }
