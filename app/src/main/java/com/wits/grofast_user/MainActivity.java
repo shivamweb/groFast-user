@@ -1,17 +1,23 @@
 package com.wits.grofast_user;
 
+import static com.google.android.material.internal.ViewUtils.showKeyboard;
+
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.wits.grofast_user.Api.RetrofitService;
@@ -28,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     AppCompatButton Continue;
     EditText phoneNo;
     String TAG = "MainActivity";
+    LinearLayout loadingOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +46,30 @@ public class MainActivity extends AppCompatActivity {
 
         Continue = findViewById(R.id.Continue);
         phoneNo = findViewById(R.id.phone_no);
-
+        loadingOverlay = findViewById(R.id.loading_overlay);
 
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phone = phoneNo.getText().toString().trim();
-                Log.e(TAG, "onClick: phone no " + phone);
-                UserInterface userInterface = RetrofitService.getClient().create(UserInterface.class);
-                Call<LoginResponse> call = userInterface.login(phone);
-
-                call.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful()) {
-                            LoginResponse loginResponse = response.body();
-                            Toast.makeText(getApplicationContext(), ""+loginResponse.getMessage() , Toast.LENGTH_SHORT).show();
-                            Log.i(TAG, "onResponse: message " + loginResponse.getMessage());
-                            Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
-                            Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
+                if (phone.isEmpty()) {
+                    showToastAndFocus("Enter a phone number");
+                } else if (!isValidPhoneNumber(phone)) {
+                    showToastAndFocus("Enter a valid phone number");
+                } else {
+                    Log.e(TAG, "onClick: phone no " + phone);
+                    UserInterface userInterface = RetrofitService.getClient().create(UserInterface.class);
+                    Call<LoginResponse> call = userInterface.login(phone);
+                    loadingOverlay.setVisibility(View.VISIBLE);
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                LoginResponse loginResponse = response.body();
+                                Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "onResponse: message " + loginResponse.getMessage());
+                                Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
+                                Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
 
                             Intent in = new Intent(getApplicationContext(), OtpPage.class);
                             in.putExtra("mobileNo", loginResponse.getPhone_no());
@@ -68,13 +80,31 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            t.printStackTrace();
+                            loadingOverlay.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
         });
+    }
 
+    private boolean isValidPhoneNumber(String phone) {
+        return phone != null && phone.length() == 10 && phone.matches("\\d+");
+    }
+
+    private void showToastAndFocus(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        phoneNo.requestFocus();
+        showKeyboard(phoneNo);
+    }
+
+    private void showKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 }

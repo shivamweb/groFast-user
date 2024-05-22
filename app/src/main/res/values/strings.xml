@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">grofast_user</string>
+
+    //Main Activity
     <string name="appname">Grocery Delivery App</string>
+    <string name="hint_login_or_sign_up">Log in or sign up</string>
+    <string name="hint_phone_number">Phone number</string>
+    <string name="continue_button">Continue</string>
     <string name="login_end_title">By continuing you agree to our</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_condition">T&amp;C</string>
+    <string name="content_policy">Content Policy</string>
+
+
+
+
     <string name="otp_message">We have sent a verification code to</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>
 </resources>
