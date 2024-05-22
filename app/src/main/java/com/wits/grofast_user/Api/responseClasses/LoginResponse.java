@@ -1,4 +1,4 @@
-package com.wits.grofast_user.Api.responseModels;
+package com.wits.grofast_user.Api.responseClasses;
 
 import java.lang.Integer;
 import java.lang.String;

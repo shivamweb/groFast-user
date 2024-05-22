@@ -1,5 +1,8 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -17,11 +22,15 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCategoriesAdapter.ViewHolders> {
-    private List<Map<String, Object>> CategoriesItems;
+    private final String TAG = "ShowAllCategoriesAdapter";
+    private List<CategoryModel> categoryList;
+    private Context context;
 
-    public ShowAllCategoriesAdapter(List<Map<String, Object>> CategoriesItems) {
-        this.CategoriesItems = CategoriesItems;
+    public ShowAllCategoriesAdapter(List<CategoryModel> categoryList, Context context) {
+        this.categoryList = categoryList;
+        this.context = context;
     }
+
     @NonNull
     @Override
     public ShowAllCategoriesAdapter.ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,14 +39,14 @@ public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCatego
 
     @Override
     public void onBindViewHolder(@NonNull ShowAllCategoriesAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = CategoriesItems.get(position);
-        holder.Name.setText((String) item.get("Name"));
-        holder.Banner.setImageResource((int) item.get("image"));
+        CategoryModel item = categoryList.get(position);
+        holder.Name.setText(item.getCategory_name());
+        Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.apple).into(holder.Banner);
     }
 
     @Override
     public int getItemCount() {
-        return CategoriesItems.size();
+        return categoryList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

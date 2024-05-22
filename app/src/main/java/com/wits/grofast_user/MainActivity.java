@@ -14,13 +14,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
-import com.wits.grofast_user.Api.responseModels.LoginResponse;
-
-import java.io.IOException;
+import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
