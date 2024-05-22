@@ -5,6 +5,7 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getContext(),ShowAllCategories.class);
+                in.putParcelableArrayListExtra("categories", new ArrayList<>(categoryList));
                 startActivity(in);
             }
         });
@@ -95,50 +97,6 @@ public class HomeFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-//    private void loadTopStoreItems() {
-//        Map<String, Object> item1 = new HashMap<>();
-//        item1.put("Name", "Food");
-//        item1.put("image", R.drawable.apple);
-//
-//        Map<String, Object> item2 = new HashMap<>();
-//        item2.put("Name", "Food");
-//        item2.put("image", R.drawable.strawberry);
-//
-//        Map<String, Object> item3 = new HashMap<>();
-//        item3.put("Name", "Food");
-//        item3.put("image", R.drawable.apple);
-//
-//        Map<String, Object> item4 = new HashMap<>();
-//        item4.put("Name", "Food");
-//        item4.put("image", R.drawable.strawberry);
-//
-//        Map<String, Object> item5 = new HashMap<>();
-//        item5.put("Name", "Food");
-//        item5.put("image", R.drawable.apple);
-//
-//        Map<String, Object> item6 = new HashMap<>();
-//        item6.put("Name", "Food");
-//        item6.put("image", R.drawable.strawberry);
-//
-//        Map<String, Object> item7 = new HashMap<>();
-//        item7.put("Name", "Food");
-//        item7.put("image", R.drawable.apple);
-//
-//        Map<String, Object> item8 = new HashMap<>();
-//        item8.put("Name", "Food");
-//        item8.put("image", R.drawable.strawberry);
-//
-//        TopStoresItems.add(item1);
-//        TopStoresItems.add(item2);
-//        TopStoresItems.add(item3);
-//        TopStoresItems.add(item4);
-//        TopStoresItems.add(item5);
-//        TopStoresItems.add(item6);
-//        TopStoresItems.add(item7);
-//        TopStoresItems.add(item8);
-//
-//    }
 
     private void loadProductItems() {
         Map<String, Object> item1 = new HashMap<>();

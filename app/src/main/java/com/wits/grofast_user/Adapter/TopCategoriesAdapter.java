@@ -40,7 +40,7 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
         CategoryModel item = categoryList.get(position);
         holder.Name.setText(item.getCategory_name());
         Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.apple).into(holder.Banner);
-        Log.e(TAG, "onBindViewHolder: category Image " + domain + item.getImage());
+
         holder.Banner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
