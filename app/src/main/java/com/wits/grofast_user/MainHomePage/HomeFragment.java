@@ -5,13 +5,11 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,7 +20,7 @@ import com.wits.grofast_user.Adapter.HomeViewProductAdapter;
 import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CategoryInterface;
-import com.wits.grofast_user.Api.responseClasses.CategoryPaginatedResponse;
+import com.wits.grofast_user.Api.paginatedResponses.CategoryPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.R;
@@ -151,7 +149,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
-                    CategoryPaginatedResponse paginatedResponse = categoryResponse.getPaginatedCategories();
+                    CategoryPaginatedRes paginatedResponse = categoryResponse.getPaginatedCategories();
                     categoryList = categoryResponse.getPaginatedCategories().getCategoryList();
                     topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext());
                     top_stores_recycleview.setAdapter(topStoreAdapter);

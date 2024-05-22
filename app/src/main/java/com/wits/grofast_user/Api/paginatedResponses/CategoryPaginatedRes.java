@@ -1,11 +1,11 @@
-package com.wits.grofast_user.Api.responseClasses;
+package com.wits.grofast_user.Api.paginatedResponses;
 
 import com.google.gson.annotations.SerializedName;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
 
 import java.util.List;
 
-public class CategoryPaginatedResponse {
+public class CategoryPaginatedRes {
     @SerializedName("data")
     private List<CategoryModel> categoryList;
 

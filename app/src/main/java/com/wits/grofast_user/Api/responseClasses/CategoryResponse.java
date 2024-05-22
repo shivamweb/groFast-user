@@ -1,13 +1,11 @@
 package com.wits.grofast_user.Api.responseClasses;
 
 import com.google.gson.annotations.SerializedName;
+import com.wits.grofast_user.Api.paginatedResponses.CategoryPaginatedRes;
 
 import java.io.Serializable;
-import java.lang.Boolean;
 import java.lang.Integer;
-import java.lang.Object;
 import java.lang.String;
-import java.util.List;
 
 public class CategoryResponse implements Serializable {
 
@@ -16,7 +14,7 @@ public class CategoryResponse implements Serializable {
   private Integer status;
 
   @SerializedName("data")
-  private CategoryPaginatedResponse paginatedCategories;
+  private CategoryPaginatedRes paginatedCategories;
 
   public String getMessage() {
     return message;
@@ -26,7 +24,7 @@ public class CategoryResponse implements Serializable {
     return status;
   }
 
-  public CategoryPaginatedResponse getPaginatedCategories() {
+  public CategoryPaginatedRes getPaginatedCategories() {
     return paginatedCategories;
   }
 }
