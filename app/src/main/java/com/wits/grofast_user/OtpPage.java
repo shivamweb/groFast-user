@@ -1,10 +1,8 @@
 package com.wits.grofast_user;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,14 +14,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.UserInterface;
+import com.wits.grofast_user.Api.responseModels.LoginResponse;
 import com.wits.grofast_user.MainHomePage.HomePage;
+import com.wits.grofast_user.session.UserActivitySession;
+
+import java.io.IOException;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OtpPage extends AppCompatActivity {
 
-    AppCompatButton Continue;
-    TextView phone;
+    AppCompatButton Continue, resend;
+    TextView phone, countDownTimer;
     String receivedPhone, receivedOtp, enteredOtp = "";
     EditText digit1, digit2, digit3, digit4;
+    long COUNTDOWN_TIME_MILLIS = 30000;
 
     String TAG = "OtpPage";
 
@@ -35,6 +50,7 @@ public class OtpPage extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_otp_page);
 
+        UserActivitySession session=new UserActivitySession(getApplicationContext());
         Intent intent = getIntent();
         if (intent != null) {
             receivedPhone = intent.getStringExtra("mobileNo");
@@ -51,9 +67,11 @@ public class OtpPage extends AppCompatActivity {
         setEditTextListeners();
 
         Continue = findViewById(R.id.Continue_otp_page);
+        resend = findViewById(R.id.resend_otp_button);
         phone = findViewById(R.id.otp_phone_no);
+        countDownTimer = findViewById(R.id.countdown_timer);
         phone.setText(receivedPhone);
-
+        startCountdown();
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,12 +82,64 @@ public class OtpPage extends AppCompatActivity {
                 Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
 
                 if (enteredOtp.equals(receivedOtp)) {
+                    session.setLoginStaus(true);
                     startActivity(i);
                 } else {
                     Toast.makeText(OtpPage.this, "Please enter correct otp", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (countDownTimer.getText().toString().equals("00:00")) {
+                    startCountdown();
+                    Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(receivedPhone);
+
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                LoginResponse loginResponse = response.body();
+                                if (loginResponse != null) {
+                                    receivedOtp = loginResponse.getOtp();
+                                    Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+
+                                try {
+                                    Log.e(TAG, "login status " + response.code());
+
+                                    Gson gson = new Gson();
+                                    JsonObject errorBodyJson = gson.fromJson(response.errorBody().string(), JsonObject.class);
+
+                                    String errorMessage = errorBodyJson.get("errorMessage").getAsString();
+                                    String status = errorBodyJson.get("status").getAsString();
+                                    String message = errorBodyJson.get("message").getAsString();
+
+                                    Log.e("TAG", "onResponse: Error ErrorMessege " + errorMessage);
+                                    Log.e("TAG", "onResponse: Error status " + status);
+                                    Log.e("TAG", "onResponse: Error message " + message);
+
+                                    Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Wait for resend code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     private void setEditTextListeners() {
@@ -163,4 +233,20 @@ public class OtpPage extends AppCompatActivity {
         });
     }
 
+    private void startCountdown() {
+        new CountDownTimer(COUNTDOWN_TIME_MILLIS, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+                countDownTimer.setText(timeLeftFormatted);
+            }
+
+            @Override
+            public void onFinish() {
+                countDownTimer.setText("00:00");
+            }
+        }.start();
+    }
 }

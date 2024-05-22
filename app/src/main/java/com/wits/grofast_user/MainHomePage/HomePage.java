@@ -27,7 +27,9 @@ import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Details.Coupon;
 import com.wits.grofast_user.Details.EditProfile;
 import com.wits.grofast_user.Details.MyAddress;
+import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +54,7 @@ public class HomePage extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_home_page);
 
+        UserActivitySession session=new UserActivitySession(getApplicationContext());
         drawerLayout = findViewById(R.id.drawerlayout1);
         menuBar = findViewById(R.id.menu_bar);
         navigationView = findViewById(R.id.menu_navigation);
@@ -112,6 +115,11 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
+                } else if (id == R.id.menu_logout) {
+                    session.setLoginStaus(false);
+                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
@@ -188,4 +196,6 @@ public class HomePage extends AppCompatActivity {
         LocationItems.add(item2);
         LocationItems.add(item3);
     }
+
+
 }
