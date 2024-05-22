@@ -1,5 +1,9 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +13,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdapter.ViewHolders> {
-    private List<Map<String, Object>> TopStoreItems;
+    private final String TAG = "TopCategoriesAdapter";
+    private List<CategoryModel> categoryList;
+    private Context context;
 
-    public TopCategoriesAdapter(List<Map<String, Object>> TopStoreItems) {
-        this.TopStoreItems = TopStoreItems;
+    public TopCategoriesAdapter(List<CategoryModel> categoryList, Context context) {
+        this.categoryList = categoryList;
+        this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -32,21 +37,20 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
 
     @Override
     public void onBindViewHolder(@NonNull TopCategoriesAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = TopStoreItems.get(position);
-        holder.Name.setText((String) item.get("Name"));
-        holder.Banner.setImageResource((int) item.get("image"));
-
+        CategoryModel item = categoryList.get(position);
+        holder.Name.setText(item.getCategory_name());
+        Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.apple).into(holder.Banner);
+        Log.e(TAG, "onBindViewHolder: category Image " + domain + item.getImage());
         holder.Banner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return TopStoreItems.size();
+        return categoryList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

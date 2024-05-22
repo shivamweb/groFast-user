@@ -1,20 +1,29 @@
 package com.wits.grofast_user.MainHomePage;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.wits.grofast_user.Adapter.HomeViewProductAdapter;
 import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.CategoryInterface;
+import com.wits.grofast_user.Api.responseClasses.CategoryPaginatedResponse;
+import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
+import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
@@ -22,16 +31,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends Fragment {
 
     RecyclerView top_stores_recycleview, product_recycleview;
     TopCategoriesAdapter topStoreAdapter;
     HomeViewProductAdapter productAdapter;
-    List<Map<String, Object>> TopStoresItems;
+    private List<CategoryModel> categoryList = new ArrayList<>();
     List<Map<String, Object>> ProductItem;
     private GridLayoutManager layoutManager;
     TextView view_all_categories, view_all_product;
 
+    private final String TAG = "HomeFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,17 +58,13 @@ public class HomeFragment extends Fragment {
         view_all_categories = root.findViewById(R.id.view_all_categories_homepage);
         view_all_product = root.findViewById(R.id.view_all_product);
 
-        TopStoresItems = new ArrayList<>();
         ProductItem = new ArrayList<>();
-
-        loadTopStoreItems();
         loadProductItems();
 
         //Top Stores Item
         layoutManager = new GridLayoutManager(getContext(), 4);
         top_stores_recycleview.setLayoutManager(layoutManager);
-        topStoreAdapter = new TopCategoriesAdapter(TopStoresItems);
-        top_stores_recycleview.setAdapter(topStoreAdapter);
+        getCategories();
 
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -86,49 +96,49 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    private void loadTopStoreItems() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Food");
-        item1.put("image", R.drawable.apple);
-
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "Food");
-        item2.put("image", R.drawable.strawberry);
-
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("Name", "Food");
-        item3.put("image", R.drawable.apple);
-
-        Map<String, Object> item4 = new HashMap<>();
-        item4.put("Name", "Food");
-        item4.put("image", R.drawable.strawberry);
-
-        Map<String, Object> item5 = new HashMap<>();
-        item5.put("Name", "Food");
-        item5.put("image", R.drawable.apple);
-
-        Map<String, Object> item6 = new HashMap<>();
-        item6.put("Name", "Food");
-        item6.put("image", R.drawable.strawberry);
-
-        Map<String, Object> item7 = new HashMap<>();
-        item7.put("Name", "Food");
-        item7.put("image", R.drawable.apple);
-
-        Map<String, Object> item8 = new HashMap<>();
-        item8.put("Name", "Food");
-        item8.put("image", R.drawable.strawberry);
-
-        TopStoresItems.add(item1);
-        TopStoresItems.add(item2);
-        TopStoresItems.add(item3);
-        TopStoresItems.add(item4);
-        TopStoresItems.add(item5);
-        TopStoresItems.add(item6);
-        TopStoresItems.add(item7);
-        TopStoresItems.add(item8);
-
-    }
+//    private void loadTopStoreItems() {
+//        Map<String, Object> item1 = new HashMap<>();
+//        item1.put("Name", "Food");
+//        item1.put("image", R.drawable.apple);
+//
+//        Map<String, Object> item2 = new HashMap<>();
+//        item2.put("Name", "Food");
+//        item2.put("image", R.drawable.strawberry);
+//
+//        Map<String, Object> item3 = new HashMap<>();
+//        item3.put("Name", "Food");
+//        item3.put("image", R.drawable.apple);
+//
+//        Map<String, Object> item4 = new HashMap<>();
+//        item4.put("Name", "Food");
+//        item4.put("image", R.drawable.strawberry);
+//
+//        Map<String, Object> item5 = new HashMap<>();
+//        item5.put("Name", "Food");
+//        item5.put("image", R.drawable.apple);
+//
+//        Map<String, Object> item6 = new HashMap<>();
+//        item6.put("Name", "Food");
+//        item6.put("image", R.drawable.strawberry);
+//
+//        Map<String, Object> item7 = new HashMap<>();
+//        item7.put("Name", "Food");
+//        item7.put("image", R.drawable.apple);
+//
+//        Map<String, Object> item8 = new HashMap<>();
+//        item8.put("Name", "Food");
+//        item8.put("image", R.drawable.strawberry);
+//
+//        TopStoresItems.add(item1);
+//        TopStoresItems.add(item2);
+//        TopStoresItems.add(item3);
+//        TopStoresItems.add(item4);
+//        TopStoresItems.add(item5);
+//        TopStoresItems.add(item6);
+//        TopStoresItems.add(item7);
+//        TopStoresItems.add(item8);
+//
+//    }
 
     private void loadProductItems() {
         Map<String, Object> item1 = new HashMap<>();
@@ -173,5 +183,33 @@ public class HomeFragment extends Fragment {
         ProductItem.add(item4);
         ProductItem.add(item5);
         ProductItem.add(item6);
+    }
+
+    private void getCategories() {
+        Call<CategoryResponse> call = RetrofitService.getClient().create(CategoryInterface.class).fetchCategories(1);
+        call.enqueue(new Callback<CategoryResponse>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                if (response.isSuccessful()) {
+                    CategoryResponse categoryResponse = response.body();
+                    CategoryPaginatedResponse paginatedResponse = categoryResponse.getPaginatedCategories();
+                    categoryList = categoryResponse.getPaginatedCategories().getCategoryList();
+                    topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext());
+                    top_stores_recycleview.setAdapter(topStoreAdapter);
+
+                    Log.i(TAG, "onResponse: total categories " + paginatedResponse.getTotal());
+                    Log.i(TAG, "onResponse: fetched categories " + paginatedResponse.getTo());
+                } else {
+                    if (isAdded())
+                        handleApiError(TAG, response, getContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
