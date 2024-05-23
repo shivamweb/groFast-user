@@ -30,6 +30,7 @@ import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Details.Coupon;
 import com.wits.grofast_user.Details.EditProfile;
 import com.wits.grofast_user.Details.MyAddress;
+import com.wits.grofast_user.Details.NotificationSetting;
 import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
@@ -132,15 +133,19 @@ public class HomePage extends AppCompatActivity {
 //                    loadfragment(new ProductFragment(), false);
                 } else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
-                }else if (id == R.id.menu_wallet) {
+                } else if (id == R.id.menu_offers) {
+                    loadfragment(new OffersFragment(), false);
+                } else if (id == R.id.menu_wallet) {
                     startActivity(new Intent(HomePage.this, Wallet.class));
+                }else if (id == R.id.menu_notification_setting) {
+                    startActivity(new Intent(HomePage.this, NotificationSetting.class));
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
                 } else if (id == R.id.menu_logout) {
                     session.setLoginStaus(false);
-                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
                 }

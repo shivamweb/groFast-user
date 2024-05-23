@@ -6,7 +6,8 @@
     <dimen name="text_size">20dp</dimen>
     <dimen name="card_corners">10dp</dimen>
     <dimen name="linear_padding">20dp</dimen>
-    <dimen name="small_text">10dp</dimen>
+    <dimen name="small_text">12dp</dimen>
     <dimen name="top_margin">30dp</dimen>
+    <dimen name="notification_top">10dp</dimen>
     <dimen name="textview_inner_padding">15dp</dimen>
 </resources>
