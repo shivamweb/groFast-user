@@ -47,7 +47,6 @@ public class EditProfile extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 101;
-
     private CircleImageView showProfileImage;
     private AppCompatButton addProfileImage, editProfileImage, updateProfile;
     private UserDetailSession userDetailSession;
@@ -108,7 +107,7 @@ public class EditProfile extends AppCompatActivity {
         editProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomSheetDialog();
+                showDialog();
             }
         });
 
@@ -126,9 +125,9 @@ public class EditProfile extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
     }
 
-    private void showBottomSheetDialog() {
+    private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Profile Image").setItems(new String[]{"Change Image", "Remove Image"}, new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.edit_profile_image_heading).setItems(new String[]{getString(R.string.change_image), getString(R.string.remove_image)}, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
