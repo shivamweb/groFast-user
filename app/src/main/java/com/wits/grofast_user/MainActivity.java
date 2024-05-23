@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String phone = phoneNo.getText().toString().trim();
                 if (phone.isEmpty()) {
-                    showToastAndFocus("Enter a phone number");
+                    showToastAndFocus(getString(R.string.toast_message_enter_number));
                 } else if (!isValidPhoneNumber(phone)) {
-                    showToastAndFocus("Enter a valid phone number");
+                    showToastAndFocus(getString(R.string.toast_message_valid_number));
                 } else {
                     Log.e(TAG, "onClick: phone no " + phone);
                     UserInterface userInterface = RetrofitService.getClient().create(UserInterface.class);

@@ -33,7 +33,7 @@
                 android:drawableRight="@drawable/baseline_keyboard_arrow_down_24"
                 android:drawablePadding="5dp"
                 android:gravity="center"
-                android:text="Set Location"
+                android:text="@string/set_location"
                 android:textColor="@color/action_text_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_color"
     tools:context=".Details.Coupon">
 
     <androidx.core.widget.NestedScrollView
@@ -41,7 +42,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         app:iconifiedByDefault="false"
-                        app:queryHint="Search Groceries or Products"
+                        app:queryHint="@string/search_coupon"
                         app:searchIcon="@null" />
 
                     <ImageView
@@ -66,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Available Coupon"
+                    android:text="@string/available_coupon"
                     android:textColor="@color/default_color"
                     android:textSize="@dimen/button_text_size"
                     android:textStyle="bold" />

@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hi Your Name"
+                android:text="@string/user_name"
                 android:textColor="@color/action_text_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />

@@ -32,7 +32,7 @@ public class ProductFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_product, container, false);
 
         if (getActivity() instanceof HomePage) {
-            ((HomePage) getActivity()).updateActionBar("Product", R.drawable.baseline_arrow_circle_left_24, 0);
+            ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_product), R.drawable.baseline_arrow_circle_left_24, 0);
         }
 
         recyclerView = root.findViewById(R.id.all_product_recycleview);
@@ -40,7 +40,7 @@ public class ProductFragment extends Fragment {
         
         loadProductItems();
 
-        //Top Stores Item
+        //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         allProductAdapter = new AllProductAdapter(getContext(),productItems);

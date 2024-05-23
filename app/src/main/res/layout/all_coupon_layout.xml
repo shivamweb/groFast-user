@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:gravity="right|center"
-                android:text="Copy"
+                android:text="@string/copy_button"
                 android:textAllCaps="false"
                 android:textColor="@color/Login_theme"
                 android:textSize="@dimen/button_text_size"

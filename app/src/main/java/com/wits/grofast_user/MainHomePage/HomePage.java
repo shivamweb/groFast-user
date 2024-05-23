@@ -27,6 +27,7 @@ import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Details.Coupon;
 import com.wits.grofast_user.Details.EditProfile;
 import com.wits.grofast_user.Details.MyAddress;
+import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -108,9 +109,11 @@ public class HomePage extends AppCompatActivity {
                 if (id == R.id.menu_home) {
                     loadfragment(new HomeFragment(), false);
                 } else if (id == R.id.menu_enable_location) {
-                    loadfragment(new ProductFragment(), false);
+//                    loadfragment(new ProductFragment(), false);
                 } else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
+                }else if (id == R.id.menu_wallet) {
+                    startActivity(new Intent(HomePage.this, Wallet.class));
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
@@ -134,11 +137,11 @@ public class HomePage extends AppCompatActivity {
         fragmentTransaction.commit();
 
         if (fragment instanceof OffersFragment) {
-            updateActionBar("Offers", R.drawable.baseline_arrow_circle_left_24, 0);
+            updateActionBar(getString(R.string.bottom_menu_offers), R.drawable.baseline_arrow_circle_left_24, 0);
         } else if (fragment instanceof ProductFragment) {
-            updateActionBar("Product", R.drawable.baseline_arrow_circle_left_24, 0);
+            updateActionBar(getString(R.string.bottom_menu_product), R.drawable.baseline_arrow_circle_left_24, 0);
         } else {
-            updateActionBar("Set Location", R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
+            updateActionBar(getString(R.string.set_location), R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
         }
     }
 
@@ -196,6 +199,5 @@ public class HomePage extends AppCompatActivity {
         LocationItems.add(item2);
         LocationItems.add(item3);
     }
-
 
 }

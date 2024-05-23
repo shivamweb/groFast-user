@@ -39,7 +39,7 @@
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         app:iconifiedByDefault="false"
-                        app:queryHint="Type to Search..."
+                        app:queryHint="@string/search_name_home_fragment"
                         app:searchIcon="@null" />
 
                     <ImageView
@@ -49,6 +49,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/baseline_search_24" />
+
                 </LinearLayout>
 
                 <FrameLayout
@@ -82,7 +83,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|start"
-                                    android:text="Top Categories for you"
+                                    android:text="@string/top_categories"
                                     android:textColor="@color/textview_text_color"
                                     android:textSize="@dimen/hint_text_size"
                                     android:textStyle="bold" />
@@ -94,7 +95,7 @@
                                     android:layout_gravity="center|end"
                                     android:layout_weight="1"
                                     android:gravity="center|end"
-                                    android:text="View All"
+                                    android:text="@string/view_all"
                                     android:textColor="@color/Login_theme"
                                     android:textSize="@dimen/hint_text_size"
                                     android:textStyle="bold" />
@@ -260,7 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center|start"
-                        android:text="Products"
+                        android:text="@string/bottom_menu_product"
                         android:textColor="@color/textview_text_color"
                         android:textSize="@dimen/hint_text_size"
                         android:textStyle="bold" />
@@ -272,7 +273,7 @@
                         android:layout_gravity="center|end"
                         android:layout_weight="1"
                         android:gravity="center|end"
-                        android:text="View All"
+                        android:text="@string/view_all"
                         android:textColor="@color/Login_theme"
                         android:textSize="@dimen/hint_text_size"
                         android:textStyle="bold" />

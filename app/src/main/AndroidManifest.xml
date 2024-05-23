@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Grofast_user"
         tools:targetApi="31">
         <activity
+            android:name=".Wallet"
+            android:exported="false" />
+        <activity
             android:name=".Details.Coupon"
             android:exported="false" />
         <activity

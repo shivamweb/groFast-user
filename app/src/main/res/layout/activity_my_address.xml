@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="@dimen/linear_padding"
-    android:background="@color/background_color"
     tools:context=".Details.MyAddress">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/round_background"
         android:gravity="center"
-        android:text="Add Address"
+        android:text="@string/add_address_button"
         android:textAllCaps="false"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />

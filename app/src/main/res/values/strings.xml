@@ -5,16 +5,118 @@
     <string name="appname">Grocery Delivery App</string>
     <string name="hint_login_or_sign_up">Log in or sign up</string>
     <string name="hint_phone_number">Phone number</string>
-    <string name="continue_button">Continue</string>
     <string name="login_end_title">By continuing you agree to our</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_condition">T&amp;C</string>
     <string name="content_policy">Content Policy</string>
 
+    //Toast
+    <string name="toast_message_enter_number">Enter a phone number</string>
+    <string name="toast_message_valid_number">Enter a valid number</string>
+    <string name="toast_message_enter_otp">Please enter the OTP</string>
+    <string name="toast_message_correct_otp">Please enter correct otp</string>
+    <string name="toast_message_resend_otp">Wait for resend code</string>
 
-
-
+    //Otp Page
+    <string name="otp_title">OTP Verification</string>
     <string name="otp_message">We have sent a verification code to</string>
+    <string name="otp_resed_button">Resend SMS</string>
+    <string name="otp_time">Time</string>
+
+    //Home Page
+    <string name="set_location">Set Location</string>
+    <string name="bottom_menu_product">Products</string>
+    <string name="bottom_menu_offers">Offers</string>
+    <string name="bottom_menu_home">Home</string>
+    <string name="bottom_menu_cart">Cart</string>
+    <string name="bottom_menu_history">History</string>
+
+    //Add Location
+    <string name="add_location_text">Add Location</string>
+    <string name="current_location_text">Use Current Location</string>
+
+    //Search View
+    <string name="search_location">Enter Location</string>
+    <string name="search_name">Search Results</string>
+    <string name="search_name_home_fragment">Type to Search...</string>
+    <string name="search_product_fragment">Search Groceries or Products</string>
+    <string name="search_coupon">Search Coupon</string>
+
+    //Menu Item
+    <string name="menu_home">HomePage</string>
+    <string name="menu_enable_location">Enable Location</string>
+    <string name="menu_coupon">Coupon</string>
+    <string name="menu_wallet">Wallet</string>
+    <string name="menu_notification_setting">Notification Setting</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_setting">Setting</string>
+    <string name="menu_search_list">Search List</string>
+    <string name="menu_edit_profile">Edit Profile</string>
+    <string name="menu_my_address">My Address</string>
+    <string name="menu_support">Support</string>
+    <string name="menu_log_out">Log Out</string>
+    <string name="menu_menu">Menu</string>
+
+    //Home Fragment
+    <string name="top_categories">Top Categories</string>
+    <string name="view_all">View All</string>
+
+    //Product Fragment
+    <string name="all_text">All</string>
+    <string name="short_by_text">short by</string>
+    <string name="categories_text">Categories</string>
+
+    //Slider Layout
+    <string name="user_name">Your Name</string>
+
+    //All Pages Name
+    <string name="coupon_page_name">Coupon</string>
+    <string name="edit_profile_page_name">Edit Profile</string>
+    <string name="my_address_page_name">My Address</string>
+    <string name="product_details_page_name">Product Detail</string>
+
+    //Coupon
+    <string name="available_coupon">Available Coupon</string>
+
+    //Button name
+    <string name="copy_button">Copy</string>
+    <string name="continue_button">Continue</string>
+    <string name="add_profile_button">Add profile</string>
+    <string name="edit_profile_button">Edit profile</string>
+    <string name="change_button">Change</string>
+    <string name="save_change_button">Save Changes</string>
+    <string name="add_address_button">Add Address</string>
+    <string name="save_address_button">Save Address</string>
+    <string name="update_address_button">Update Address</string>
+    <string name="add_cart_button">Add to Cart</string>
+    <string name="activate_wallet_button">Activate Wallet</string>
+
+    //Edit Page Details
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email">Email</string>
+    <string name="email_hint">example@gmail.com</string>
+    <string name="location">Location</string>
+    <string name="location_hint">Your Location</string>
+    <string name="description">Description</string>
+    <string name="description_hint">Tell us little something about yourself</string>
+
+    //My Address
+    <string name="edit_address">Edit Address</string>
+    <string name="full_address">Full Address</string>
+    <string name="hint_enter_address">Enter Address</string>
+    <string name="city">City</string>
+    <string name="pincode">Pincode</string>
+
+    //Product details
+    <string name="product_description">Description:</string>
+    <string name="product_related_item">Related Items:</string>
+
+    //Wallet page
+    <string name="wallet_heading">Edition Wallet</string>
+    <string name="wallet_sub_heading">Seamless one-click checkout for all payment on Groseri</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>
 </resources>

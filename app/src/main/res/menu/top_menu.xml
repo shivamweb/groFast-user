@@ -4,12 +4,12 @@
     <item
         android:id="@+id/navNotification"
         android:icon="@drawable/baseline_notifications_24"
-        android:title="Notification"
+        android:title="@string/menu_notification"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/navAccount"
         android:icon="@drawable/baseline_menu_24"
-        android:title="Menu"
+        android:title="@string/menu_menu"
         app:showAsAction="ifRoom" />
 </menu>
