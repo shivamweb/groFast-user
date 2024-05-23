@@ -45,7 +45,6 @@ public class HomeFragment extends Fragment {
     HomeViewProductAdapter productAdapter;
     private List<CategoryModel> categoryList = new ArrayList<>();
     private List<ProductModel> productList = new ArrayList<>();
-    List<Map<String, Object>> ProductItem;
     private GridLayoutManager layoutManager;
     TextView view_all_categories, view_all_product;
 
