@@ -17,6 +17,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.UserRequest;
+import com.wits.grofast_user.Api.interfaces.UserInterface;
+import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.R;
 
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -63,7 +68,8 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void openGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
     }
 
@@ -122,5 +128,10 @@ public class EditProfile extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateUserProfile(){
+        UserRequest userRequest=new UserRequest();
+        Call<EditProfileResponse> call= RetrofitService.getClient().create(UserInterface.class).updateProfile1(userRequest);
     }
 }
