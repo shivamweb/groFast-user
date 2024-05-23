@@ -77,6 +77,8 @@
     <string name="my_address_page_name">My Address</string>
     <string name="product_details_page_name">Product Detail</string>
     <string name="wallet_page_name">Wallet</string>
+    <string name="notification_setting_page_name">Notification Preferences</string>
+    <string name="notification_page_name">Notification</string>
 
     //Coupon
     <string name="available_coupon">Available Coupon</string>
@@ -125,7 +127,20 @@
     <string name="wallet_card_2_heading">Safe and Secure</string>
     <string name="wallet_card_2_subheading">Contrary to popular belief.</string>
 
-    //notoification
+    //Notification Setting
+    <string name="notification_1_heading">Push Notifications</string>
+    <string name="notification_1_sub_heading">Tap to enable notification</string>
+    <string name="notification_2_heading">Enable all</string>
+    <string name="notification_2_sub_heading">Activate all notification</string>
+    <string name="notification_3_heading">Newsletters</string>
+    <string name="notification_3_sub_heading">Receive newsletter to stay up-to date with whats brewing in food industry</string>
+    <string name="notification_4_heading">Promos and offers</string>
+    <string name="notification_4_sub_heading">Receive updates about coupons, promotions and money saving offers</string>
+    <string name="notification_5_heading">Social notifications</string>
+    <string name="notification_5_sub_heading">Get notified when someone follows your profile, or when you get likes and comments on reviews and photos posted by you</string>
+    <string name="notification_email">Email</string>
+    <string name="notification_push">Push</string>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>
