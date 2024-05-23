@@ -1,5 +1,7 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,19 +13,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolders> {
-    private List<Map<String, Object>> AllproductItems;
+    private List<ProductModel> productList = new ArrayList<>();
     private Context context;
 
-    public AllProductAdapter(Context context, List<Map<String, Object>> AllproductItems) {
+    public AllProductAdapter(Context context, List<ProductModel> productList) {
         this.context = context;
-        this.AllproductItems = AllproductItems;
+        this.productList = productList;
     }
 
     @NonNull
@@ -34,20 +39,20 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull AllProductAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = AllproductItems.get(position);
-        holder.name.setText((String) item.get("Name"));
-        holder.weight.setText((String) item.get("Weight"));
-        holder.price.setText((String) item.get("Price"));
-        holder.image.setImageResource((int) item.get("image"));
+        ProductModel item = productList.get(position);
+        holder.name.setText("cabage");
+        holder.weight.setText(item.getQuantity().toString());
+        holder.price.setText(item.getPrice().toString());
+        Glide.with(context).load(domain+item.getImage()).placeholder(R.drawable.gobhi_image).into(holder.image);
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("Name", (String) item.get("Name"));
-                intent.putExtra("Weight", (String) item.get("Weight"));
-                intent.putExtra("Price", (String) item.get("Price"));
-                intent.putExtra("image", (int) item.get("image"));
+                intent.putExtra("Name",  "cabbage");
+                intent.putExtra("Weight",  item.getQuantity());
+                intent.putExtra("Price",  item.getPrice());
+                intent.putExtra("image", domain+item.getImage());
                 context.startActivity(intent);
             }
         });
@@ -55,7 +60,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return AllproductItems.size();
+        return productList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

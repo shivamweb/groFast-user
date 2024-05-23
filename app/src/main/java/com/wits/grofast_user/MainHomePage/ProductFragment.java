@@ -1,29 +1,40 @@
 package com.wits.grofast_user.MainHomePage;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.wits.grofast_user.Adapter.AllProductAdapter;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.ProductInerface;
+import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
+import com.wits.grofast_user.Api.responseClasses.ProductResponse;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
 
     RecyclerView recyclerView;
     AllProductAdapter allProductAdapter;
-    List<Map<String, Object>> productItems;
+    private List<ProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
+    private final String TAG = "ProductFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,61 +47,39 @@ public class ProductFragment extends Fragment {
         }
 
         recyclerView = root.findViewById(R.id.all_product_recycleview);
-        productItems = new ArrayList<>();
-        
-        loadProductItems();
 
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
-        allProductAdapter = new AllProductAdapter(getContext(),productItems);
-        recyclerView.setAdapter(allProductAdapter);
 
+        getProducts(1);
         return root;
     }
 
-    private void loadProductItems() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Apple");
-        item1.put("Weight", "500Kg");
-        item1.put("Price", "2000");
-        item1.put("image", R.drawable.apple);
+    private void getProducts(int page) {
+        Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(page);
+        call.enqueue(new Callback<ProductResponse>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                if (response.isSuccessful()) {
+                    ProductResponse productResponse = response.body();
+                    ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
+                    productList = paginatedResponse.getProductList();
 
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "strawberry");
-        item2.put("Weight", "500Kg");
-        item2.put("Price", "2000");
-        item2.put("image", R.drawable.strawberry);
+                    allProductAdapter = new AllProductAdapter(getContext(), productList);
+                    recyclerView.setAdapter(allProductAdapter);
 
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("Name", "Apple");
-        item3.put("Weight", "500Kg");
-        item3.put("Price", "2000");
-        item3.put("image", R.drawable.apple);
-
-        Map<String, Object> item4 = new HashMap<>();
-        item4.put("Name", "strawberry");
-        item4.put("Weight", "500Kg");
-        item4.put("Price", "2000");
-        item4.put("image", R.drawable.strawberry);
-
-        Map<String, Object> item5 = new HashMap<>();
-        item5.put("Name", "strawberry");
-        item5.put("Weight", "500Kg");
-        item5.put("Price", "2000");
-        item5.put("image", R.drawable.strawberry);
-
-        Map<String, Object> item6 = new HashMap<>();
-        item6.put("Name", "Apple");
-        item6.put("Weight", "500Kg");
-        item6.put("Price", "2000");
-        item6.put("image", R.drawable.apple);
-
-        productItems.add(item1);
-        productItems.add(item2);
-        productItems.add(item3);
-        productItems.add(item4);
-        productItems.add(item5);
-        productItems.add(item6);
+                    Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
+                    Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+                } else {
+                    if (isAdded()) handleApiError(TAG, response, getContext());
+                }
+            }
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
