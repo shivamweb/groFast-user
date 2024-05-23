@@ -27,6 +27,7 @@ import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
+import com.wits.grofast_user.session.UserDetailSession;
 
 import java.util.Locale;
 
@@ -56,6 +57,8 @@ public class OtpPage extends AppCompatActivity {
         loadingOverlay = findViewById(R.id.loading_overlay);
 
         UserActivitySession session = new UserActivitySession(getApplicationContext());
+        UserDetailSession userDetailSession=new UserDetailSession(getApplicationContext());
+
         Intent intent = getIntent();
         if (intent != null) {
             receivedPhone = intent.getStringExtra("mobileNo");
@@ -90,6 +93,7 @@ public class OtpPage extends AppCompatActivity {
                     loadingOverlay.setVisibility(View.VISIBLE);
                     if (enteredOtp.equals(receivedOtp)) {
                         session.setLoginStaus(true);
+                        userDetailSession.setPhoneNo(receivedPhone);
                         startActivity(i);
                         loadingOverlay.setVisibility(View.GONE);
                     } else {

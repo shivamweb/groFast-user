@@ -1,14 +1,6 @@
 package com.wits.grofast_user.MainHomePage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.wits.grofast_user.Api.RetrofitService.domain;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,6 +13,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
@@ -31,11 +34,14 @@ import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
+import com.wits.grofast_user.session.UserDetailSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomePage extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -47,6 +53,9 @@ public class HomePage extends AppCompatActivity {
     AddLocationSerachResultAdapter addLocationSerachResultAdapter;
     List<Map<String, Object>> LocationItems;
 
+    private TextView userName, userPhoneNo;
+    private CircleImageView userProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +65,21 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         UserActivitySession session=new UserActivitySession(getApplicationContext());
+        UserDetailSession userDetailSession = new UserDetailSession(getApplicationContext());
+
         drawerLayout = findViewById(R.id.drawerlayout1);
         menuBar = findViewById(R.id.menu_bar);
         navigationView = findViewById(R.id.menu_navigation);
+        View headerView = navigationView.getHeaderView(0);
         textview_set_location = findViewById(R.id.textview_set_location);
+
+        userName = headerView.findViewById(R.id.user_name);
+        userPhoneNo = headerView.findViewById(R.id.user_phone_no);
+        userProfile = headerView.findViewById(R.id.user_profile);
+
+        userPhoneNo.setText(userDetailSession.getPhoneNo());
+        userName.setText("Abc User");
+//        Glide.with(getApplicationContext()).load("").placeholder(R.drawable.gobhi_image).into(userProfile);
 
         menuBar.setOnClickListener(new View.OnClickListener() {
             @Override
