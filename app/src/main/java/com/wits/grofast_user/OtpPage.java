@@ -2,6 +2,7 @@ package com.wits.grofast_user;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,7 +13,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,7 @@ public class OtpPage extends AppCompatActivity {
     long COUNTDOWN_TIME_MILLIS = 30000;
 
     String TAG = "OtpPage";
+    LinearLayout loadingOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,9 @@ public class OtpPage extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_otp_page);
 
-        UserActivitySession session=new UserActivitySession(getApplicationContext());
+        loadingOverlay = findViewById(R.id.loading_overlay);
+
+        UserActivitySession session = new UserActivitySession(getApplicationContext());
         Intent intent = getIntent();
         if (intent != null) {
             receivedPhone = intent.getStringExtra("mobileNo");
@@ -80,11 +86,18 @@ public class OtpPage extends AppCompatActivity {
                 Log.e(TAG, "onCreate: enteredOtp " + enteredOtp);
                 Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
 
-                if (enteredOtp.equals(receivedOtp)) {
-                    session.setLoginStaus(true);
-                    startActivity(i);
+                if (isOtpValid()) {
+                    loadingOverlay.setVisibility(View.VISIBLE);
+                    if (enteredOtp.equals(receivedOtp)) {
+                        session.setLoginStaus(true);
+                        startActivity(i);
+                        loadingOverlay.setVisibility(View.GONE);
+                    } else {
+                        loadingOverlay.setVisibility(View.GONE);
+                        showToastAndFocus(getString(R.string.toast_message_correct_otp), digit4);
+                    }
                 } else {
-                    Toast.makeText(OtpPage.this, "Please enter correct otp", Toast.LENGTH_SHORT).show();
+                    showToastAndFocus(getString(R.string.toast_message_enter_otp), digit1);
                 }
             }
         });
@@ -92,6 +105,7 @@ public class OtpPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (countDownTimer.getText().toString().equals("00:00")) {
+                    loadingOverlay.setVisibility(View.VISIBLE);
                     Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(receivedPhone);
 
                     call.enqueue(new Callback<LoginResponse>() {
@@ -103,23 +117,46 @@ public class OtpPage extends AppCompatActivity {
                                 if (loginResponse != null) {
                                     receivedOtp = loginResponse.getOtp();
                                     Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                    loadingOverlay.setVisibility(View.GONE);
                                 }
                             } else {
-                                handleApiError(TAG,response,getApplicationContext());
+                                handleApiError(TAG, response, getApplicationContext());
+                                loadingOverlay.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             t.printStackTrace();
+                            loadingOverlay.setVisibility(View.GONE);
                         }
                     });
                 } else {
-                    Toast.makeText(getApplicationContext(), "Wait for resend code", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_message_resend_otp), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+    }
+
+    private boolean isOtpValid() {
+        boolean valid = true;
+        if (digit1.getText().toString().trim().isEmpty()) {
+            valid = false;
+        }
+
+        if (digit2.getText().toString().trim().isEmpty()) {
+            valid = false;
+        }
+        if (digit3.getText().toString().trim().isEmpty()) {
+            valid = false;
+        }
+
+        if (digit4.getText().toString().trim().isEmpty()) {
+            valid = false;
+        }
+
+        return valid;
     }
 
     private void setEditTextListeners() {
@@ -235,5 +272,18 @@ public class OtpPage extends AppCompatActivity {
                 resend.setTextColor(getColor(R.color.button_text_color));
             }
         }.start();
+    }
+
+    private void showToastAndFocus(String message, EditText editText) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        editText.requestFocus();
+        showKeyboard(editText);
+    }
+
+    private void showKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 }

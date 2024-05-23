@@ -15,7 +15,7 @@
     <color name="button_text_color">#FFFFFFFF</color>
     <color name="line_text_color">#787a7d</color>
     <color name="default_color">#787a7d</color>
-    <color name="background_color">#f8f9fa</color>
+    <color name="background_color">#ececec</color>
     <color name="Login_theme">#00ae65</color>
     <color name="action_text_color">#FFFFFFFF</color>
     <color name="change_button_color">#f5570f</color>

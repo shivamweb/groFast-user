@@ -36,9 +36,8 @@ public class EditProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().setTitle("Edit Profile");
+        getSupportActionBar().setTitle(getString(R.string.edit_profile_page_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_edit_profile);
@@ -124,5 +123,4 @@ public class EditProfile extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

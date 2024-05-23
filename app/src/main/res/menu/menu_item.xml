@@ -3,71 +3,71 @@
     <item
         android:id="@+id/menu_home"
         android:icon="@drawable/home"
-        android:title="HomePage" />
+        android:title="@string/menu_home" />
 
     <item
         android:id="@+id/menu_enable_location"
         android:icon="@drawable/enablelocation"
-        android:title="Enable Location" />
+        android:title="@string/menu_enable_location" />
 
     <item
         android:id="@+id/menu_coupon"
         android:icon="@drawable/coupon"
         android:iconTint="@color/Login_theme"
-        android:title="Coupon" />
+        android:title="@string/menu_coupon" />
 
     <item
         android:id="@+id/menu_offers"
         android:icon="@drawable/offer"
-        android:title="Offers" />
+        android:title="@string/bottom_menu_offers" />
 
     <item
         android:id="@+id/menu_wallet"
         android:icon="@drawable/wallet"
-        android:title="Wallet" />
+        android:title="@string/menu_wallet" />
 
     <item
         android:id="@+id/menu_notification_setting"
         android:icon="@drawable/notificationsetting"
-        android:title="Notification Setting" />
+        android:title="@string/menu_notification_setting" />
 
     <item
         android:id="@+id/menu_notification"
         android:icon="@drawable/notification"
-        android:title="Notification" />
+        android:title="@string/menu_notification" />
 
     <item
         android:id="@+id/menu_setting"
         android:icon="@drawable/setting"
-        android:title="Setting" />
+        android:title="@string/menu_setting" />
 
     <item
         android:id="@+id/menu_search_list"
         android:icon="@drawable/search_list"
-        android:title="Search List" />
+        android:title="@string/menu_search_list" />
 
     <item
         android:id="@+id/menu_cart"
         android:icon="@drawable/cart"
-        android:title="Cart" />
+        android:title="@string/bottom_menu_cart" />
 
     <item
         android:id="@+id/menu_edit_profile"
         android:icon="@drawable/edit_profile"
-        android:title="Edit Profile" />
+        android:title="@string/menu_edit_profile" />
 
     <item
         android:id="@+id/menu_my_address"
         android:icon="@drawable/myaddress"
-        android:title="My Address" />
+        android:title="@string/menu_my_address" />
 
     <item
         android:icon="@drawable/support"
-        android:title="Support" />
+        android:title="@string/menu_support" />
 
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/baseline_logout_24"
-        android:title="Log Out" />
+        android:title="@string/menu_log_out" />
 
 </menu>

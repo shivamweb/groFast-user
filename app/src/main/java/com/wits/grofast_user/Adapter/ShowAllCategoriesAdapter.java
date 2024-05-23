@@ -17,9 +17,6 @@ import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCategoriesAdapter.ViewHolders> {
     private final String TAG = "ShowAllCategoriesAdapter";

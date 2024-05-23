@@ -53,7 +53,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_line"
-                        android:text="Add profile"
+                        android:text="@string/add_profile_button"
                         android:textAllCaps="false"
                         android:textColor="@color/Login_theme"
                         android:visibility="visible" />
@@ -66,7 +66,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_line"
-                        android:text="Edit profile"
+                        android:text="@string/edit_profile_button"
                         android:textAllCaps="false"
                         android:textColor="@color/Login_theme"
                         android:visibility="gone" />
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:textColor="@color/default_color"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/textview_design"
-                        android:hint="Your Name "
+                        android:hint="@string/user_name"
                         android:padding="@dimen/textview_inner_padding"
                         android:textColor="@color/textview_text_color"
                         android:textColorHint="@color/default_color" />
@@ -107,7 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Phone Number"
+                        android:text="@string/phone_number"
                         android:textColor="@color/default_color"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Phone number"
+                            android:hint="@string/hint_phone_number"
                             android:inputType="number"
                             android:maxLength="10"
                             android:padding="@dimen/textview_inner_padding"
@@ -159,7 +159,7 @@
                             android:layout_gravity="center"
                             android:background="#00000000"
                             android:gravity="center"
-                            android:text="Change"
+                            android:text="@string/change_button"
                             android:textAllCaps="false"
                             android:textColor="@color/change_button_color"
                             android:textSize="@dimen/text_size" />
@@ -170,7 +170,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:textColor="@color/default_color"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="example@gmail.com"
+                            android:hint="@string/email_hint"
                             android:padding="@dimen/textview_inner_padding"
                             android:textColor="@color/textview_text_color"
                             android:textColorHint="@color/default_color"
@@ -206,7 +206,7 @@
                             android:layout_gravity="center"
                             android:background="#00000000"
                             android:gravity="center"
-                            android:text="Change"
+                            android:text="@string/change_button"
                             android:textAllCaps="false"
                             android:textColor="@color/change_button_color"
                             android:textSize="@dimen/text_size" />
@@ -217,7 +217,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Location"
+                        android:text="@string/location"
                         android:textColor="@color/default_color"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
@@ -227,7 +227,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/textview_design"
-                        android:hint="Location"
+                        android:hint="@string/location_hint"
                         android:padding="@dimen/textview_inner_padding"
                         android:textColor="@color/textview_text_color"
                         android:textColorHint="@color/default_color" />
@@ -236,7 +236,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Description"
+                        android:text="@string/description"
                         android:textColor="@color/default_color"
                         android:textSize="@dimen/text_size"
                         android:textStyle="bold" />
@@ -246,7 +246,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/textview_design"
-                        android:hint="Tell us little something about yourself"
+                        android:hint="@string/description_hint"
                         android:padding="@dimen/textview_inner_padding"
                         android:textColor="@color/textview_text_color"
                         android:textColorHint="@color/default_color" />
@@ -264,7 +264,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_background"
-        android:text="Save Changes"
+        android:text="@string/save_change_button"
         android:textAllCaps="false"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size"

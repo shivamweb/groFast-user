@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add Address"
+                android:text="@string/add_address_button"
                 android:textColor="@color/textview_text_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Edit Address"
+                android:text="@string/edit_address"
                 android:textColor="@color/textview_text_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold"
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/name"
                 android:textColor="@color/default_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/textview_design"
-                android:hint="Your Name "
+                android:hint="@string/user_name"
                 android:padding="@dimen/textview_inner_padding"
                 android:textColor="@color/textview_text_color"
                 android:textColorHint="@color/default_color" />
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Phone Number"
+                android:text="@string/phone_number"
                 android:textColor="@color/default_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Phone number"
+                    android:hint="@string/hint_phone_number"
                     android:inputType="number"
                     android:maxLength="10"
                     android:padding="@dimen/textview_inner_padding"
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Full Address"
+                android:text="@string/full_address"
                 android:textColor="@color/default_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/textview_design"
-                android:hint="Enter Address"
+                android:hint="@string/hint_enter_address"
                 android:inputType="textMultiLine"
                 android:maxLines="10"
                 android:overScrollMode="always"
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="City"
+                android:text="@string/city"
                 android:textColor="@color/default_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Pincode"
+                android:text="@string/pincode"
                 android:textColor="@color/default_color"
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
@@ -198,7 +198,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_background"
             android:gravity="center"
-            android:text="Save Address"
+            android:text="@string/save_address_button"
             android:textAllCaps="false"
             android:textColor="@color/button_text_color"
             android:textSize="@dimen/button_text_size" />
@@ -212,7 +212,7 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_background"
             android:gravity="center"
-            android:text="Update Address"
+            android:text="@string/update_address_button"
             android:textAllCaps="false"
             android:textColor="@color/button_text_color"
             android:textSize="@dimen/button_text_size"

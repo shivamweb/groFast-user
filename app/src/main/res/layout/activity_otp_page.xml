@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".OtpPage">
 
+    <include
+        android:id="@+id/loading_overlay"
+        layout="@layout/loading_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,27 +26,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="5dp"
             android:background="@drawable/round_background"
-            android:src="@drawable/outline_arrow_back_24"/>
+            android:padding="5dp"
+            android:src="@drawable/outline_arrow_back_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/main_heading_size"
             android:layout_marginStart="10dp"
+            android:text="@string/otp_title"
             android:textColor="@color/main_heading_color"
-            android:textStyle="bold"
-            android:text="OTP Verification"/>
+            android:textSize="@dimen/main_heading_size"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
-        android:layout_margin="20dp"
         app:cardElevation="10dp">
 
         <LinearLayout
@@ -53,11 +60,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/otp_message"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:text="@string/otp_message"
+                android:textColor="@color/default_color"
+                android:textSize="@dimen/hint_text_size"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -192,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:text="Resend SMS"
+                    android:text="@string/otp_resed_button"
                     android:textAllCaps="false"
                     android:textSize="@dimen/hint_text_size" />
 
@@ -202,10 +209,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:padding="13dp"
                     android:background="@drawable/textview_design"
-                    android:text="Time"
+                    android:padding="13dp"
+                    android:text="@string/otp_time"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/color_button"
                     android:textSize="@dimen/hint_text_size" />
@@ -230,7 +237,7 @@
             android:layout_margin="20dp"
             android:layout_marginTop="@dimen/top_margin"
             android:background="@drawable/color_button"
-            android:text="Continue"
+            android:text="@string/continue_button"
             android:textAllCaps="false"
             android:textColor="@color/button_text_color"
             android:textSize="@dimen/button_text_size" />

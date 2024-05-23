@@ -23,7 +23,8 @@ public class ShowAllCategories extends AppCompatActivity {
     ShowAllCategoriesAdapter showAllCategoriesAdapter;
     private List<CategoryModel> categoryList = new ArrayList<>();
     private GridLayoutManager layoutManager;
-    private final String TAG="ShowAllCategories";
+
+    private final String TAG = "ShowAllCategories";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ShowAllCategories extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleview_all_categories_view);
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-        showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList,getApplicationContext());
+        showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext());
         recyclerView.setAdapter(showAllCategoriesAdapter);
     }
 

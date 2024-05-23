@@ -32,11 +32,11 @@ public class MyAddress extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_address);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().setTitle("My Address");
+        getSupportActionBar().setTitle(getString(R.string.my_address_page_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
+        setContentView(R.layout.activity_my_address);
         recyclerView = findViewById(R.id.show_all_address_recycleview);
         add_address = findViewById(R.id.Add_address);
         AddressItems = new ArrayList<>();
