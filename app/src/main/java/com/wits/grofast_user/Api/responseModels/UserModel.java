@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.lang.Integer;
 import java.lang.String;
 
-public class UserResponseModel implements Serializable {
+public class UserModel implements Serializable {
 
   private Integer id;
   private String uuid;

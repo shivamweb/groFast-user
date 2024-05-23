@@ -1,14 +1,14 @@
 package com.wits.grofast_user.Api.responseClasses;
 
 import com.google.gson.annotations.SerializedName;
-import com.wits.grofast_user.Api.responseModels.UserResponseModel;
+import com.wits.grofast_user.Api.responseModels.UserModel;
 
 public class EditProfileResponse {
     private int status;
     private String message;
 
     @SerializedName("data")
-    private UserResponseModel userProfile;
+    private UserModel userProfile;
 
     public int getStatus() {
         return status;
@@ -18,7 +18,7 @@ public class EditProfileResponse {
         return message;
     }
 
-    public UserResponseModel getUserProfile() {
+    public UserModel getUserProfile() {
         return userProfile;
     }
 }

@@ -1,39 +1,52 @@
 package com.wits.grofast_user;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.AnyRes;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import java.io.IOException;
 
 import retrofit2.Response;
 
 public class CommonUtilities {
 
-    public static void handleApiError(String TAG, Response  response, Context context){
+    public static void handleApiError(String TAG, Response response, Context context) {
         try {
             Log.e(TAG, "login status " + response.code());
 
+            String errorBodyString = response.errorBody().string();
             Gson gson = new Gson();
-            JsonObject errorBodyJson = gson.fromJson(response.errorBody().string(), JsonObject.class);
+            JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
 
-            String errorMessage = errorBodyJson.get("errorMessage").getAsString();
-            String status = errorBodyJson.get("status").getAsString();
-            String message = errorBodyJson.get("message").getAsString();
+            String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+            String status = errorBodyJson.has("status") ? errorBodyJson.get("status").getAsString() : "No status";
+            String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
 
-            Log.e("TAG", "onResponse: Error ErrorMessege " + errorMessage);
-            Log.e("TAG", "onResponse: Error status " + status);
-            Log.e("TAG", "onResponse: Error message " + message);
+            Log.e(TAG, "onResponse -> status       : " + status);
+            Log.e(TAG, "onResponse -> errorMessage : " + errorMessage);
+            Log.e(TAG, "onResponse -> message      : " + message);
 
-            Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
-
-        } catch (IOException e) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(TAG, "handleApiError: error " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+    public static String getPathFromUri(Context context, Uri uri) {
+        String[] projection = {android.provider.MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) {
+            return null;
+        }
+        int column_index = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String imagePath = cursor.getString(column_index);
+        cursor.close();
+        return imagePath;
     }
 }

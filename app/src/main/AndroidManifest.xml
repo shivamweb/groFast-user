@@ -34,10 +34,10 @@
             android:name=".Details.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainHomePage.ShowAllCategories"
+            android:name=".Details.MainHomePage.ShowAllCategories"
             android:exported="false" />
         <activity
-            android:name=".MainHomePage.HomePage"
+            android:name=".Details.MainHomePage.HomePage"
             android:exported="false" />
         <activity
             android:name=".OtpPage"
