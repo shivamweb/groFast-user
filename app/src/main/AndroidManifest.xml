@@ -16,7 +16,10 @@
         android:theme="@style/Theme.Grofast_user"
         tools:targetApi="31">
         <activity
-            android:name=".Wallet"
+            android:name=".Details.NotificationSetting"
+            android:exported="false" />
+        <activity
+            android:name=".Details.Wallet"
             android:exported="false" />
         <activity
             android:name=".Details.Coupon"

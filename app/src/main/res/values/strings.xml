@@ -74,6 +74,7 @@
     <string name="edit_profile_page_name">Edit Profile</string>
     <string name="my_address_page_name">My Address</string>
     <string name="product_details_page_name">Product Detail</string>
+    <string name="wallet_page_name">Wallet</string>
 
     //Coupon
     <string name="available_coupon">Available Coupon</string>
@@ -98,8 +99,10 @@
     <string name="email_hint">example@gmail.com</string>
     <string name="location">Location</string>
     <string name="location_hint">Your Location</string>
-    <string name="description">Description</string>
-    <string name="description_hint">Tell us little something about yourself</string>
+    <string name="gender">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
 
     //My Address
     <string name="edit_address">Edit Address</string>
@@ -115,7 +118,12 @@
     //Wallet page
     <string name="wallet_heading">Edition Wallet</string>
     <string name="wallet_sub_heading">Seamless one-click checkout for all payment on Groseri</string>
+    <string name="wallet_card_1_heading">Easy Checkout</string>
+    <string name="wallet_card_1_subheading">Contrary to popular belief.</string>
+    <string name="wallet_card_2_heading">Safe and Secure</string>
+    <string name="wallet_card_2_subheading">Contrary to popular belief.</string>
 
+    //notoification
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>
