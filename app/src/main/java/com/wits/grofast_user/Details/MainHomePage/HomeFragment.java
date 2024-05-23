@@ -1,4 +1,4 @@
-package com.wits.grofast_user.MainHomePage;
+package com.wits.grofast_user.Details.MainHomePage;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
@@ -30,9 +30,7 @@ import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

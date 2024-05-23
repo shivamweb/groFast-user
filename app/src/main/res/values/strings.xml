@@ -16,6 +16,8 @@
     <string name="toast_message_enter_otp">Please enter the OTP</string>
     <string name="toast_message_correct_otp">Please enter correct otp</string>
     <string name="toast_message_resend_otp">Wait for resend code</string>
+    <string name="toast_message_select_profile">Please select profile image</string>
+    <string name="toast_message_select_gender">Please select gender</string>
 
     //Otp Page
     <string name="otp_title">OTP Verification</string>

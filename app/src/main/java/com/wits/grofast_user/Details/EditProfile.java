@@ -1,7 +1,7 @@
 package com.wits.grofast_user.Details;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
+import static com.wits.grofast_user.CommonUtilities.getPathFromUri;
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,22 +13,35 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
-import com.wits.grofast_user.Api.UserRequest;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
+import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserDetailSession;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditProfile extends AppCompatActivity {
 
@@ -36,8 +49,14 @@ public class EditProfile extends AppCompatActivity {
     private static final int STORAGE_PERMISSION_CODE = 101;
 
     private CircleImageView showProfileImage;
-    private AppCompatButton addProfileImage, editProfileImage;
-
+    private AppCompatButton addProfileImage, editProfileImage, updateProfile;
+    private UserDetailSession userDetailSession;
+    private MultipartBody.Part image;
+    private File imageFile;
+    private final String TAG = "EditProfile";
+    private RadioButton radioMale, radioFemale, radioOther;
+    private EditText etName, etEmail, etLocation;
+    private TextView tvPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +66,37 @@ public class EditProfile extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_edit_profile);
 
+        userDetailSession = new UserDetailSession(getApplicationContext());
         showProfileImage = findViewById(R.id.show_profile_image);
         addProfileImage = findViewById(R.id.add_profile_image);
         editProfileImage = findViewById(R.id.edit_profile_image);
+        updateProfile = findViewById(R.id.saveButton);
+
+        radioMale = findViewById(R.id.rb_male);
+        radioFemale = findViewById(R.id.rb_female);
+        radioOther = findViewById(R.id.rb_other);
+
+        etName = findViewById(R.id.edit_name);
+        tvPhone = findViewById(R.id.edit_phone_no);
+        etEmail = findViewById(R.id.edit_email);
+        etLocation = findViewById(R.id.edit_location);
+
+        tvPhone.setText(userDetailSession.getPhoneNo());
+        etName.setText(userDetailSession.getName());
+        etEmail.setText(userDetailSession.getEmail());
+        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.gobhi_image).into(showProfileImage);
+
+        switch (userDetailSession.getGender()) {
+            case "Male":
+                radioMale.setChecked(true);
+                break;
+            case "Female":
+                radioFemale.setChecked(true);
+                break;
+            case "Other":
+                radioOther.setChecked(true);
+                break;
+        }
 
         addProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +112,12 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        updateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserProfile();
+            }
+        });
     }
 
     private void openGallery() {
@@ -85,6 +138,7 @@ public class EditProfile extends AppCompatActivity {
                         showProfileImage.setImageResource(R.drawable.account);
                         addProfileImage.setVisibility(View.VISIBLE);
                         editProfileImage.setVisibility(View.GONE);
+                        image = null;
                         break;
                 }
             }
@@ -114,6 +168,9 @@ public class EditProfile extends AppCompatActivity {
                 showProfileImage.setImageBitmap(bitmap);
                 addProfileImage.setVisibility(View.GONE);
                 editProfileImage.setVisibility(View.VISIBLE);
+                imageFile = new File(getPathFromUri(getApplicationContext(), data.getData()));
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+                image = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
             } catch (IOException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
@@ -131,7 +188,47 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void updateUserProfile(){
-        UserRequest userRequest=new UserRequest();
-        Call<EditProfileResponse> call= RetrofitService.getClient().create(UserInterface.class).updateProfile1(userRequest);
+        String selectedGender = null;
+
+        if (radioMale.isChecked()) {
+            selectedGender = radioMale.getText().toString();
+        } else if (radioFemale.isChecked()) {
+            selectedGender = radioFemale.getText().toString();
+        } else if (radioOther.isChecked()) {
+            selectedGender = radioOther.getText().toString();
+        }
+        RequestBody phoneNo = RequestBody.create(MediaType.parse("text/plain"), tvPhone.getText().toString());
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), etName.getText().toString());
+        RequestBody email = RequestBody.create(MediaType.parse("text/plain"), etEmail.getText().toString());
+
+        if (selectedGender != null) {
+            RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), selectedGender);
+            Call<EditProfileResponse> call = RetrofitService.getClient().create(UserInterface.class).updateProfile(phoneNo, name, email, gender, image);
+
+            call.enqueue(new Callback<EditProfileResponse>() {
+                @Override
+                public void onResponse(Call<EditProfileResponse> call, Response<EditProfileResponse> response) {
+                    if (response.isSuccessful()) {
+                        EditProfileResponse editProfileResponse = response.body();
+                        UserModel userModel = editProfileResponse.getUserProfile();
+
+                        if (userModel != null) {
+                            userDetailSession.setImage(userModel.getImage());
+                            userDetailSession.setName(userModel.getName());
+                            userDetailSession.setEmail(userModel.getEmail());
+                            userDetailSession.setGender(userModel.getGender());
+                        }
+                        finish();
+                        Toast.makeText(EditProfile.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    } else handleApiError(TAG, response, getApplicationContext());
+                }
+
+                @Override
+                public void onFailure(Call<EditProfileResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        } else
+            Toast.makeText(this, getString(R.string.toast_message_select_gender), Toast.LENGTH_SHORT).show();
     }
 }

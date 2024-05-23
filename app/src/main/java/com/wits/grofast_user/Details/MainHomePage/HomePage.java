@@ -1,6 +1,4 @@
-package com.wits.grofast_user.MainHomePage;
-
-import static com.wits.grofast_user.Api.RetrofitService.domain;
+package com.wits.grofast_user.Details.MainHomePage;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -79,8 +77,8 @@ public class HomePage extends AppCompatActivity {
         userProfile = headerView.findViewById(R.id.user_profile);
 
         userPhoneNo.setText(userDetailSession.getPhoneNo());
-        userName.setText("Abc User");
-//        Glide.with(getApplicationContext()).load("").placeholder(R.drawable.gobhi_image).into(userProfile);
+        userName.setText(userDetailSession.getName());
+        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.gobhi_image).into(userProfile);
 
         menuBar.setOnClickListener(new View.OnClickListener() {
             @Override

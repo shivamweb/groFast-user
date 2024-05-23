@@ -1,4 +1,4 @@
-package com.wits.grofast_user.MainHomePage;
+package com.wits.grofast_user.Details.MainHomePage;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 

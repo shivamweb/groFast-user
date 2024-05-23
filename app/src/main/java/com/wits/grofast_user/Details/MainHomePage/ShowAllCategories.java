@@ -1,4 +1,4 @@
-package com.wits.grofast_user.MainHomePage;
+package com.wits.grofast_user.Details.MainHomePage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
