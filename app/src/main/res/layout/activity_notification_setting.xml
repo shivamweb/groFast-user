@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
     android:background="@color/background_color"
+    android:scrollbars="none"
     tools:context=".Details.NotificationSetting">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/linear_padding"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/linear_padding">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -39,15 +39,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Push Notifications"
+                            android:text="@string/notification_1_heading"
+                            android:textColor="@color/textview_text_color"
                             android:textSize="@dimen/hint_text_size"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tap to enable notification"
+                            android:text="@string/notification_1_sub_heading"
                             android:textSize="@dimen/small_text" />
+
                     </LinearLayout>
 
                     <Switch
@@ -56,7 +58,6 @@
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,14 +74,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enable all"
+                            android:text="@string/notification_2_heading"
+                            android:textColor="@color/textview_text_color"
                             android:textSize="@dimen/hint_text_size"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Activate all notification"
+                            android:text="@string/notification_2_sub_heading"
                             android:textSize="@dimen/small_text" />
 
                     </LinearLayout>
@@ -89,6 +91,7 @@
                         android:id="@+id/switchEnableAll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -100,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Newsletters"
+                        android:text="@string/notification_3_heading"
                         android:textColor="@color/textview_text_color"
                         android:textSize="@dimen/hint_text_size"
                         android:textStyle="bold" />
@@ -108,13 +111,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Receive newsletter to stay up-to date with whats brewing in food industry"
+                        android:text="@string/notification_3_sub_heading"
                         android:textSize="@dimen/small_text" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -126,8 +129,8 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/email_24"
-                                android:layout_marginRight="5dp"/>
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/email_24" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -149,7 +152,6 @@
 
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,21 +161,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Promos and offers"
+                        android:text="@string/notification_4_heading"
+                        android:textColor="@color/textview_text_color"
                         android:textSize="@dimen/hint_text_size"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="Receive updates about coupons, promotions and money saving offers"
+                        android:text="@string/notification_4_sub_heading"
                         android:textSize="@dimen/small_text" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -190,8 +192,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Email"
-                                android:textSize="@dimen/hint_text_size" />
+                                android:text="@string/notification_email"
+                                android:textSize="@dimen/hint_text_size"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -205,8 +208,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -224,8 +226,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Push"
-                                android:textSize="@dimen/hint_text_size" />
+                                android:text="@string/notification_push"
+                                android:textSize="@dimen/hint_text_size"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -235,104 +238,93 @@
                             android:layout_height="wrap_content" />
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/notification_top"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notification_5_heading"
+                        android:textColor="@color/textview_text_color"
+                        android:textSize="@dimen/hint_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/notification_5_sub_heading"
+                        android:textSize="@dimen/small_text" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/notification_top"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Social notifications"
-                            android:textSize="@dimen/hint_text_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Get notified when someone follows your profile, or when you get likes and comments on reviews and photos posted by you"
-                            android:textSize="@dimen/small_text" />
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_vertical"
+                            android:layout_weight="1"
                             android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/email_24" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Email"
-                                    android:textSize="@dimen/hint_text_size" />
-
-                            </LinearLayout>
-
-                            <Switch
+                            <ImageView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/email_24" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/notification_email"
+                                android:textSize="@dimen/hint_text_size"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/email_24" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Push"
-                                    android:textSize="@dimen/hint_text_size" />
-
-                            </LinearLayout>
-
-                            <Switch
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/Continue_otp_page"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/color_button"
-                    android:text="Save Change"
-                    android:textAllCaps="false"
-                    android:visibility="gone"
-                    android:textColor="@color/button_text_color"
-                    android:textSize="@dimen/button_text_size" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/email_24" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/notification_push"
+                                android:textSize="@dimen/hint_text_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

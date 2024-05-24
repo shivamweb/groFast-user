@@ -1,4 +1,4 @@
-package com.wits.grofast_user.Details.MainHomePage;
+package com.wits.grofast_user.MainHomePage;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Details.Coupon;
 import com.wits.grofast_user.Details.EditProfile;
 import com.wits.grofast_user.Details.MyAddress;
+import com.wits.grofast_user.Details.Notification;
 import com.wits.grofast_user.Details.NotificationSetting;
 import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.MainActivity;
@@ -63,7 +64,7 @@ public class HomePage extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_home_page);
 
-        UserActivitySession session=new UserActivitySession(getApplicationContext());
+        UserActivitySession session = new UserActivitySession(getApplicationContext());
         UserDetailSession userDetailSession = new UserDetailSession(getApplicationContext());
 
         drawerLayout = findViewById(R.id.drawerlayout1);
@@ -135,8 +136,10 @@ public class HomePage extends AppCompatActivity {
                     loadfragment(new OffersFragment(), false);
                 } else if (id == R.id.menu_wallet) {
                     startActivity(new Intent(HomePage.this, Wallet.class));
-                }else if (id == R.id.menu_notification_setting) {
+                } else if (id == R.id.menu_notification_setting) {
                     startActivity(new Intent(HomePage.this, NotificationSetting.class));
+                } else if (id == R.id.menu_notification) {
+                    startActivity(new Intent(HomePage.this, Notification.class));
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {

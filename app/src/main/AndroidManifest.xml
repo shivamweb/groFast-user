@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Grofast_user"
         tools:targetApi="31">
         <activity
+            android:name=".Details.Notification"
+            android:exported="false" />
+        <activity
             android:name=".Details.NotificationSetting"
             android:exported="false" />
         <activity
@@ -34,10 +37,10 @@
             android:name=".Details.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Details.MainHomePage.ShowAllCategories"
+            android:name=".MainHomePage.ShowAllCategories"
             android:exported="false" />
         <activity
-            android:name=".Details.MainHomePage.HomePage"
+            android:name=".MainHomePage.HomePage"
             android:exported="false" />
         <activity
             android:name=".OtpPage"

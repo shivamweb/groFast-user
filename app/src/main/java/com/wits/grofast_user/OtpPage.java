@@ -25,7 +25,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
-import com.wits.grofast_user.Details.MainHomePage.HomePage;
+import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
 
