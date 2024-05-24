@@ -11,6 +11,8 @@ public class ProductModel implements Serializable {
 
     private String product_detail;
 
+    private String name;
+
     private Integer discount;
 
     private Integer product_status;
@@ -103,5 +105,9 @@ public class ProductModel implements Serializable {
 
     public Integer getUnit_id() {
         return unit_id;
+    }
+
+    public String getName() {
+        return name;
     }
 }
