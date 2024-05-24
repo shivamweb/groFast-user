@@ -42,7 +42,6 @@ public class OtpPage extends AppCompatActivity {
     String receivedPhone, receivedOtp, enteredOtp = "";
     EditText digit1, digit2, digit3, digit4;
     long COUNTDOWN_TIME_MILLIS = 30000;
-
     String TAG = "OtpPage";
     LinearLayout loadingOverlay;
 
@@ -57,7 +56,7 @@ public class OtpPage extends AppCompatActivity {
         loadingOverlay = findViewById(R.id.loading_overlay);
 
         UserActivitySession session = new UserActivitySession(getApplicationContext());
-        UserDetailSession userDetailSession=new UserDetailSession(getApplicationContext());
+        UserDetailSession userDetailSession = new UserDetailSession(getApplicationContext());
 
         Intent intent = getIntent();
         if (intent != null) {

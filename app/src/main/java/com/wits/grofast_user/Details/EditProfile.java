@@ -4,6 +4,7 @@ import static com.wits.grofast_user.CommonUtilities.getPathFromUri;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,13 +15,16 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.widget.NestedScrollView;
 
 import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
@@ -44,7 +48,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditProfile extends AppCompatActivity {
-
     private static final int GALLERY_REQUEST_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 101;
     private CircleImageView showProfileImage;
@@ -56,6 +59,10 @@ public class EditProfile extends AppCompatActivity {
     private RadioButton radioMale, radioFemale, radioOther;
     private EditText etName, etEmail, etLocation;
     private TextView tvPhone;
+    NestedScrollView scrollView;
+    LinearLayout loadingOverlay;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,9 @@ public class EditProfile extends AppCompatActivity {
         addProfileImage = findViewById(R.id.add_profile_image);
         editProfileImage = findViewById(R.id.edit_profile_image);
         updateProfile = findViewById(R.id.saveButton);
+
+        scrollView = findViewById(R.id.nestedScrollView);
+        loadingOverlay = findViewById(R.id.loading_edit);
 
         radioMale = findViewById(R.id.rb_male);
         radioFemale = findViewById(R.id.rb_female);
@@ -186,7 +196,7 @@ public class EditProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateUserProfile(){
+    private void updateUserProfile() {
         String selectedGender = null;
 
         if (radioMale.isChecked()) {
@@ -196,6 +206,30 @@ public class EditProfile extends AppCompatActivity {
         } else if (radioOther.isChecked()) {
             selectedGender = radioOther.getText().toString();
         }
+
+        String uname = etName.getText().toString().trim();
+        String uemail = etEmail.getText().toString().trim();
+
+        if (uname.isEmpty()) {
+            showToastAndFocus(getString(R.string.toast_message_enter_name), etName);
+            return;
+        }
+
+        if (selectedGender == null) {
+            showToastAndFocus(getString(R.string.toast_message_select_gender), etName);
+            return;
+        }
+
+        if (uemail.isEmpty()) {
+            showToastAndFocus(getString(R.string.toast_message_enter_email), etName);
+            return;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(uemail).matches()) {
+            showToastAndFocus(getString(R.string.toast_message_enter_valid_email), etName);
+            return;
+        }
+
+
         RequestBody phoneNo = RequestBody.create(MediaType.parse("text/plain"), tvPhone.getText().toString());
         RequestBody name = RequestBody.create(MediaType.parse("text/plain"), etName.getText().toString());
         RequestBody email = RequestBody.create(MediaType.parse("text/plain"), etEmail.getText().toString());
@@ -203,10 +237,15 @@ public class EditProfile extends AppCompatActivity {
         if (selectedGender != null) {
             RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), selectedGender);
             Call<EditProfileResponse> call = RetrofitService.getClient().create(UserInterface.class).updateProfile(phoneNo, name, email, gender, image);
-
+            scrollView.setVisibility(View.GONE);
+            updateProfile.setVisibility(View.GONE);
+            loadingOverlay.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<EditProfileResponse>() {
                 @Override
                 public void onResponse(Call<EditProfileResponse> call, Response<EditProfileResponse> response) {
+                    scrollView.setVisibility(View.VISIBLE);
+                    updateProfile.setVisibility(View.VISIBLE);
+                    loadingOverlay.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
                         EditProfileResponse editProfileResponse = response.body();
                         UserModel userModel = editProfileResponse.getUserProfile();
@@ -225,9 +264,34 @@ public class EditProfile extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<EditProfileResponse> call, Throwable t) {
                     t.printStackTrace();
+                    scrollView.setVisibility(View.VISIBLE);
+                    updateProfile.setVisibility(View.VISIBLE);
+                    loadingOverlay.setVisibility(View.GONE);
                 }
             });
-        } else
-            Toast.makeText(this, getString(R.string.toast_message_select_gender), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showToastAndFocus(String message, View view) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        view.requestFocus();
+        showKeyboard(view);
+    }
+
+    private void showKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        scrollView.setVisibility(View.VISIBLE);
+        updateProfile.setVisibility(View.VISIBLE);
+        loadingOverlay.setVisibility(View.GONE);
     }
 }

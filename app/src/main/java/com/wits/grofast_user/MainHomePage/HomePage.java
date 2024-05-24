@@ -78,8 +78,16 @@ public class HomePage extends AppCompatActivity {
         userProfile = headerView.findViewById(R.id.user_profile);
 
         userPhoneNo.setText(userDetailSession.getPhoneNo());
-        userName.setText(userDetailSession.getName());
-        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.gobhi_image).into(userProfile);
+//        userName.setText(userDetailSession.getName());
+        String name = userDetailSession.getName();
+        if(name == null || name.isEmpty()) {
+            name = getString(R.string.user_name);
+            userName.setTextColor(getResources().getColor(R.color.default_color));
+        } else {
+            userName.setTextColor(getResources().getColor(R.color.white));
+        }
+        userName.setText(name);
+        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(userProfile);
 
         menuBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +154,8 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
                 } else if (id == R.id.menu_logout) {
                     session.setLoginStaus(false);
+                    session.clearSession();
+                    userDetailSession.clearSession();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);

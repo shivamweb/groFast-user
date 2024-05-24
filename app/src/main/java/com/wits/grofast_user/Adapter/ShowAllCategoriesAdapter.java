@@ -18,6 +18,8 @@ import com.wits.grofast_user.R;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCategoriesAdapter.ViewHolders> {
     private final String TAG = "ShowAllCategoriesAdapter";
     private List<CategoryModel> categoryList;
@@ -48,7 +50,7 @@ public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCatego
 
     public class ViewHolders extends RecyclerView.ViewHolder {
         TextView Name;
-        ImageView Banner;
+        CircleImageView Banner;
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
             Name = itemView.findViewById(R.id.all_categories_name);

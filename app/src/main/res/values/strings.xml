@@ -18,6 +18,9 @@
     <string name="toast_message_resend_otp">Wait for resend code</string>
     <string name="toast_message_select_profile">Please select profile image</string>
     <string name="toast_message_select_gender">Please select gender</string>
+    <string name="toast_message_enter_name">Please enter your name</string>
+    <string name="toast_message_enter_email">Please enter E-mail id</string>
+    <string name="toast_message_enter_valid_email">Please enter valid E-mail id</string>
 
     //Otp Page
     <string name="otp_title">OTP Verification</string>
@@ -42,6 +45,7 @@
     <string name="search_name">Search Results</string>
     <string name="search_name_home_fragment">Type to Search...</string>
     <string name="search_product_fragment">Search Groceries or Products</string>
+    <string name="search_offers_fragment">Search Items..</string>
     <string name="search_coupon">Search Coupon</string>
 
     //Menu Item

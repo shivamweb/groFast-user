@@ -19,6 +19,8 @@ import com.wits.grofast_user.R;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdapter.ViewHolders> {
     private final String TAG = "TopCategoriesAdapter";
     private List<CategoryModel> categoryList;
@@ -55,7 +57,7 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
 
     public class ViewHolders extends RecyclerView.ViewHolder {
         TextView Name;
-        ImageView Banner;
+        CircleImageView Banner;
 
         public ViewHolders(@NonNull View itemView) {
             super(itemView);

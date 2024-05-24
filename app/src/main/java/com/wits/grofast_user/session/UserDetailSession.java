@@ -59,4 +59,10 @@ public class UserDetailSession {
     public String getGender() {
         return sharedPreferences.getString("userGender", "");
     }
+
+    public void clearSession() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
 }
