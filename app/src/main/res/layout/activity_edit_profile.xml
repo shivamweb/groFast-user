@@ -8,11 +8,13 @@
     android:padding="18dp"
     tools:context=".Details.EditProfile">
 
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -265,9 +267,20 @@
         android:textAllCaps="false"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <include
+        android:id="@+id/loading_edit"
+        layout="@layout/loading_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

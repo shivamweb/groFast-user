@@ -19,10 +19,11 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/all_categories_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="93dp"
+                android:layout_height="95dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/apple" />
 
             <TextView

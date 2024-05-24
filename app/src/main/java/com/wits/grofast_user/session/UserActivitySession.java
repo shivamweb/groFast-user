@@ -22,4 +22,9 @@ public class UserActivitySession {
         return sharedPreferences.getBoolean("loginStatus", false);
     }
 
+    public void clearSession() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
 }

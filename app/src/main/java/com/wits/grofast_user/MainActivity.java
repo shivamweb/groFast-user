@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wits.grofast_user.Api.RetrofitService;
@@ -30,7 +31,6 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-
     AppCompatButton Continue;
     EditText phoneNo;
     String TAG = "MainActivity";
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            loadingOverlay.setVisibility(View.GONE);
                             if (response.isSuccessful()) {
                                 LoginResponse loginResponse = response.body();
                                 Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -71,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
                                 Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
 
-                            Intent in = new Intent(getApplicationContext(), OtpPage.class);
-                            in.putExtra("mobileNo", loginResponse.getPhone_no());
-                            in.putExtra("mobileOtp", loginResponse.getOtp());
-                            startActivity(in);
-                        } else {
-                            handleApiError(TAG,response,getApplicationContext());
+                                Intent in = new Intent(getApplicationContext(), OtpPage.class);
+                                in.putExtra("mobileNo", loginResponse.getPhone_no());
+                                in.putExtra("mobileOtp", loginResponse.getOtp());
+                                startActivity(in);
+                            } else {
+                                handleApiError(TAG, response, getApplicationContext());
+                            }
                         }
-                    }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
@@ -106,5 +107,11 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loadingOverlay.setVisibility(View.GONE);
     }
 }
