@@ -8,7 +8,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.wits.grofast_user.Details.MainHomePage.HomePage;
+import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
 
 public class Splash_Screen extends AppCompatActivity {
