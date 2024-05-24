@@ -42,7 +42,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
     @Override
     public void onBindViewHolder(@NonNull HomeViewProductAdapter.ViewHolders holder, int position) {
         ProductModel item = productList.get(position);
-        holder.name.setText("cabage");
+        holder.name.setText(item.getName());
         holder.weight.setText(item.getQuantity().toString());
         holder.price.setText(item.getPrice().toString());
         Glide.with(context).load(domain+item.getImage()).placeholder(R.drawable.gobhi_image).into(holder.image);
@@ -51,7 +51,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra("Name",  "cabbage");
+                intent.putExtra("Name",  item.getName());
                 intent.putExtra("Weight",  item.getQuantity());
                 intent.putExtra("Price",  item.getPrice());
                 intent.putExtra("image", domain+item.getImage());

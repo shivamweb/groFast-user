@@ -1,17 +1,16 @@
 package com.wits.grofast_user.Details;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wits.grofast_user.Adapter.AllProductAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Adapter.RelatedProductAdapter;
 import com.wits.grofast_user.R;
 
@@ -47,7 +46,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             productName.setText(getIntent().getStringExtra("Name"));
             productWeight.setText(getIntent().getStringExtra("Weight"));
             productPrice.setText(getIntent().getStringExtra("Price"));
-            productImage.setImageResource(getIntent().getIntExtra("image", 0));
+            Glide.with(getApplicationContext()).load(getIntent().getStringExtra("image")).placeholder(R.drawable.gobhi_image).into(productImage);
         }
 
         relatedItems = new ArrayList<>();
