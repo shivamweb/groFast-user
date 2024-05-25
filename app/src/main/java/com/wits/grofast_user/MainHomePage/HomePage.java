@@ -46,13 +46,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomePage extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
-    private ImageView menuBar;
+    private ImageView menuBar, notification;
     private DrawerLayout drawerLayout;
     NavigationView navigationView;
     TextView textview_set_location;
     AddLocationSerachResultAdapter addLocationSerachResultAdapter;
     List<Map<String, Object>> LocationItems;
-
     private TextView userName, userPhoneNo;
     private CircleImageView userProfile;
 
@@ -72,6 +71,7 @@ public class HomePage extends AppCompatActivity {
         navigationView = findViewById(R.id.menu_navigation);
         View headerView = navigationView.getHeaderView(0);
         textview_set_location = findViewById(R.id.textview_set_location);
+        notification = findViewById(R.id.notification_home);
 
         userName = headerView.findViewById(R.id.user_name);
         userPhoneNo = headerView.findViewById(R.id.user_phone_no);
@@ -80,7 +80,7 @@ public class HomePage extends AppCompatActivity {
         userPhoneNo.setText(userDetailSession.getPhoneNo());
 //        userName.setText(userDetailSession.getName());
         String name = userDetailSession.getName();
-        if(name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             name = getString(R.string.user_name);
             userName.setTextColor(getResources().getColor(R.color.default_color));
         } else {
@@ -97,6 +97,13 @@ public class HomePage extends AppCompatActivity {
                 } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePage.this, Notification.class));
             }
         });
 

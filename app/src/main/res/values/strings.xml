@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">grofast_user</string>
+    <string name="app_name">Grocery Delivery App</string>
 
     //Main Activity
     <string name="appname">Grocery Delivery App</string>
@@ -83,6 +83,7 @@
     <string name="wallet_page_name">Wallet</string>
     <string name="notification_setting_page_name">Notification Preferences</string>
     <string name="notification_page_name">Notification</string>
+    <string name="show_all_categories_page_name">Categories</string>
 
     //Coupon
     <string name="available_coupon">Available Coupon</string>

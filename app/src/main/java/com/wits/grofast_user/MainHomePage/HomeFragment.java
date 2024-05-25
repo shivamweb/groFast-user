@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -45,8 +48,12 @@ public class HomeFragment extends Fragment {
     private List<ProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
     TextView view_all_categories, view_all_product;
-
+    LinearLayout load_categories;
+    NestedScrollView layoutcategories;
+    private boolean isCategoriesLoaded = false;
+    private boolean isProductsLoaded = false;
     private final String TAG = "HomeFragment";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,6 +65,11 @@ public class HomeFragment extends Fragment {
 
         view_all_categories = root.findViewById(R.id.view_all_categories_homepage);
         view_all_product = root.findViewById(R.id.view_all_product);
+
+        load_categories = root.findViewById(R.id.progress_bar_top_categories);
+        layoutcategories = root.findViewById(R.id.layout_top_categories);
+
+        ShowPageLoader();
 
         //Top Stores Item
         layoutManager = new GridLayoutManager(getContext(), 4);
@@ -72,7 +84,7 @@ public class HomeFragment extends Fragment {
         view_all_categories.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getContext(),ShowAllCategories.class);
+                Intent in = new Intent(getContext(), ShowAllCategories.class);
                 in.putParcelableArrayListExtra("categories", new ArrayList<>(categoryList));
                 startActivity(in);
             }
@@ -86,6 +98,7 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -109,6 +122,8 @@ public class HomeFragment extends Fragment {
 
                     Log.i(TAG, "onResponse: total categories " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched categories " + paginatedResponse.getTo());
+                    isCategoriesLoaded = true;
+                    checkIfDataLoaded();
                 } else {
                     if (isAdded())
                         handleApiError(TAG, response, getContext());
@@ -121,6 +136,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     private void getProducts() {
         Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(1);
         call.enqueue(new Callback<ProductResponse>() {
@@ -132,11 +148,14 @@ public class HomeFragment extends Fragment {
                     ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
                     productList = paginatedResponse.getProductList();
 
-                    productAdapter = new HomeViewProductAdapter(productList,getContext());
+                    productAdapter = new HomeViewProductAdapter(productList, getContext());
                     product_recycleview.setAdapter(productAdapter);
 
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+
+                    isProductsLoaded = true;
+                    checkIfDataLoaded();
                 } else {
                     if (isAdded())
                         handleApiError(TAG, response, getContext());
@@ -148,5 +167,21 @@ public class HomeFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void ShowPageLoader() {
+        load_categories.setVisibility(View.VISIBLE);
+        layoutcategories.setVisibility(View.INVISIBLE);
+    }
+
+    private void  HidePageLoader(){
+        load_categories.setVisibility(View.GONE);
+        layoutcategories.setVisibility(View.VISIBLE);
+    }
+
+    private void checkIfDataLoaded() {
+        if (isCategoriesLoaded && isProductsLoaded) {
+            HidePageLoader();
+        }
     }
 }

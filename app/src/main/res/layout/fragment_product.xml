@@ -7,6 +7,7 @@
     tools:context=".MainHomePage.ProductFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/show_product_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
@@ -92,5 +93,12 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/progress_bar_product_page"
+        layout="@layout/loading_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </FrameLayout>

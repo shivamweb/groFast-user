@@ -19,6 +19,7 @@ public class UserDetailSession {
         editor.putString("userPhone", phone);
         editor.apply();
     }
+
     public String getPhoneNo() {
         return sharedPreferences.getString("userPhone", "1234567890");
     }
@@ -34,7 +35,7 @@ public class UserDetailSession {
     }
 
     public void setImage(String image) {
-        editor.putString("userImage", domain+image);
+        editor.putString("userImage", domain + image);
         editor.apply();
     }
 
@@ -64,5 +65,9 @@ public class UserDetailSession {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    public void beartoken() {
+
     }
 }
