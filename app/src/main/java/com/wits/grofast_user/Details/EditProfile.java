@@ -93,7 +93,7 @@ public class EditProfile extends AppCompatActivity {
         tvPhone.setText(userDetailSession.getPhoneNo());
         etName.setText(userDetailSession.getName());
         etEmail.setText(userDetailSession.getEmail());
-        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.gobhi_image).into(showProfileImage);
+        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(showProfileImage);
 
         switch (userDetailSession.getGender()) {
             case "Male":
