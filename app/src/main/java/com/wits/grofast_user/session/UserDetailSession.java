@@ -20,7 +20,7 @@ public class UserDetailSession {
         editor.apply();
     }
     public String getPhoneNo() {
-        return sharedPreferences.getString("userPhone", "");
+        return sharedPreferences.getString("userPhone", "1234567890");
     }
 
 
