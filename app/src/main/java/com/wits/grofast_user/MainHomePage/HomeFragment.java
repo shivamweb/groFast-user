@@ -85,7 +85,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getContext(), ShowAllCategories.class);
-                in.putParcelableArrayListExtra("categories", new ArrayList<>(categoryList));
                 startActivity(in);
             }
         });

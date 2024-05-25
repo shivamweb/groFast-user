@@ -36,10 +36,6 @@ public class ShowAllCategories extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_show_all_categories);
 
-        if (getIntent() != null && getIntent().hasExtra("categories")) {
-            categoryList = getIntent().getParcelableArrayListExtra("categories");
-        }
-
         recyclerView = findViewById(R.id.recycleview_all_categories_view);
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
