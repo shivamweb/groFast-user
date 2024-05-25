@@ -1,5 +1,6 @@
 package com.wits.grofast_user.MainHomePage;
 
+import static android.view.View.GONE;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.annotation.SuppressLint;
@@ -8,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,11 +32,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
-
     RecyclerView recyclerView;
     AllProductAdapter allProductAdapter;
     private List<ProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
+    NestedScrollView show_data;
+    LinearLayout load;
     private final String TAG = "ProductFragment";
 
     @Override
@@ -47,6 +51,8 @@ public class ProductFragment extends Fragment {
         }
 
         recyclerView = root.findViewById(R.id.all_product_recycleview);
+        load = root.findViewById(R.id.progress_bar_product_page);
+        show_data = root.findViewById(R.id.show_product_data);
 
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -57,11 +63,15 @@ public class ProductFragment extends Fragment {
     }
 
     private void getProducts(int page) {
+        load.setVisibility(View.VISIBLE);
+        show_data.setVisibility(GONE);
         Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(page);
         call.enqueue(new Callback<ProductResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                load.setVisibility(GONE);
+                show_data.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     ProductResponse productResponse = response.body();
                     ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
@@ -76,6 +86,7 @@ public class ProductFragment extends Fragment {
                     if (isAdded()) handleApiError(TAG, response, getContext());
                 }
             }
+
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
                 t.printStackTrace();
