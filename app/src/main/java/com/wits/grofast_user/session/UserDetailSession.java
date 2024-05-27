@@ -60,6 +60,22 @@ public class UserDetailSession {
     public String getGender() {
         return sharedPreferences.getString("userGender", "");
     }
+    public void setUuid(String uuid) {
+        editor.putString("userUUID", uuid);
+        editor.apply();
+    }
+
+    public String getUuid() {
+        return sharedPreferences.getString("userUUID", "");
+    }
+    public void setUserId(Integer userId) {
+        editor.putInt("userId", userId);
+        editor.apply();
+    }
+
+    public Integer getUserId() {
+        return sharedPreferences.getInt("userId", 0);
+    }
 
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -67,7 +83,4 @@ public class UserDetailSession {
         editor.apply();
     }
 
-    public void beartoken() {
-
-    }
 }

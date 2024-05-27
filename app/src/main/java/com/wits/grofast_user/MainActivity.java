@@ -70,11 +70,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                 Log.i(TAG, "onResponse: message " + loginResponse.getMessage());
                                 Log.i(TAG, "onResponse: phoneNo " + loginResponse.getPhone_no());
-                                Log.i(TAG, "onResponse: otp " + loginResponse.getOtp());
 
                                 Intent in = new Intent(getApplicationContext(), OtpPage.class);
                                 in.putExtra("mobileNo", loginResponse.getPhone_no());
-                                in.putExtra("mobileOtp", loginResponse.getOtp());
                                 startActivity(in);
                             } else {
                                 handleApiError(TAG, response, getApplicationContext());

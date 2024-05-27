@@ -25,6 +25,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
+import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
+import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
@@ -39,7 +41,7 @@ public class OtpPage extends AppCompatActivity {
 
     AppCompatButton Continue, resend;
     TextView phone, countDownTimer;
-    String receivedPhone, receivedOtp, enteredOtp = "";
+    String receivedPhone, enteredOtp = "";
     EditText digit1, digit2, digit3, digit4;
     long COUNTDOWN_TIME_MILLIS = 30000;
     String TAG = "OtpPage";
@@ -61,10 +63,8 @@ public class OtpPage extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             receivedPhone = intent.getStringExtra("mobileNo");
-            receivedOtp = intent.getStringExtra("mobileOtp");
 
             Log.e(TAG, "onCreate: receivedPhone " + receivedPhone);
-            Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
         }
 
         digit1 = findViewById(R.id.otp_digit1);
@@ -86,19 +86,53 @@ public class OtpPage extends AppCompatActivity {
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
                 Log.e(TAG, "onCreate: enteredOtp " + enteredOtp);
-                Log.e(TAG, "onCreate: receivedOtp " + receivedOtp);
 
                 if (isOtpValid()) {
                     loadingOverlay.setVisibility(View.VISIBLE);
-                    if (enteredOtp.equals(receivedOtp)) {
-                        session.setLoginStaus(true);
-                        userDetailSession.setPhoneNo(receivedPhone);
-                        startActivity(i);
-                        loadingOverlay.setVisibility(View.GONE);
-                    } else {
-                        loadingOverlay.setVisibility(View.GONE);
-                        showToastAndFocus(getString(R.string.toast_message_correct_otp), digit4);
-                    }
+                    Integer userOtp = Integer.parseInt(enteredOtp);
+                    Call<OtpVerifyResponse> call = RetrofitService.getClient().create(UserInterface.class).verifyOtp(receivedPhone, userOtp);
+                    call.enqueue(new Callback<OtpVerifyResponse>() {
+                        @Override
+                        public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
+                            loadingOverlay.setVisibility(View.GONE);
+                            if (response.isSuccessful()) {
+                                OtpVerifyResponse otpVerifyResponse = response.body();
+                                UserModel userModel = otpVerifyResponse.getUser();
+
+                                Log.e(TAG, "id " + userModel.getId());
+                                Log.e(TAG, "phone no " + userModel.getPhone_no());
+                                session.setLoginStaus(true);
+                                session.setToken(otpVerifyResponse.getAccessToken());
+
+
+                                userDetailSession.setUserId(userModel.getId());
+                                userDetailSession.setName(userModel.getName());
+                                userDetailSession.setEmail(userModel.getEmail());
+                                userDetailSession.setPhoneNo(userModel.getPhone_no());
+                                userDetailSession.setGender(userModel.getGender());
+                                userDetailSession.setImage(userModel.getImage());
+                                userDetailSession.setUuid(userModel.getUuid());
+                                startActivity(i);
+                            } else {
+                                handleApiError(TAG, response, getApplicationContext());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OtpVerifyResponse> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+
+//                    if (enteredOtp.equals(receivedOtp)) {
+//                        session.setLoginStaus(true);
+//                        userDetailSession.setPhoneNo(receivedPhone);
+//                        startActivity(i);
+//                        loadingOverlay.setVisibility(View.GONE);
+//                    } else {
+//                        loadingOverlay.setVisibility(View.GONE);
+//                        showToastAndFocus(getString(R.string.toast_message_correct_otp), digit4);
+//                    }
                 } else {
                     showToastAndFocus(getString(R.string.toast_message_enter_otp), digit1);
                 }
@@ -118,7 +152,6 @@ public class OtpPage extends AppCompatActivity {
                                 startCountdown();
                                 LoginResponse loginResponse = response.body();
                                 if (loginResponse != null) {
-                                    receivedOtp = loginResponse.getOtp();
                                     Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                                     loadingOverlay.setVisibility(View.GONE);
                                 }

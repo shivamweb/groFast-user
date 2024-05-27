@@ -21,7 +21,14 @@ public class UserActivitySession {
     public boolean isUserLoggedIn() {
         return sharedPreferences.getBoolean("loginStatus", false);
     }
+    public void setToken(String token) {
+        editor.putString("userAccessToken", token);
+        editor.apply();
+    }
 
+    public String getToken() {
+        return sharedPreferences.getString("userAccessToken", "");
+    }
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
