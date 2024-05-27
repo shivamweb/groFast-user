@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
@@ -24,13 +23,13 @@ import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CategoryInterface;
 import com.wits.grofast_user.Api.interfaces.ProductInerface;
-import com.wits.grofast_user.Api.paginatedResponses.CategoryPaginatedRes;
 import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
 import com.wits.grofast_user.Api.responseClasses.ProductResponse;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,15 +50,16 @@ public class HomeFragment extends Fragment {
     LinearLayout load_categories;
     NestedScrollView layoutcategories;
     private boolean isCategoriesLoaded = false;
-    private boolean isProductsLoaded = false;
+    private boolean isProductsLoaded = true;
     private final String TAG = "HomeFragment";
+    private UserActivitySession userActivitySession;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        userActivitySession = new UserActivitySession(getContext());
         top_stores_recycleview = root.findViewById(R.id.recycleview_top_stores);
         product_recycleview = root.findViewById(R.id.product_recycleview);
 
@@ -107,25 +107,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void getCategories() {
-        Call<CategoryResponse> call = RetrofitService.getClient().create(CategoryInterface.class).fetchCategories(1);
+        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories(1);
         call.enqueue(new Callback<CategoryResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
-                    CategoryPaginatedRes paginatedResponse = categoryResponse.getPaginatedCategories();
-                    categoryList = categoryResponse.getPaginatedCategories().getCategoryList();
+                    categoryList = categoryResponse.getCategories();
+                    if (categoryList.size() > 8)
+                        categoryList = new ArrayList<>(categoryList.subList(0, 7));
+
                     topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext());
                     top_stores_recycleview.setAdapter(topStoreAdapter);
 
-                    Log.i(TAG, "onResponse: total categories " + paginatedResponse.getTotal());
-                    Log.i(TAG, "onResponse: fetched categories " + paginatedResponse.getTo());
+                    Log.i(TAG, "onResponse: total categories " + categoryList.size());
                     isCategoriesLoaded = true;
                     checkIfDataLoaded();
                 } else {
-                    if (isAdded())
-                        handleApiError(TAG, response, getContext());
+                    if (isAdded()) handleApiError(TAG, response, getContext());
                 }
             }
 
@@ -156,8 +156,7 @@ public class HomeFragment extends Fragment {
                     isProductsLoaded = true;
                     checkIfDataLoaded();
                 } else {
-                    if (isAdded())
-                        handleApiError(TAG, response, getContext());
+                    if (isAdded()) handleApiError(TAG, response, getContext());
                 }
             }
 
@@ -173,7 +172,7 @@ public class HomeFragment extends Fragment {
         layoutcategories.setVisibility(View.INVISIBLE);
     }
 
-    private void  HidePageLoader(){
+    private void HidePageLoader() {
         load_categories.setVisibility(View.GONE);
         layoutcategories.setVisibility(View.VISIBLE);
     }
