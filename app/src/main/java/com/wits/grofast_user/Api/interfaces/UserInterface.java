@@ -36,6 +36,6 @@ public interface UserInterface {
     Call<EditProfileResponse> updateProfile1(@Body UserRequest userRequest);
 
     @POST("verifyOtp")
-    Call<OtpVerifyResponse> verifyOtp(@Query("phone_no") String phone_no , @Query("otp") Integer otp);    //Call define
+    Call<OtpVerifyResponse> verifyOtp(@Query("phone_no") String phone_no , @Query("otp") Integer otp);
 
 }

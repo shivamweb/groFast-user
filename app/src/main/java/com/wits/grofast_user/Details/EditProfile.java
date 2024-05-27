@@ -95,7 +95,7 @@ public class EditProfile extends AppCompatActivity {
         radioOther = findViewById(R.id.rb_other);
 
         etName = findViewById(R.id.edit_name);
-        tvPhone = findViewById(R.id.edit_phone_no);
+        tvPhone = findViewById(R.id.show_phone_no);
         etEmail = findViewById(R.id.edit_email);
         etLocation = findViewById(R.id.edit_location);
 
@@ -152,13 +152,44 @@ public class EditProfile extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
 
-//        ImageView close = dialogView.findViewById(R.id.close_add_location);
-//        close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
+        ImageView close = dialogView.findViewById(R.id.close_change_phone_number);
+        EditText phone = dialogView.findViewById(R.id.edit_phone_no);
+        AppCompatButton changenumber = dialogView.findViewById(R.id.change_number);
+        String currentPhoneNumber = userDetailSession.getPhoneNo();
+        phone.setText(currentPhoneNumber);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        changenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newPhoneNumber = phone.getText().toString().trim();
+                if (newPhoneNumber.equals(currentPhoneNumber)) {
+                    Toast.makeText(EditProfile.this, getString(R.string.toast_message_new_phone), Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    openOtpPage();
+                }
+            }
+        });
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
+        }
+        dialog.show();
+    }
+
+    private void openOtpPage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.otp_layout, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
 
 
         if (dialog.getWindow() != null) {

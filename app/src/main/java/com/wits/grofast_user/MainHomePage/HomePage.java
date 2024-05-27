@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -145,6 +146,8 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
+                } else if (id == R.id.menu_language) {
+
                 } else if (id == R.id.menu_logout) {
                     session.setLoginStaus(false);
                     session.clearSession();
@@ -158,6 +161,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+
 
     private void loadfragment(Fragment fragment, boolean isAppInitialized) {
         FragmentManager fragmentManager = getSupportFragmentManager();

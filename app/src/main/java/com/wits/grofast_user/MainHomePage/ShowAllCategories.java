@@ -4,7 +4,9 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,6 +34,7 @@ public class ShowAllCategories extends AppCompatActivity {
     private GridLayoutManager layoutManager;
     private UserActivitySession userActivitySession;
     private final String TAG = "ShowAllCategories";
+    LinearLayout loader, alldata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,15 @@ public class ShowAllCategories extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_show_all_categories);
 
+        loader = findViewById(R.id.progress_bar_all_categories);
+        alldata = findViewById(R.id.linearlayout_all_data);
+
         userActivitySession = new UserActivitySession(getApplicationContext());
         recyclerView = findViewById(R.id.recycleview_all_categories_view);
         layoutManager = new GridLayoutManager(getApplicationContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
+        loader.setVisibility(View.VISIBLE);
+        alldata.setVisibility(View.GONE);
         getAllCategories();
     }
 
@@ -64,6 +72,8 @@ public class ShowAllCategories extends AppCompatActivity {
         call.enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                loader.setVisibility(View.GONE);
+                alldata.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
                     categoryList = categoryResponse.getCategories();
