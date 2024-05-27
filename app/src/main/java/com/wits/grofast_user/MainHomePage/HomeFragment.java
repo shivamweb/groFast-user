@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     LinearLayout load_categories;
     NestedScrollView layoutcategories;
     private boolean isCategoriesLoaded = false;
-    private boolean isProductsLoaded = true;
+    private boolean isProductsLoaded = false;
     private final String TAG = "HomeFragment";
     private UserActivitySession userActivitySession;
 
