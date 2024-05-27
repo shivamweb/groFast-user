@@ -22,7 +22,7 @@ public interface UserInterface {
     @POST("login")
     Call<LoginResponse> login(@Field("phone_no") String phone_no);
 
-    @POST("createCustomerProfile")
+    @POST("editCustomerProfile")
     @Multipart
     Call<EditProfileResponse> updateProfile(
             @Part("phone_no") RequestBody phone_no,

@@ -12,13 +12,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -27,11 +25,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
@@ -44,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -69,6 +63,7 @@ public class EditProfile extends AppCompatActivity {
     NestedScrollView scrollView;
     LinearLayout loadingOverlay;
     private UserActivitySession userActivitySession;
+    private final int defaultImage = R.drawable.account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +97,12 @@ public class EditProfile extends AppCompatActivity {
         tvPhone.setText(userDetailSession.getPhoneNo());
         etName.setText(userDetailSession.getName());
         etEmail.setText(userDetailSession.getEmail());
-        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(showProfileImage);
+        String image = userDetailSession.getImage();
+        Glide.with(getApplicationContext()).load(image).placeholder(defaultImage).into(showProfileImage);
+
+        if (Uri.parse(image).getLastPathSegment().equals("null")) {
+            showAddProfileButton();
+        } else showEditProfileButton();
 
         switch (userDetailSession.getGender()) {
             case "Male":
@@ -214,8 +214,7 @@ public class EditProfile extends AppCompatActivity {
                         break;
                     case 1:
                         showProfileImage.setImageResource(R.drawable.account);
-                        addProfileImage.setVisibility(View.VISIBLE);
-                        editProfileImage.setVisibility(View.GONE);
+                        showAddProfileButton();
                         image = null;
                         break;
                 }
@@ -244,8 +243,7 @@ public class EditProfile extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 showProfileImage.setImageBitmap(bitmap);
-                addProfileImage.setVisibility(View.GONE);
-                editProfileImage.setVisibility(View.VISIBLE);
+                showEditProfileButton();
                 imageFile = new File(getPathFromUri(getApplicationContext(), data.getData()));
                 RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
                 image = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
@@ -354,6 +352,16 @@ public class EditProfile extends AppCompatActivity {
                 imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
             }
         }
+    }
+
+    private void showEditProfileButton() {
+        addProfileImage.setVisibility(View.GONE);
+        editProfileImage.setVisibility(View.VISIBLE);
+    }
+
+    private void showAddProfileButton() {
+        editProfileImage.setVisibility(View.GONE);
+        addProfileImage.setVisibility(View.VISIBLE);
     }
 
     @Override
