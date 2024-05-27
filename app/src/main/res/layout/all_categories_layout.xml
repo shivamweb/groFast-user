@@ -24,7 +24,7 @@
                 android:layout_width="93dp"
                 android:layout_height="95dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/apple" />
+                android:src="@color/default_color" />
 
             <TextView
                 android:id="@+id/all_categories_name"

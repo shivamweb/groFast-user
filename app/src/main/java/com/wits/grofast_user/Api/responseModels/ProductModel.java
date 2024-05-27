@@ -2,7 +2,7 @@ package com.wits.grofast_user.Api.responseModels;
 
 import java.io.Serializable;
 
-public class ProductModel implements Serializable {
+public class ProductModel {
     private String image;
 
     private Integer quantity;
