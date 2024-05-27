@@ -32,7 +32,6 @@ public interface UserInterface {
             @Part MultipartBody.Part image
     );
 
-    @Headers("Accept: application/json")
     @POST("createCustomerProfile")
     Call<EditProfileResponse> updateProfile1(@Body UserRequest userRequest);
 

@@ -54,6 +54,8 @@ public class HomePage extends AppCompatActivity {
     List<Map<String, Object>> LocationItems;
     private TextView userName, userPhoneNo;
     private CircleImageView userProfile;
+    private View headerView;
+    private UserDetailSession userDetailSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,30 +66,14 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         UserActivitySession session = new UserActivitySession(getApplicationContext());
-        UserDetailSession userDetailSession = new UserDetailSession(getApplicationContext());
+        userDetailSession = new UserDetailSession(getApplicationContext());
 
         drawerLayout = findViewById(R.id.drawerlayout1);
         menuBar = findViewById(R.id.menu_bar);
         navigationView = findViewById(R.id.menu_navigation);
-        View headerView = navigationView.getHeaderView(0);
         textview_set_location = findViewById(R.id.textview_set_location);
         notification = findViewById(R.id.notification_home);
-
-        userName = headerView.findViewById(R.id.user_name);
-        userPhoneNo = headerView.findViewById(R.id.user_phone_no);
-        userProfile = headerView.findViewById(R.id.user_profile);
-
-        userPhoneNo.setText(userDetailSession.getPhoneNo());
-//        userName.setText(userDetailSession.getName());
-        String name = userDetailSession.getName();
-        if (name == null || name.isEmpty()) {
-            name = getString(R.string.user_name);
-            userName.setTextColor(getResources().getColor(R.color.default_color));
-        } else {
-            userName.setTextColor(getResources().getColor(R.color.white));
-        }
-        userName.setText(name);
-        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(userProfile);
+        headerView = navigationView.getHeaderView(0);
 
         menuBar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,4 +229,24 @@ public class HomePage extends AppCompatActivity {
         LocationItems.add(item3);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userName = headerView.findViewById(R.id.user_name);
+        userPhoneNo = headerView.findViewById(R.id.user_phone_no);
+        userProfile = headerView.findViewById(R.id.user_profile);
+
+        userPhoneNo.setText(userDetailSession.getPhoneNo());
+//        userName.setText(userDetailSession.getName());
+        String name = userDetailSession.getName();
+        if (name == null || name.isEmpty()) {
+            name = getString(R.string.user_name);
+            userName.setTextColor(getResources().getColor(R.color.default_color));
+        } else {
+            userName.setTextColor(getResources().getColor(R.color.white));
+        }
+        userName.setText(name);
+        Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(userProfile);
+
+    }
 }

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,6 +37,7 @@ import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
 
 import org.jetbrains.annotations.Nullable;
@@ -66,6 +68,7 @@ public class EditProfile extends AppCompatActivity {
     private TextView tvPhone;
     NestedScrollView scrollView;
     LinearLayout loadingOverlay;
+    private UserActivitySession userActivitySession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         userDetailSession = new UserDetailSession(getApplicationContext());
+        userActivitySession=new UserActivitySession(getApplicationContext());
         showProfileImage = findViewById(R.id.show_profile_image);
         addProfileImage = findViewById(R.id.add_profile_image);
         editProfileImage = findViewById(R.id.edit_profile_image);
@@ -270,7 +274,7 @@ public class EditProfile extends AppCompatActivity {
 
         if (selectedGender != null) {
             RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), selectedGender);
-            Call<EditProfileResponse> call = RetrofitService.getClient().create(UserInterface.class).updateProfile(phoneNo, name, email, gender, image);
+            Call<EditProfileResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(UserInterface.class).updateProfile(phoneNo, name, email, gender, image);
             scrollView.setVisibility(View.GONE);
             updateProfile.setVisibility(View.GONE);
             loadingOverlay.setVisibility(View.VISIBLE);

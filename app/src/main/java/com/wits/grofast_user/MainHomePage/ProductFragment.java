@@ -23,6 +23,7 @@ import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.ProductResponse;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ProductFragment extends Fragment {
     NestedScrollView show_data;
     LinearLayout load;
     private final String TAG = "ProductFragment";
+    private UserActivitySession userActivitySession;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,7 @@ public class ProductFragment extends Fragment {
             ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_product), R.drawable.baseline_arrow_circle_left_24, 0);
         }
 
+        userActivitySession = new UserActivitySession(getContext());
         recyclerView = root.findViewById(R.id.all_product_recycleview);
         load = root.findViewById(R.id.progress_bar_product_page);
         show_data = root.findViewById(R.id.show_product_data);
@@ -65,7 +68,7 @@ public class ProductFragment extends Fragment {
     private void getProducts(int page) {
         load.setVisibility(View.VISIBLE);
         show_data.setVisibility(GONE);
-        Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(page);
+        Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProducts(page);
         call.enqueue(new Callback<ProductResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override

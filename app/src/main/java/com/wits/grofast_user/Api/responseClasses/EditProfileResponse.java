@@ -7,7 +7,7 @@ public class EditProfileResponse {
     private int status;
     private String message;
 
-    @SerializedName("data")
+    @SerializedName("user")
     private UserModel userProfile;
 
     public int getStatus() {

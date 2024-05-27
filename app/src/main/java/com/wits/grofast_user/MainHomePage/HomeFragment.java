@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
     LinearLayout load_categories;
     NestedScrollView layoutcategories;
     private boolean isCategoriesLoaded = false;
-    private boolean isProductsLoaded = true;
+    private boolean isProductsLoaded = false;
     private final String TAG = "HomeFragment";
     private UserActivitySession userActivitySession;
 
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getCategories() {
-        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories(1);
+        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories();
         call.enqueue(new Callback<CategoryResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getProducts() {
-        Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(1);
+        Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProducts(1);
         call.enqueue(new Callback<ProductResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
