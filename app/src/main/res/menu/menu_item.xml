@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_language"
+        android:icon="@drawable/baseline_translate_24"
+        android:title="@string/menu_language">
+        <menu>
+            <item
+                android:id="@+id/menu_language_english"
+                android:title="@string/menu_language_english" />
+            <item
+                android:id="@+id/menu_language_hindi"
+                android:title="@string/menu_language_hindi" />
+        </menu>
+    </item>
+
     <item
         android:id="@+id/menu_home"
         android:icon="@drawable/home"

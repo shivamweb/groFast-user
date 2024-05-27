@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:text="Number"
                         android:textColor="@color/default_color"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:id="@+id/all_address_address"
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="Address"
                         android:textColor="@color/default_color"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/small_text" />
 
                 </LinearLayout>
 
