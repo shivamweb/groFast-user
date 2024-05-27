@@ -9,5 +9,5 @@ import retrofit2.http.Query;
 
 public interface CategoryInterface {
     @GET("fetchAllCategories")
-    Call<CategoryResponse> fetchCategories(@Query("page") int page);
+    Call<CategoryResponse> fetchCategories();
 }

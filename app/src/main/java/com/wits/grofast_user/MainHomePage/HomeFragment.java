@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getCategories() {
-        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories(1);
+        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories();
         call.enqueue(new Callback<CategoryResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
