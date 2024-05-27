@@ -42,11 +42,6 @@
         android:title="@string/menu_setting" />
 
     <item
-        android:id="@+id/menu_search_list"
-        android:icon="@drawable/search_list"
-        android:title="@string/menu_search_list" />
-
-    <item
         android:id="@+id/menu_cart"
         android:icon="@drawable/cart"
         android:title="@string/bottom_menu_cart" />
