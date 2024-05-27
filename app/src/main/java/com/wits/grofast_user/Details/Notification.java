@@ -46,17 +46,17 @@ public class Notification extends AppCompatActivity {
     private void loadnotificationItem() {
         Map<String, Object> item1 = new HashMap<>();
         item1.put("Header", "Ankleshwar");
-        item1.put("Description", "Bharuch");
+        item1.put("Description", "Your order from Fresh Picks Mart has been delivered. Feel free to tio the delivery partner.");
         item1.put("Day", "3 day");
 
         Map<String, Object> item2 = new HashMap<>();
         item2.put("Header", "Ankleshwar");
-        item2.put("Description", "Bharuch");
+        item2.put("Description", "Your order from Fresh Picks Mart has been delivered. Feel free to tio the delivery partner.");
         item2.put("Day", "3 day");
 
         Map<String, Object> item3 = new HashMap<>();
         item3.put("Header", "Ankleshwar");
-        item3.put("Description", "Bharuch");
+        item3.put("Description", "Your order from Fresh Picks Mart has been delivered. Feel free to tio the delivery partner.");
         item3.put("Day", "3 day");
 
         NotificationItems.add(item1);

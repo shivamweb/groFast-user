@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -25,8 +26,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
@@ -38,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -51,7 +56,7 @@ public class EditProfile extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 100;
     private static final int STORAGE_PERMISSION_CODE = 101;
     private CircleImageView showProfileImage;
-    private AppCompatButton addProfileImage, editProfileImage, updateProfile;
+    private AppCompatButton addProfileImage, editProfileImage, updateProfile, changephonenumber;
     private UserDetailSession userDetailSession;
     private MultipartBody.Part image;
     private File imageFile;
@@ -61,7 +66,6 @@ public class EditProfile extends AppCompatActivity {
     private TextView tvPhone;
     NestedScrollView scrollView;
     LinearLayout loadingOverlay;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,7 @@ public class EditProfile extends AppCompatActivity {
         addProfileImage = findViewById(R.id.add_profile_image);
         editProfileImage = findViewById(R.id.edit_profile_image);
         updateProfile = findViewById(R.id.saveButton);
+        changephonenumber = findViewById(R.id.change_phone_number);
 
         scrollView = findViewById(R.id.nestedScrollView);
         loadingOverlay = findViewById(R.id.loading_edit);
@@ -127,6 +132,35 @@ public class EditProfile extends AppCompatActivity {
                 updateUserProfile();
             }
         });
+
+        changephonenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenChangePhoneNumberDialog();
+            }
+        });
+    }
+
+    private void OpenChangePhoneNumberDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.change_phone_number_layout, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+
+//        ImageView close = dialogView.findViewById(R.id.close_add_location);
+//        close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
+        }
+        dialog.show();
     }
 
     private void openGallery() {
