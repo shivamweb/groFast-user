@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getProducts() {
-        Call<ProductResponse> call = RetrofitService.getClient().create(ProductInerface.class).fetchProducts(1);
+        Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProducts(1);
         call.enqueue(new Callback<ProductResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
