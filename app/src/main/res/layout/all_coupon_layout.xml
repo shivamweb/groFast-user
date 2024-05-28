@@ -18,17 +18,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/all_coupon_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="hehehhehe"
-                android:textColor="@color/black"
-                android:textSize="@dimen/hint_text_size"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/all_coupon_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="hehehhehe"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hint_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/all_coupon_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="hehehhehe"
+                    android:layout_weight="1"
+                    android:gravity="right|center"
+                    android:textColor="@color/Login_theme"
+                    android:textSize="@dimen/hint_text_size"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/all_coupon_subname"
@@ -40,7 +59,78 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/all_coupon_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="MAXSAFETY"
+                    android:textSize="@dimen/small_text" />
+
+                <!--                <View-->
+                <!--                    android:layout_width="10dp"-->
+                <!--                    android:layout_height="1dp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_marginStart="5dp"-->
+                <!--                    android:layout_marginEnd="5dp"-->
+                <!--                    android:background="@color/default_color" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="to"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/all_coupon_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAXSAFETY"
+                    android:textSize="@dimen/small_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/all_coupon_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discount"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hint_text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Up To"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hint_text_size" />
+
+                <TextView
+                    android:id="@+id/all_coupon_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/baseline_currency_rupee_24"
+                    android:layout_marginStart="5dp"
+                    android:text="Discount"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/hint_text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView

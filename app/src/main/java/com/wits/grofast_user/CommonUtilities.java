@@ -9,6 +9,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Response;
 
 public class CommonUtilities {
@@ -48,5 +52,19 @@ public class CommonUtilities {
         String imagePath = cursor.getString(column_index);
         cursor.close();
         return imagePath;
+    }
+
+
+    public static String formatDate(String inputDate,String inputFormat,String outputFormat) {
+        String outputDate = null;
+        try {
+            SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat);
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat(outputFormat);
+            Date date = inputDateFormat.parse(inputDate);
+            outputDate = outputDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outputDate;
     }
 }

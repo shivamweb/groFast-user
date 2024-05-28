@@ -4,6 +4,7 @@ public class CouponModel {
     private Integer id;
     private String uuid;
     private String name;
+    private  String description;
     private String code;
     private String from;
     private String to;
@@ -11,6 +12,10 @@ public class CouponModel {
     private String max_amount;
     private Integer status;
     private Integer type;
+
+    public String getDescription() {
+        return description;
+    }
 
     public Integer getId() {
         return id;
