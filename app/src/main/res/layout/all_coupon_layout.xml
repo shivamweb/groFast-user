@@ -30,8 +30,8 @@
                     android:id="@+id/all_coupon_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="hehehhehe"
                     android:layout_weight="1"
+                    android:text="hehehhehe"
                     android:textColor="@color/black"
                     android:textSize="@dimen/hint_text_size"
                     android:textStyle="bold" />
@@ -40,9 +40,9 @@
                     android:id="@+id/all_coupon_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="hehehhehe"
                     android:layout_weight="1"
                     android:gravity="right|center"
+                    android:text="hehehhehe"
                     android:textColor="@color/Login_theme"
                     android:textSize="@dimen/hint_text_size"
                     android:textStyle="bold" />
@@ -103,14 +103,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Discount"
-                    android:visibility="gone"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/hint_text_size" />
+                    android:textSize="@dimen/hint_text_size"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Up To"
+                    android:text="@string/up_to"
                     android:textColor="@color/black"
                     android:textSize="@dimen/hint_text_size" />
 
@@ -118,10 +118,10 @@
                     android:id="@+id/all_coupon_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_currency_rupee_24"
                     android:layout_marginStart="5dp"
-                    android:text="Discount"
+                    android:drawableLeft="@drawable/baseline_currency_rupee_24"
                     android:gravity="center"
+                    android:text="@string/Discount"
                     android:textColor="@color/black"
                     android:textSize="@dimen/hint_text_size" />
 

@@ -43,7 +43,6 @@ public class AllOffersAdapter extends RecyclerView.Adapter<AllOffersAdapter.View
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(allInnerOfferAdapter);
-
         holder.recyclerView.setTag(position);
     }
 

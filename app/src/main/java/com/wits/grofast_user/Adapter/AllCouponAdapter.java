@@ -62,11 +62,11 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
     private String getStatusText(int status) {
         switch (status) {
             case 1:
-                return "Active";
+                return context.getString(R.string.Active);
             case 2:
-                return "Inactive";
+                return context.getString(R.string.Inactive);
             case 3:
-                return "Expired";
+                return context.getString(R.string.Expired);
             default:
                 return "Unknown";
         }

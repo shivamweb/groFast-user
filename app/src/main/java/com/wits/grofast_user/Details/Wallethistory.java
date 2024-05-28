@@ -1,19 +1,19 @@
 package com.wits.grofast_user.Details;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 
+import com.wits.grofast_user.Adapter.WallethistoryAdapter;
 import com.wits.grofast_user.R;
 
-public class Wallet extends AppCompatActivity {
+public class Wallethistory extends AppCompatActivity {
 
-    AppCompatButton activate;
+    RecyclerView recyclerView;
+    WallethistoryAdapter wallethistoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +22,8 @@ public class Wallet extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.wallet_page_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
-        setContentView(R.layout.activity_wallet);
-        activate = findViewById(R.id.activate_wallet);
-        activate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(),Wallethistory.class);
-                startActivity(in);
-            }
-        });
+        setContentView(R.layout.activity_wallethistory);
+        recyclerView = findViewById(R.id.wallet_history_recycleview);
     }
 
     @Override
