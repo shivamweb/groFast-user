@@ -62,8 +62,8 @@ public class Wallethistory extends AppCompatActivity {
         call.enqueue(new Callback<WalletResponse>() {
             @Override
             public void onResponse(Call<WalletResponse> call, Response<WalletResponse> response) {
-                if (response.isSuccessful()){
-                    WalletResponse  walletResponse = response.body();
+                if (response.isSuccessful()) {
+                    WalletResponse walletResponse = response.body();
                     walletModelslist = walletResponse.getWallet();
 
                 }
