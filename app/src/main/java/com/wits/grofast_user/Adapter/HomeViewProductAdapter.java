@@ -52,8 +52,9 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("Name",  item.getName());
-                intent.putExtra("Weight",  item.getQuantity());
-                intent.putExtra("Price",  item.getPrice());
+                intent.putExtra("Weight",  item.getQuantity().toString());
+                intent.putExtra("Price",  item.getRetail_price().toString());
+                intent.putExtra("Description",item.getProduct_detail());
                 intent.putExtra("image", domain+item.getImage());
                 context.startActivity(intent);
             }
