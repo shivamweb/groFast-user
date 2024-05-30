@@ -29,6 +29,18 @@ public class UserActivitySession {
     public String getToken() {
         return sharedPreferences.getString("userAccessToken", "");
     }
+
+    public void setProductFetchIndicator(int value) {
+        editor.putInt("productFetchIndicator", value).apply();
+
+//        0 -> fetchAllProducts
+//        1 -> fetchProductsByCategory
+    }
+
+    public int getProductFetchIndicator() {
+        return sharedPreferences.getInt("productFetchIndicator", 0);
+    }
+
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

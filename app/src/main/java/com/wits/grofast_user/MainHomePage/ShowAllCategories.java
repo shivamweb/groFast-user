@@ -77,7 +77,7 @@ public class ShowAllCategories extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
                     categoryList = categoryResponse.getCategories();
-                    showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext());
+                    showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext(), getSupportFragmentManager());
                     recyclerView.setAdapter(showAllCategoriesAdapter);
                 } else {
                     handleApiError(TAG, response, getApplicationContext());

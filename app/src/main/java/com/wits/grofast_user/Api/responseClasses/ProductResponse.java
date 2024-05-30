@@ -8,7 +8,7 @@ public class ProductResponse {
 
     private Integer status;
 
-    @SerializedName("data")
+    @SerializedName("products")
     private ProductPaginatedRes paginatedProducts;
 
     public String getMessage() {

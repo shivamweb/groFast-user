@@ -1,7 +1,5 @@
 package com.wits.grofast_user.Api.responseModels;
 
-import java.io.Serializable;
-
 public class ProductModel {
     private String image;
 
@@ -12,6 +10,8 @@ public class ProductModel {
     private String product_detail;
 
     private String name;
+
+    private String unit_name;
 
     private Integer discount;
 
@@ -109,5 +109,9 @@ public class ProductModel {
 
     public String getName() {
         return name;
+    }
+
+    public String getUnit_name() {
+        return unit_name;
     }
 }

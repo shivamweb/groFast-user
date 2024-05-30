@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -61,7 +62,21 @@ public class ProductFragment extends Fragment {
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        getProducts(1);
+        switch (userActivitySession.getProductFetchIndicator()) {
+            case 0:
+                getProducts(1);
+                break;
+            case 1:
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    String category = bundle.getString("categoryName");
+                    Log.i(TAG, "onCreateView: category " + category);
+                    getProductByCategory(category);
+                }
+                break;
+            default:
+                getProducts(1);
+        }
         return root;
     }
 
@@ -83,6 +98,7 @@ public class ProductFragment extends Fragment {
                     allProductAdapter = new AllProductAdapter(getContext(), productList);
                     recyclerView.setAdapter(allProductAdapter);
 
+                    Log.i(TAG, "onResponse: getProducts message " + productResponse.getMessage());
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
                 } else {
@@ -95,5 +111,46 @@ public class ProductFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void getProductByCategory(String category) {
+        load.setVisibility(View.VISIBLE);
+        show_data.setVisibility(GONE);
+
+        Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProductsByCategory(1, category);
+
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                load.setVisibility(GONE);
+                show_data.setVisibility(View.VISIBLE);
+                if (response.isSuccessful()) {
+                    ProductResponse productResponse = response.body();
+                    ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
+                    productList = paginatedResponse.getProductList();
+
+                    allProductAdapter = new AllProductAdapter(getContext(), productList);
+                    recyclerView.setAdapter(allProductAdapter);
+
+                    Log.i(TAG, "onResponse: getProductByCategory message " + productResponse.getMessage());
+                    Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
+                    Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+                    Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    handleApiError(TAG, response, getContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        userActivitySession.setProductFetchIndicator(0);
     }
 }
