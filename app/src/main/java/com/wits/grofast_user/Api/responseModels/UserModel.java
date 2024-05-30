@@ -1,12 +1,11 @@
 package com.wits.grofast_user.Api.responseModels;
 
 import java.io.Serializable;
-import java.lang.Integer;
-import java.lang.String;
 
 public class UserModel implements Serializable {
 
   private Integer id;
+  private Integer is_wallet_activated;
   private String uuid;
   private String phone_no;
   private String image;
@@ -40,5 +39,9 @@ public class UserModel implements Serializable {
 
   public String getName() {
     return name;
+  }
+
+  public Integer getWalletStatus() {
+    return is_wallet_activated;
   }
 }

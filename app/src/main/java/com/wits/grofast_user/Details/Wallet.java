@@ -1,19 +1,35 @@
 package com.wits.grofast_user.Details;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.WalletInterface;
+import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
+import com.wits.grofast_user.session.UserDetailSession;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Wallet extends AppCompatActivity {
 
-    AppCompatButton activate;
+    private AppCompatButton activate;
+    private UserActivitySession userActivitySession;
+    private UserDetailSession userDetailSession;
+    private final String TAG = "Wallet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +39,14 @@ public class Wallet extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_wallet);
+
+        userActivitySession = new UserActivitySession(getApplicationContext());
+        userDetailSession = new UserDetailSession(getApplicationContext());
         activate = findViewById(R.id.activate_wallet);
         activate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(),Wallethistory.class);
-                startActivity(in);
+                activateUserWallet();
             }
         });
     }
@@ -40,5 +58,32 @@ public class Wallet extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void activateUserWallet() {
+        Call<LoginResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(WalletInterface.class).activateWallet();
+
+        Intent in = new Intent(getApplicationContext(), Wallethistory.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    LoginResponse walletResponse = response.body();
+
+                    userDetailSession.setWalletStatus(1);
+                    Log.i(TAG, "onResponse: status " + walletResponse.getStatus());
+                    Log.i(TAG, "onResponse: message " + walletResponse.getMessage());
+                    Toast.makeText(Wallet.this, "" + walletResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    startActivity(in);
+                } else handleApiError(TAG, response, getApplicationContext());
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
     }
 }
