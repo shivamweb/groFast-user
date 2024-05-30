@@ -1,15 +1,15 @@
 package com.wits.grofast_user.Api.responseClasses;
 
-import com.wits.grofast_user.Api.responseModels.WalletModel;
-
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
+import com.wits.grofast_user.Api.paginatedResponses.WalletPaginatedRes;
 
 public class WalletResponse {
     private String message;
 
     private Integer status;
 
-    private List<WalletModel> wallet;
+    @SerializedName("response")
+    private WalletPaginatedRes walletPaginatedRes;
 
     public String getMessage() {
         return message;
@@ -19,7 +19,7 @@ public class WalletResponse {
         return status;
     }
 
-    public List<WalletModel> getWallet() {
-        return wallet;
+    public WalletPaginatedRes getWalletPaginatedRes() {
+        return walletPaginatedRes;
     }
 }
