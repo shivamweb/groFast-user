@@ -61,7 +61,21 @@ public class ProductFragment extends Fragment {
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        getProducts(1);
+        switch (userActivitySession.getProductFetchIndicator()) {
+            case 0:
+                getProducts(1);
+                break;
+            case 1:
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    String category = bundle.getString("categoryName");
+                    Log.i(TAG, "onCreateView: category " + category);
+                    getProductByCategory(category);
+                }
+                break;
+            default:
+                getProducts(1);
+        }
         return root;
     }
 
@@ -95,5 +109,16 @@ public class ProductFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void getProductByCategory(String category) {
+        load.setVisibility(View.VISIBLE);
+        show_data.setVisibility(GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        userActivitySession.setProductFetchIndicator(0);
     }
 }

@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
                     if (categoryList.size() > 8)
                         categoryList = new ArrayList<>(categoryList.subList(0, 7));
 
-                    topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext());
+                    topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext(),getFragmentManager());
                     top_stores_recycleview.setAdapter(topStoreAdapter);
 
                     Log.i(TAG, "onResponse: total categories " + categoryList.size());
