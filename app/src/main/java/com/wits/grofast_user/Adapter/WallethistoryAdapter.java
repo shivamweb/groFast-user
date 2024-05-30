@@ -1,5 +1,6 @@
 package com.wits.grofast_user.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.WalletModel;
 import com.wits.grofast_user.R;
 
+import java.util.List;
+
 public class WallethistoryAdapter extends RecyclerView.Adapter<WallethistoryAdapter.ViewHolders> {
+
+    private List<WalletModel> walletList;
+    private Context context;
+
+    public WallethistoryAdapter(List<WalletModel> walletList, Context context) {
+        this.walletList = walletList;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -20,12 +32,17 @@ public class WallethistoryAdapter extends RecyclerView.Adapter<WallethistoryAdap
 
     @Override
     public void onBindViewHolder(@NonNull WallethistoryAdapter.ViewHolders holder, int position) {
+        WalletModel model = walletList.get(position);
 
+        holder.status.setText(model.getStatus());
+        holder.point.setText(model.getPoints().toString());
+        holder.orderid.setText(model.getOrder_id().toString());
+        holder.created.setText(model.getCreated_at());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return walletList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
