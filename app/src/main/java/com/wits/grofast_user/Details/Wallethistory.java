@@ -1,20 +1,20 @@
 package com.wits.grofast_user.Details;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.hardware.lights.LightState;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-
 import com.wits.grofast_user.Adapter.WallethistoryAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
-import com.wits.grofast_user.Api.interfaces.CouponInterface;
 import com.wits.grofast_user.Api.interfaces.WalletInterface;
-import com.wits.grofast_user.Api.responseClasses.CouponResponse;
+import com.wits.grofast_user.Api.paginatedResponses.WalletPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.WalletResponse;
 import com.wits.grofast_user.Api.responseModels.WalletModel;
 import com.wits.grofast_user.R;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class Wallethistory extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    WallethistoryAdapter wallethistoryAdapter;
+    private WallethistoryAdapter wallethistoryAdapter;
     private final String TAG = "WalletHistoryActivity";
     private List<WalletModel> walletModelslist = new ArrayList<>();
     UserActivitySession userActivitySession;
@@ -64,9 +64,15 @@ public class Wallethistory extends AppCompatActivity {
             public void onResponse(Call<WalletResponse> call, Response<WalletResponse> response) {
                 if (response.isSuccessful()) {
                     WalletResponse walletResponse = response.body();
-                    walletModelslist = walletResponse.getWallet();
+                    WalletPaginatedRes walletPaginatedRes = walletResponse.getWalletPaginatedRes();
+                    walletModelslist = walletPaginatedRes.getWalletList();
 
-                }
+                    wallethistoryAdapter = new WallethistoryAdapter(walletModelslist, getApplicationContext());
+                    recyclerView.setAdapter(wallethistoryAdapter);
+
+                    Log.i(TAG, "onResponse: fetched " + walletPaginatedRes.getTo() + " wallets");
+                    Log.i(TAG, "onResponse: total wallets " + walletPaginatedRes.getTotal());
+                } else handleApiError(TAG, response, getApplicationContext());
             }
 
             @Override

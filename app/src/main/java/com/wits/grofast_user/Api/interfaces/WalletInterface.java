@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface WalletInterface {
-    @POST("fetchWalletDetails")
+    @GET("fetchWalletDetails")
     Call<WalletResponse> fetchWallet();
 
     @GET("activateWallet")
