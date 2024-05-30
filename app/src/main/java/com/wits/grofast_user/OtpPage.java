@@ -112,6 +112,7 @@ public class OtpPage extends AppCompatActivity {
                                 userDetailSession.setGender(userModel.getGender());
                                 userDetailSession.setImage(userModel.getImage());
                                 userDetailSession.setUuid(userModel.getUuid());
+                                userDetailSession.setWalletStatus(userModel.getWalletStatus());
                                 startActivity(i);
                             } else {
                                 handleApiError(TAG, response, getApplicationContext());

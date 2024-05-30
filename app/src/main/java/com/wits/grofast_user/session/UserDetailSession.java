@@ -77,6 +77,19 @@ public class UserDetailSession {
         return sharedPreferences.getInt("userId", 0);
     }
 
+    public void setWalletStatus(int status) {
+        boolean value = false;
+        if (status == 1) {
+            value = true;
+        }
+        editor.putBoolean("userWalletStatus", value);
+        editor.apply();
+    }
+
+    public boolean isWalletActivated() {
+        return sharedPreferences.getBoolean("userWalletStatus", false);
+    }
+
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

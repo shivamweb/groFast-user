@@ -37,7 +37,7 @@ public class ProductModel {
 
     private Integer supplier_id;
 
-    private Integer unit_id;
+    private String unit_id;
 
     public String getImage() {
         return image;
@@ -103,7 +103,7 @@ public class ProductModel {
         return supplier_id;
     }
 
-    public Integer getUnit_id() {
+    public String getUnit_id() {
         return unit_id;
     }
 

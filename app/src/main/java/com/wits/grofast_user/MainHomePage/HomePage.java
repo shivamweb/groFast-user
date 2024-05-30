@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +31,7 @@ import com.wits.grofast_user.Details.MyAddress;
 import com.wits.grofast_user.Details.Notification;
 import com.wits.grofast_user.Details.NotificationSetting;
 import com.wits.grofast_user.Details.Wallet;
+import com.wits.grofast_user.Details.Wallethistory;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -137,6 +137,9 @@ public class HomePage extends AppCompatActivity {
                 } else if (id == R.id.menu_offers) {
                     loadfragment(new OffersFragment(), false);
                 } else if (id == R.id.menu_wallet) {
+                    if (userDetailSession.isWalletActivated())
+                        startActivity(new Intent(HomePage.this, Wallethistory.class));
+                    else
                     startActivity(new Intent(HomePage.this, Wallet.class));
                 } else if (id == R.id.menu_notification_setting) {
                     startActivity(new Intent(HomePage.this, NotificationSetting.class));

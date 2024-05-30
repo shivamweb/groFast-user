@@ -1,6 +1,5 @@
 package com.wits.grofast_user.Adapter;
 
-import static android.service.controls.ControlsProviderService.TAG;
 import static com.wits.grofast_user.CommonUtilities.formatDate;
 
 import android.content.Context;
@@ -18,7 +17,6 @@ import com.wits.grofast_user.Api.responseModels.CouponModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.ViewHolders> {
     private List<CouponModel> AllCouponItems;
@@ -39,7 +37,7 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
     public void onBindViewHolder(@NonNull AllCouponAdapter.ViewHolders holder, int position) {
         CouponModel item = AllCouponItems.get(position);
         holder.name.setText(item.getName());
-        holder.status.setText(getStatusText(item.getStatus()));
+        holder.status.setText(item.getStatus());
         setStatusColor(holder.status, item.getStatus());
         holder.description.setText(item.getDescription());
         String StartDate = formatDate(item.getFrom(), "yyyy-MM-dd", "dd-MM-yyyy");
@@ -59,28 +57,28 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
         Log.e("TAG", "onBindViewHolder: type : " + item.getType());
     }
 
-    private String getStatusText(int status) {
-        switch (status) {
-            case 1:
-                return context.getString(R.string.Active);
-            case 2:
-                return context.getString(R.string.Inactive);
-            case 3:
-                return context.getString(R.string.Expired);
-            default:
-                return "Unknown";
-        }
-    }
+//    private String getStatusText(int status) {
+//        switch (status) {
+//            case 1:
+//                return context.getString(R.string.Active);
+//            case 2:
+//                return context.getString(R.string.Inactive);
+//            case 3:
+//                return context.getString(R.string.Expired);
+//            default:
+//                return "Unknown";
+//        }
+//    }
 
-    private void setStatusColor(TextView textView, int status) {
+    private void setStatusColor(TextView textView, String status) {
         switch (status) {
-            case 1:
+            case "Active":
                 textView.setTextColor(context.getResources().getColor(R.color.active));
                 break;
-            case 2:
+            case "Inactive":
                 textView.setTextColor(context.getResources().getColor(R.color.inactive));
                 break;
-            case 3:
+            case "Expired":
                 textView.setTextColor(context.getResources().getColor(R.color.expired));
                 break;
             default:
