@@ -25,40 +25,12 @@
                 android:layout_height="130dp"
                 android:src="@drawable/gobhi_image" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/color_button"
-                    android:drawableRight="@drawable/baseline_star_24"
-                    android:drawablePadding="3dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="4.5"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/hint_text_size"
-                    android:textStyle="bold" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/vegsymbol" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="end"
-                        android:src="@drawable/vegsymbol" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/product_name"
