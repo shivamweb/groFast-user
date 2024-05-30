@@ -2,7 +2,6 @@ package com.wits.grofast_user.Api.responseClasses;
 
 import com.google.gson.annotations.SerializedName;
 import com.wits.grofast_user.Api.paginatedResponses.CouponPaginationRes;
-import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 
 public class CouponResponse {
     private String message;
@@ -25,7 +24,7 @@ public class CouponResponse {
         this.status = status;
     }
 
-    @SerializedName("data")
+    @SerializedName("coupons")
     private CouponPaginationRes couponPaginationRes;
     public CouponResponse(String message, Integer status) {
         this.message = message;
