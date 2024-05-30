@@ -1,6 +1,7 @@
 package com.wits.grofast_user.Details;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,9 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductDetailActivity extends AppCompatActivity {
-
     private ImageView productImage;
-    private TextView productName, productWeight, productPrice;
+    private TextView productName, productWeight, productPrice, productdescription;
     RecyclerView recyclerView;
     RelatedProductAdapter relatedProductAdapter;
     List<Map<String, Object>> relatedItems;
@@ -40,12 +40,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         productName = findViewById(R.id.product_detail_name);
         productWeight = findViewById(R.id.product_detail_weight);
         productPrice = findViewById(R.id.product_detail_price);
+        productdescription = findViewById(R.id.product_detail_description);
         recyclerView = findViewById(R.id.product_related_item_recycleview);
 
         if (getIntent() != null) {
             productName.setText(getIntent().getStringExtra("Name"));
             productWeight.setText(getIntent().getStringExtra("Weight"));
             productPrice.setText(getIntent().getStringExtra("Price"));
+            productdescription.setText(getIntent().getStringExtra("Description"));
             Glide.with(getApplicationContext()).load(getIntent().getStringExtra("image")).placeholder(R.drawable.gobhi_image).into(productImage);
         }
 
@@ -54,9 +56,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         loadRelatedItems();
 
         //Product Item
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        relatedProductAdapter = new RelatedProductAdapter(this,relatedItems);
+        relatedProductAdapter = new RelatedProductAdapter(this, relatedItems);
         recyclerView.setAdapter(relatedProductAdapter);
     }
 

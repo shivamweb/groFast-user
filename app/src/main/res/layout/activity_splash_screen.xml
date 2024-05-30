@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/Login_theme"
     tools:context=".Splash_Screen">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/appname"
-        android:textColor="@color/textview_text_color"
+        android:textColor="@color/white"
         android:textSize="@dimen/main_heading_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,8 +37,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Powered by"
-        android:textColor="@color/textview_text_color"
+        android:text="@string/pvt"
+        android:textColor="@color/white"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +49,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wingers It Services Pvt.Ltd"
-        android:textColor="@color/textview_text_color"
+        android:text="@string/company_name"
+        android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

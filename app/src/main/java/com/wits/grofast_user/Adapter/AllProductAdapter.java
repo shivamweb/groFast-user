@@ -4,6 +4,7 @@ import static com.wits.grofast_user.Api.RetrofitService.domain;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,11 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("Name", item.getName());
-                intent.putExtra("Weight",  item.getQuantity());
-                intent.putExtra("Price",  item.getPrice());
+                intent.putExtra("Weight",  item.getQuantity().toString());
+                intent.putExtra("Price",  item.getRetail_price().toString());
+                intent.putExtra("Description",item.getProduct_detail());
                 intent.putExtra("image", domain+item.getImage());
+                Log.e("TAG", "onClick: weight : "+ item.getQuantity());
                 context.startActivity(intent);
             }
         });
