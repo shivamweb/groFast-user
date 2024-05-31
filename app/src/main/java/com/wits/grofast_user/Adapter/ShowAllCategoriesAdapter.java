@@ -29,11 +29,17 @@ public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCatego
     private List<CategoryModel> categoryList;
     private Context context;
     private FragmentManager fragmentManager;
+    private OnCategoryClickListener listener;
 
-    public ShowAllCategoriesAdapter(List<CategoryModel> categoryList, Context context, FragmentManager fragmentManager) {
+    public interface OnCategoryClickListener {
+        void onCategoryClick(CategoryModel category);
+    }
+
+    public ShowAllCategoriesAdapter(List<CategoryModel> categoryList, Context context, FragmentManager fragmentManager, OnCategoryClickListener listener) {
         this.categoryList = categoryList;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.listener = listener;
     }
 
     @NonNull
@@ -47,13 +53,13 @@ public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCatego
         UserActivitySession userActivitySession = new UserActivitySession(context);
         CategoryModel item = categoryList.get(position);
         holder.Name.setText(item.getCategory_name());
-        Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.apple).into(holder.Banner);
+        Glide.with(context).load(domain + item.getImage()).placeholder(R.color.default_color).into(holder.Banner);
 
-        holder.Banner.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userActivitySession.setProductFetchIndicator(1);
-                openProducatFragment(item);
+                listener.onCategoryClick(item);
             }
         });
     }
@@ -66,23 +72,11 @@ public class ShowAllCategoriesAdapter extends RecyclerView.Adapter<ShowAllCatego
     public class ViewHolders extends RecyclerView.ViewHolder {
         TextView Name;
         CircleImageView Banner;
+
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
             Name = itemView.findViewById(R.id.all_categories_name);
             Banner = itemView.findViewById(R.id.all_categories_image);
         }
-    }
-
-    private void openProducatFragment(CategoryModel item) {
-        Bundle bundle = new Bundle();
-        bundle.putString("categoryName", item.getCategory_name());
-
-        ProductFragment productFragment = new ProductFragment();
-        productFragment.setArguments(bundle);
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentnav, productFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }
