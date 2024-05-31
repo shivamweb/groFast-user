@@ -4,7 +4,6 @@ import static com.wits.grofast_user.Api.RetrofitService.domain;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,7 @@ import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProductAdapter.ViewHolders> {
     private List<ProductModel> productList;
@@ -43,7 +40,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
     public void onBindViewHolder(@NonNull HomeViewProductAdapter.ViewHolders holder, int position) {
         ProductModel item = productList.get(position);
         holder.name.setText(item.getName());
-        holder.weight.setText(item.getQuantity().toString());
+        holder.weight.setText(item.getQuantity().toString() + " " + item.getUnitName());
         holder.price.setText(item.getPrice().toString());
         Glide.with(context).load(domain+item.getImage()).placeholder(R.drawable.gobhi_image).into(holder.image);
 
@@ -52,7 +49,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("Name",  item.getName());
-                intent.putExtra("Weight",  item.getQuantity().toString());
+                intent.putExtra("Weight", item.getQuantity().toString() + " " + item.getUnitName());
                 intent.putExtra("Price",  item.getRetail_price().toString());
                 intent.putExtra("Description",item.getProduct_detail());
                 intent.putExtra("image", domain+item.getImage());

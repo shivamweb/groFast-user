@@ -1,5 +1,7 @@
 package com.wits.grofast_user.Api.responseModels;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ProductModel {
     private String image;
 
@@ -10,8 +12,6 @@ public class ProductModel {
     private String product_detail;
 
     private String name;
-
-    private String unit_name;
 
     private Integer discount;
 
@@ -37,7 +37,8 @@ public class ProductModel {
 
     private Integer supplier_id;
 
-    private String unit_id;
+    @SerializedName("unit_id")
+    private String unitName;
 
     public String getImage() {
         return image;
@@ -103,15 +104,12 @@ public class ProductModel {
         return supplier_id;
     }
 
-    public String getUnit_id() {
-        return unit_id;
+    public String getUnitName() {
+        return unitName;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUnit_name() {
-        return unit_name;
-    }
 }
