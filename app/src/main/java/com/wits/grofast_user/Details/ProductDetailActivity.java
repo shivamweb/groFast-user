@@ -52,7 +52,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         relatedItems = new ArrayList<>();
-
         loadRelatedItems();
 
         //Product Item
