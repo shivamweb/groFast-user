@@ -47,7 +47,7 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
         UserActivitySession userActivitySession = new UserActivitySession(context);
         CategoryModel item = categoryList.get(position);
         holder.Name.setText(item.getCategory_name());
-        Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.apple).into(holder.Banner);
+        Glide.with(context).load(domain + item.getImage()).placeholder(R.color.default_color).into(holder.Banner);
 
         holder.Banner.setOnClickListener(new View.OnClickListener() {
             @Override
