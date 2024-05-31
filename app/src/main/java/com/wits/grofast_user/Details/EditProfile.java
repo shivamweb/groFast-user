@@ -65,6 +65,7 @@ public class EditProfile extends AppCompatActivity {
     LinearLayout loadingOverlay;
     private UserActivitySession userActivitySession;
     private final int defaultImage = R.drawable.account;
+    private boolean isRemoveProfile = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +218,7 @@ public class EditProfile extends AppCompatActivity {
                         showProfileImage.setImageResource(R.drawable.account);
                         showAddProfileButton();
                         image = null;
+                        isRemoveProfile = true;
                         break;
                 }
             }
@@ -308,6 +310,9 @@ public class EditProfile extends AppCompatActivity {
             scrollView.setVisibility(View.GONE);
             updateProfile.setVisibility(View.GONE);
             loadingOverlay.setVisibility(View.VISIBLE);
+
+            removeProfile();
+
             call.enqueue(new Callback<EditProfileResponse>() {
                 @Override
                 public void onResponse(Call<EditProfileResponse> call, Response<EditProfileResponse> response) {
@@ -363,6 +368,24 @@ public class EditProfile extends AppCompatActivity {
     private void showAddProfileButton() {
         editProfileImage.setVisibility(View.GONE);
         addProfileImage.setVisibility(View.VISIBLE);
+    }
+
+    private void removeProfile() {
+        Call<Void> call = RetrofitService.getClient(userActivitySession.getToken()).create(UserInterface.class).removeUserProfile();
+        if (isRemoveProfile) {
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (!response.isSuccessful())
+                        handleApiError(TAG, response, getApplicationContext());
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     @Override

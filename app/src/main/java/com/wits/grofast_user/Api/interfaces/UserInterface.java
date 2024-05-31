@@ -1,6 +1,5 @@
 package com.wits.grofast_user.Api.interfaces;
 
-import com.wits.grofast_user.Api.UserRequest;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
@@ -8,10 +7,8 @@ import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -32,8 +29,8 @@ public interface UserInterface {
             @Part MultipartBody.Part image
     );
 
-    @POST("createCustomerProfile")
-    Call<EditProfileResponse> updateProfile1(@Body UserRequest userRequest);
+    @POST("removeProfileImage")
+    Call<Void> removeUserProfile();
 
     @POST("verifyOtp")
     Call<OtpVerifyResponse> verifyOtp(@Query("phone_no") String phone_no , @Query("otp") Integer otp);
