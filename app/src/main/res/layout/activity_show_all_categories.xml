@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".MainHomePage.ShowAllCategories">
 
     <include
@@ -14,46 +13,60 @@
         layout="@layout/loading_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/linearlayout_all_data"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearlayout_all_data"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/rectangle_serachview_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
+            <LinearLayout
+                android:id="@+id/h"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:iconifiedByDefault="false"
-                app:queryHint="Search Categories"
-                app:searchIcon="@null" />
+                android:layout_height="50dp"
+                android:background="@drawable/rectangle_serachview_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Search Categories"
+                    app:searchIcon="@null" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/baseline_search_24" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleview_all_categories_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/baseline_search_24" />
+                android:layout_marginTop="10dp" />
+
+            <FrameLayout
+                android:id="@+id/fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleview_all_categories_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp" />
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

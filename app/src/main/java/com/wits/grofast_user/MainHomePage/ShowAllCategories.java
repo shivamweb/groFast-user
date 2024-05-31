@@ -9,6 +9,9 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,14 +30,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowAllCategories extends AppCompatActivity {
+public class ShowAllCategories extends AppCompatActivity implements ShowAllCategoriesAdapter.OnCategoryClickListener {
     RecyclerView recyclerView;
     ShowAllCategoriesAdapter showAllCategoriesAdapter;
     private List<CategoryModel> categoryList = new ArrayList<>();
     private GridLayoutManager layoutManager;
     private UserActivitySession userActivitySession;
     private final String TAG = "ShowAllCategories";
-    LinearLayout loader, alldata;
+    LinearLayout loader, alldata, h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class ShowAllCategories extends AppCompatActivity {
 
         loader = findViewById(R.id.progress_bar_all_categories);
         alldata = findViewById(R.id.linearlayout_all_data);
+        h = findViewById(R.id.h);
 
         userActivitySession = new UserActivitySession(getApplicationContext());
         recyclerView = findViewById(R.id.recycleview_all_categories_view);
@@ -77,7 +81,7 @@ public class ShowAllCategories extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     CategoryResponse categoryResponse = response.body();
                     categoryList = categoryResponse.getCategories();
-                    showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext(), getSupportFragmentManager());
+                    showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext(), getSupportFragmentManager(), ShowAllCategories.this);
                     recyclerView.setAdapter(showAllCategoriesAdapter);
                 } else {
                     handleApiError(TAG, response, getApplicationContext());
@@ -89,5 +93,33 @@ public class ShowAllCategories extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onCategoryClick(CategoryModel category) {
+        ProductFragment productFragment = ProductFragment.newInstance(category.getCategory_name());
+        replaceFragment(productFragment);
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, fragment);
+        findViewById(R.id.fragment).setVisibility(View.VISIBLE);
+        h.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+            findViewById(R.id.fragment).setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            alldata.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

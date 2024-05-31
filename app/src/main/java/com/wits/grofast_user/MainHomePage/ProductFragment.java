@@ -34,6 +34,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
+    private static final String ARG_CATEGORY_NAME = "categoryName";
+
+    public static ProductFragment newInstance(String categoryName) {
+        ProductFragment fragment = new ProductFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_CATEGORY_NAME, categoryName);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     RecyclerView recyclerView;
     AllProductAdapter allProductAdapter;
     private List<ProductModel> productList = new ArrayList<>();
@@ -50,7 +60,7 @@ public class ProductFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_product, container, false);
 
         if (getActivity() instanceof HomePage) {
-            ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_product), R.drawable.baseline_arrow_circle_left_24, 0);
+            ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_product), 0, 0);
         }
 
         userActivitySession = new UserActivitySession(getContext());
@@ -62,21 +72,13 @@ public class ProductFragment extends Fragment {
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        switch (userActivitySession.getProductFetchIndicator()) {
-            case 0:
-                getProducts(1);
-                break;
-            case 1:
-                Bundle bundle = getArguments();
-                if (bundle != null) {
-                    String category = bundle.getString("categoryName");
-                    Log.i(TAG, "onCreateView: category " + category);
-                    getProductByCategory(category);
-                }
-                break;
-            default:
-                getProducts(1);
+        if (getArguments() != null) {
+            String category = getArguments().getString(ARG_CATEGORY_NAME);
+            getProductByCategory(category);
+        } else {
+            getProducts(1);
         }
+
         return root;
     }
 
