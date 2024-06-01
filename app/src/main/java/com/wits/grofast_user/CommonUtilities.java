@@ -90,10 +90,7 @@ public class CommonUtilities {
         toastMessage.setText(message);
 
         FrameLayout frameLayout = new FrameLayout(toastView.getContext());
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-        );
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, 5, 10, 0);
         toastView.setLayoutParams(layoutParams);
 
@@ -105,5 +102,120 @@ public class CommonUtilities {
         toast.setGravity(Gravity.TOP | Gravity.END, 0, 0);
         toast.show();
         return message;
+    }
+
+    public static void setEditTextListeners(EditText digit1, EditText digit2, EditText digit3, EditText digit4) {
+        digit1.requestFocus();
+        digit1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit2.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        digit2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit3.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        digit3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    digit4.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+        digit2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit2.getText().toString().isEmpty()) {
+                        digit1.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        digit3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit3.getText().toString().isEmpty()) {
+                        digit2.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        digit4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
+                    if (digit4.getText().toString().isEmpty()) {
+                        digit3.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    public static void startCountdown(AppCompatButton resend, TextView countDownTimer, Context context, long countDownTime) {
+        new CountDownTimer(countDownTime, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+                countDownTimer.setText(timeLeftFormatted);
+
+                resend.setClickable(false);
+                resend.setBackgroundDrawable(context.getDrawable(R.drawable.textview_design));
+                resend.setTextColor(context.getColor(R.color.default_color));
+            }
+
+            @Override
+            public void onFinish() {
+                resend.setClickable(true);
+                countDownTimer.setText("00:00");
+                resend.setBackgroundDrawable(context.getDrawable(R.drawable.color_button));
+                resend.setTextColor(context.getColor(R.color.button_text_color));
+            }
+        }.start();
     }
 }
