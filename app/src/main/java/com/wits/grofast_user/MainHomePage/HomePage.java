@@ -131,7 +131,7 @@ public class HomePage extends AppCompatActivity {
                 if (id == R.id.menu_home) {
                     loadfragment(new HomeFragment(), false);
                 } else if (id == R.id.menu_enable_location) {
-//                    loadfragment(new ProductFragment(), false);
+
                 } else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
                 } else if (id == R.id.menu_offers) {
@@ -139,8 +139,9 @@ public class HomePage extends AppCompatActivity {
                 } else if (id == R.id.menu_wallet) {
                     if (userDetailSession.isWalletActivated())
                         startActivity(new Intent(HomePage.this, Wallethistory.class));
-                    else
-                    startActivity(new Intent(HomePage.this, Wallet.class));
+                    else {
+                        startActivity(new Intent(HomePage.this, Wallet.class));
+                    }
                 } else if (id == R.id.menu_notification_setting) {
                     startActivity(new Intent(HomePage.this, NotificationSetting.class));
                 } else if (id == R.id.menu_notification) {
@@ -173,10 +174,12 @@ public class HomePage extends AppCompatActivity {
         fragmentTransaction.commit();
 
         if (fragment instanceof OffersFragment) {
-            updateActionBar(getString(R.string.bottom_menu_offers), R.drawable.baseline_arrow_circle_left_24, 0);
+            updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
         } else if (fragment instanceof ProductFragment) {
-            updateActionBar(getString(R.string.bottom_menu_product), R.drawable.baseline_arrow_circle_left_24, 0);
-        } else {
+            updateActionBar(getString(R.string.bottom_menu_product),0, 0);
+        } else if (fragment instanceof CartFragment) {
+            updateActionBar(getString(R.string.bottom_menu_cart),0, 0);
+        }else {
             updateActionBar(getString(R.string.set_location), R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
         }
     }
@@ -244,7 +247,6 @@ public class HomePage extends AppCompatActivity {
         userProfile = headerView.findViewById(R.id.user_profile);
 
         userPhoneNo.setText(userDetailSession.getPhoneNo());
-//        userName.setText(userDetailSession.getName());
         String name = userDetailSession.getName();
         if (name == null || name.isEmpty()) {
             name = getString(R.string.user_name);

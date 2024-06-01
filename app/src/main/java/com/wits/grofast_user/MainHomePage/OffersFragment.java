@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 public class OffersFragment extends Fragment {
-
     RecyclerView recyclerView;
     AllOffersAdapter allOffersAdapter;
     List<Map<String, Object>> offerItems;
@@ -31,7 +30,7 @@ public class OffersFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_offers, container, false);
         if (getActivity() instanceof HomePage) {
-            ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_offers), R.drawable.baseline_arrow_circle_left_24, 0);
+            ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
         }
         recyclerView = root.findViewById(R.id.all_offers_recycleview);
         offerItems = new ArrayList<>();

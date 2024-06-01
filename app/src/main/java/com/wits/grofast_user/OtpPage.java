@@ -34,7 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OtpPage extends AppCompatActivity {
-
     AppCompatButton Continue, resend;
     TextView phone, countDownTimer;
     String receivedPhone, enteredOtp = "";
