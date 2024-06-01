@@ -1,15 +1,13 @@
 package com.wits.grofast_user;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
+import static com.wits.grofast_user.CommonUtilities.setEditTextListeners;
+import static com.wits.grofast_user.CommonUtilities.startCountdown;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,8 +28,6 @@ import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
-
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,14 +67,15 @@ public class OtpPage extends AppCompatActivity {
         digit2 = findViewById(R.id.otp_digit2);
         digit3 = findViewById(R.id.otp_digit3);
         digit4 = findViewById(R.id.otp_digit4);
-        setEditTextListeners();
+
+        setEditTextListeners(digit1, digit2, digit3, digit4);
 
         Continue = findViewById(R.id.Continue_otp_page);
         resend = findViewById(R.id.resend_otp_button);
         phone = findViewById(R.id.otp_phone_no);
         countDownTimer = findViewById(R.id.countdown_timer);
         phone.setText(receivedPhone);
-        startCountdown();
+        startCountdown(resend, countDownTimer, getApplicationContext(), COUNTDOWN_TIME_MILLIS);
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,16 +121,6 @@ public class OtpPage extends AppCompatActivity {
                             t.printStackTrace();
                         }
                     });
-
-//                    if (enteredOtp.equals(receivedOtp)) {
-//                        session.setLoginStaus(true);
-//                        userDetailSession.setPhoneNo(receivedPhone);
-//                        startActivity(i);
-//                        loadingOverlay.setVisibility(View.GONE);
-//                    } else {
-//                        loadingOverlay.setVisibility(View.GONE);
-//                        showToastAndFocus(getString(R.string.toast_message_correct_otp), digit4);
-//                    }
                 } else {
                     showToastAndFocus(getString(R.string.toast_message_enter_otp), digit1);
                 }
@@ -150,7 +137,7 @@ public class OtpPage extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
-                                startCountdown();
+                                startCountdown(resend, countDownTimer, getApplicationContext(), COUNTDOWN_TIME_MILLIS);
                                 LoginResponse loginResponse = response.body();
                                 if (loginResponse != null) {
                                     Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,120 +183,6 @@ public class OtpPage extends AppCompatActivity {
         return valid;
     }
 
-    private void setEditTextListeners() {
-        digit1.requestFocus();
-        digit1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0) {
-                    digit2.requestFocus();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        digit2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0) {
-                    digit3.requestFocus();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        digit3.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0) {
-                    digit4.requestFocus();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-
-        digit2.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (digit2.getText().toString().isEmpty()) {
-                        digit1.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-
-        digit3.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (digit3.getText().toString().isEmpty()) {
-                        digit2.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-
-        digit4.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL) {
-                    if (digit4.getText().toString().isEmpty()) {
-                        digit3.requestFocus();
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
-    private void startCountdown() {
-        new CountDownTimer(COUNTDOWN_TIME_MILLIS, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                int minutes = (int) (millisUntilFinished / 1000) / 60;
-                int seconds = (int) (millisUntilFinished / 1000) % 60;
-                String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-                countDownTimer.setText(timeLeftFormatted);
-
-                resend.setClickable(false);
-                resend.setBackgroundDrawable(getDrawable(R.drawable.textview_design));
-                resend.setTextColor(getColor(R.color.default_color));
-            }
-
-            @Override
-            public void onFinish() {
-                resend.setClickable(true);
-                countDownTimer.setText("00:00");
-                resend.setBackgroundDrawable(getDrawable(R.drawable.color_button));
-                resend.setTextColor(getColor(R.color.button_text_color));
-            }
-        }.start();
-    }
 
     private void showToastAndFocus(String message, EditText editText) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
