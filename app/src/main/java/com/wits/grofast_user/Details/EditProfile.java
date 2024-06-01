@@ -192,7 +192,15 @@ public class EditProfile extends AppCompatActivity {
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
+        ImageView close_change_phone_number;
 
+        close_change_phone_number = dialogView.findViewById(R.id.close_change_phone_number);
+        close_change_phone_number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);

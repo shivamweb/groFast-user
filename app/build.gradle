@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 
-    //Simmer dependency
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    //blur dependency
+    implementation 'jp.wasabeef:blurry:4.0.1'
+
 }

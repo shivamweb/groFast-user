@@ -105,8 +105,10 @@
     <string name="add_address_button">Add Address</string>
     <string name="save_address_button">Save Address</string>
     <string name="update_address_button">Update Address</string>
-    <string name="add_cart_button">Add to Cart</string>
+    <string name="add_cart_button">Add item</string>
+    <string name="add_button">Add</string>
     <string name="activate_wallet_button">Activate Wallet</string>
+    <string name="checkout_button">Checkout</string>
 
     //Edit Page Details
     <string name="name">Name</string>
@@ -119,6 +121,7 @@
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>
+    <string name="add_product_name">Add item which not found in menu</string>
 
     //My Address
     <string name="edit_address">Edit Address</string>
@@ -169,6 +172,17 @@
     <string name="coin">Grofast coin available</string>
     <string name="wallet_history">Wallet History</string>
 
+
+    //cart fragment
+    <string name="add_more_field">Add more items</string>
+    <string name="add_additional_product">Add Additional Product</string>
+    <string name="add_coupon">Add Coupon</string>
+    <string name="total_item">Item Total</string>
+    <string name="Tex">Taxes &amp; charges</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="tip">Please tip your delivery partner</string>
+    <string name="other">Other</string>
+    <string name="cancelation_policy">Cancellation Policy</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>

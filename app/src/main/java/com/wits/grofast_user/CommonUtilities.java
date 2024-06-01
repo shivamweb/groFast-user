@@ -4,6 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -55,7 +60,7 @@ public class CommonUtilities {
     }
 
 
-    public static String formatDate(String inputDate,String inputFormat,String outputFormat) {
+    public static String formatDate(String inputDate, String inputFormat, String outputFormat) {
         String outputDate = null;
         try {
             SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFormat);
@@ -66,5 +71,29 @@ public class CommonUtilities {
             e.printStackTrace();
         }
         return outputDate;
+    }
+
+
+    public static String showToast(Context context, String message) {
+        View toastView = LayoutInflater.from(context).inflate(R.layout.toast_product_add_in_cart, null);
+        TextView toastMessage = toastView.findViewById(R.id.toast_product_add_in_cart);
+        toastMessage.setText(message);
+
+        FrameLayout frameLayout = new FrameLayout(toastView.getContext());
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(0, 5, 10, 0);
+        toastView.setLayoutParams(layoutParams);
+
+        frameLayout.addView(toastView);
+
+        Toast toast = new Toast(toastView.getContext());
+        toast.setView(frameLayout);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.TOP | Gravity.END, 0, 0);
+        toast.show();
+        return message;
     }
 }

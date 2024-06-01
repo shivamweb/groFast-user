@@ -1,6 +1,6 @@
 package com.wits.grofast_user.Api.responseModels;
 
-public class AddToCartModel {
+public class CartModel {
     private Integer customer_id;
     private Integer product_id;
     private Integer quantity;

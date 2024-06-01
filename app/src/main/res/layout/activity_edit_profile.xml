@@ -8,7 +8,6 @@
     android:padding="18dp"
     tools:context=".Details.EditProfile">
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="0dp"

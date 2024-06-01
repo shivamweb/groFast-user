@@ -38,7 +38,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OtpPage extends AppCompatActivity {
-
     AppCompatButton Continue, resend;
     TextView phone, countDownTimer;
     String receivedPhone, enteredOtp = "";
@@ -124,16 +123,6 @@ public class OtpPage extends AppCompatActivity {
                             t.printStackTrace();
                         }
                     });
-
-//                    if (enteredOtp.equals(receivedOtp)) {
-//                        session.setLoginStaus(true);
-//                        userDetailSession.setPhoneNo(receivedPhone);
-//                        startActivity(i);
-//                        loadingOverlay.setVisibility(View.GONE);
-//                    } else {
-//                        loadingOverlay.setVisibility(View.GONE);
-//                        showToastAndFocus(getString(R.string.toast_message_correct_otp), digit4);
-//                    }
                 } else {
                     showToastAndFocus(getString(R.string.toast_message_enter_otp), digit1);
                 }
