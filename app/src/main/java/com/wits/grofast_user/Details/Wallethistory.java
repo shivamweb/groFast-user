@@ -5,7 +5,9 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,12 +31,13 @@ import retrofit2.Response;
 
 public class Wallethistory extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private WallethistoryAdapter wallethistoryAdapter;
     private final String TAG = "WalletHistoryActivity";
     private List<WalletModel> walletModelslist = new ArrayList<>();
-    UserActivitySession userActivitySession;
-    LinearLayoutManager linearLayoutManager;
+    private UserActivitySession userActivitySession;
+    private LinearLayoutManager linearLayoutManager;
+    private TextView noWalletHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,9 @@ public class Wallethistory extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_wallethistory);
+
         recyclerView = findViewById(R.id.wallet_history_recycleview);
+        noWalletHistory = findViewById(R.id.no_wallet_hostory);
 
         userActivitySession = new UserActivitySession(getApplicationContext());
 //        load_data.setVisibility(View.VISIBLE);
@@ -66,7 +71,8 @@ public class Wallethistory extends AppCompatActivity {
                     WalletResponse walletResponse = response.body();
                     WalletPaginatedRes walletPaginatedRes = walletResponse.getWalletPaginatedRes();
                     walletModelslist = walletPaginatedRes.getWalletList();
-
+                    if (walletPaginatedRes.getWalletList().isEmpty())
+                        showNoWalletMessage(walletResponse.getMessage());
                     wallethistoryAdapter = new WallethistoryAdapter(walletModelslist, getApplicationContext());
                     recyclerView.setAdapter(wallethistoryAdapter);
 
@@ -81,6 +87,12 @@ public class Wallethistory extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showNoWalletMessage(String message) {
+        recyclerView.setVisibility(View.GONE);
+        noWalletHistory.setText(message);
+        noWalletHistory.setVisibility(View.VISIBLE);
     }
 
     @Override

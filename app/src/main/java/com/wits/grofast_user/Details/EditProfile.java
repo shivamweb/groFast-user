@@ -2,6 +2,8 @@ package com.wits.grofast_user.Details;
 
 import static com.wits.grofast_user.CommonUtilities.getPathFromUri;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
+import static com.wits.grofast_user.CommonUtilities.setEditTextListeners;
+import static com.wits.grofast_user.CommonUtilities.startCountdown;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +14,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,6 +34,8 @@ import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
+import com.wits.grofast_user.Api.responseClasses.LoginResponse;
+import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
 import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -66,6 +71,7 @@ public class EditProfile extends AppCompatActivity {
     private UserActivitySession userActivitySession;
     private final int defaultImage = R.drawable.account;
     private boolean isRemoveProfile = false;
+    private long COUNTDOWN_TIME_MILLIS = 30000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +181,8 @@ public class EditProfile extends AppCompatActivity {
                     Toast.makeText(EditProfile.this, getString(R.string.toast_message_new_phone), Toast.LENGTH_SHORT).show();
                 } else {
                     dialog.dismiss();
-                    openOtpPage();
+                    sendOtp(newPhoneNumber);
+                    openOtpPage(newPhoneNumber);
                 }
             }
         });
@@ -186,14 +193,79 @@ public class EditProfile extends AppCompatActivity {
         dialog.show();
     }
 
-    private void openOtpPage() {
+    private void openOtpPage(String phone) {
+        AppCompatButton resentOtp, continueButton;
+        TextView phoneNo, countDownTimer;
+        EditText digit1, digit2, digit3, digit4;
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.otp_layout, null);
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
 
+        phoneNo = dialogView.findViewById(R.id.otp_phone_no);
+        phoneNo.setText(phone);
 
+        digit1 = dialogView.findViewById(R.id.otp_digit1);
+        digit2 = dialogView.findViewById(R.id.otp_digit2);
+        digit3 = dialogView.findViewById(R.id.otp_digit3);
+        digit4 = dialogView.findViewById(R.id.otp_digit4);
+
+        resentOtp = dialogView.findViewById(R.id.resend_otp_button);
+        continueButton = dialogView.findViewById(R.id.Continue_otp_page);
+        countDownTimer = dialogView.findViewById(R.id.countdown_timer);
+
+        startCountdown(resentOtp, countDownTimer, getApplicationContext(), COUNTDOWN_TIME_MILLIS);
+        setEditTextListeners(digit1, digit2, digit3, digit4);
+
+        resentOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (countDownTimer.getText().toString().equals("00:00")) {
+                    loadingOverlay.setVisibility(View.VISIBLE);
+                    startCountdown(resentOtp, countDownTimer, getApplicationContext(), COUNTDOWN_TIME_MILLIS);
+                    sendOtp(phone);
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_message_resend_otp), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
+                loadingOverlay.setVisibility(View.VISIBLE);
+                Integer userOtp = Integer.parseInt(enteredOtp);
+                Call<OtpVerifyResponse> call = RetrofitService.getClient().create(UserInterface.class).verifyOtp(phone, userOtp);
+                call.enqueue(new Callback<OtpVerifyResponse>() {
+                    @Override
+                    public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
+                        loadingOverlay.setVisibility(View.GONE);
+                        if (response.isSuccessful()) {
+                            OtpVerifyResponse otpVerifyResponse = response.body();
+                            UserModel userModel = otpVerifyResponse.getUser();
+
+                            Log.e(TAG, "id " + userModel.getId());
+                            Log.e(TAG, "phone no " + userModel.getPhone_no());
+
+                            userDetailSession.setPhoneNo(userModel.getPhone_no());
+                            tvPhone.setText(userModel.getPhone_no());
+                            dialog.dismiss();
+                        } else {
+                            handleApiError(TAG, response, getApplicationContext());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OtpVerifyResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+        });
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
         }
@@ -224,46 +296,6 @@ public class EditProfile extends AppCompatActivity {
             }
         });
         builder.create().show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery();
-            } else {
-                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                showProfileImage.setImageBitmap(bitmap);
-                showEditProfileButton();
-                imageFile = new File(getPathFromUri(getApplicationContext(), data.getData()));
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-                image = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void updateUserProfile() {
@@ -324,6 +356,7 @@ public class EditProfile extends AppCompatActivity {
                         UserModel userModel = editProfileResponse.getUserProfile();
 
                         if (userModel != null) {
+                            userDetailSession.setPhoneNo(userModel.getPhone_no());
                             userDetailSession.setImage(userModel.getImage());
                             userDetailSession.setName(userModel.getName());
                             userDetailSession.setEmail(userModel.getEmail());
@@ -388,6 +421,71 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
+    private void sendOtp(String phone) {
+        Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(phone);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse != null) {
+                        Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        loadingOverlay.setVisibility(View.GONE);
+                    }
+                } else {
+                    handleApiError(TAG, response, getApplicationContext());
+                    loadingOverlay.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                t.printStackTrace();
+                loadingOverlay.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                showProfileImage.setImageBitmap(bitmap);
+                showEditProfileButton();
+                imageFile = new File(getPathFromUri(getApplicationContext(), data.getData()));
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+                image = MultipartBody.Part.createFormData("image", imageFile.getName(), requestFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onPause() {
         super.onPause();
