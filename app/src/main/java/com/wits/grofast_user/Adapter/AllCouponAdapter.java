@@ -2,12 +2,15 @@ package com.wits.grofast_user.Adapter;
 
 import static com.wits.grofast_user.CommonUtilities.formatDate;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -53,6 +56,16 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
 //        holder.discount.setText(discountText);
         holder.amout.setText(item.getMax_amount());
         holder.code.setText(item.getCode());
+
+        holder.copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("text", item.getCode());
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, context.getString(R.string.toast_coupon_code_copied), Toast.LENGTH_SHORT).show();
+            }
+        });
         Log.e("TAG", "onBindViewHolder: status : " + item.getStatus());
         Log.e("TAG", "onBindViewHolder: type : " + item.getType());
     }
