@@ -1,6 +1,10 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +14,33 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.CartInterface;
+import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
+import com.wits.grofast_user.Api.responseClasses.CartFetchResponse;
+import com.wits.grofast_user.Api.responseModels.CartModel;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.List;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResentAddProductAdapter.ViewHolders> {
-    private List<Map<String, Object>> cartitem;
+    private List<CartModel> cartItems;
     private Context context;
 
-    public CartResentAddProductAdapter(Context context, List<Map<String, Object>> cartitem) {
+    private final String TAG = "CartResentAddProductAdapter";
+    private UserActivitySession userActivitySession;
+    private CartResentAddProductAdapter adapter;
+
+    public CartResentAddProductAdapter(List<CartModel> cartItems, Context context) {
+        this.cartItems = cartItems;
         this.context = context;
-        this.cartitem = cartitem;
     }
 
     @NonNull
@@ -32,33 +51,50 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
 
     @Override
     public void onBindViewHolder(@NonNull CartResentAddProductAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = cartitem.get(position);
-        holder.product_name.setText((String) item.get("Name"));
-        holder.product_price.setText((String) item.get("Price"));
-        holder.product_image.setImageResource((int) item.get("image"));
+        userActivitySession = new UserActivitySession(context);
+        adapter = this;
+        CartModel item = cartItems.get(position);
+        ProductModel product = item.getProduct();
+
+        holder.product_name.setText(product.getName());
+        holder.product_price.setText(item.getAmount().toString());
+        holder.totalquantity.setText(item.getQuantity().toString());
+
+        Glide.with(context).load(domain + product.getImage()).placeholder(R.drawable.apple).into(holder.product_image);
 
         holder.addquantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(holder.totalquantity.getText().toString());
-                holder.totalquantity.setText(String.valueOf(currentQuantity + 1));
+                Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(product.getId(), 1);
+
+                call.enqueue(new Callback<AddToCartResponse>() {
+                    @Override
+                    public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+                        if (response.isSuccessful()) {
+                            loadCartItems(null, null, null);
+                            Log.e(TAG, "onResponse: add to cart : message " + response.body().getMessage());
+                        } else handleApiError(TAG, response, context);
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             }
         });
 
         holder.removeqyantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(holder.totalquantity.getText().toString());
-                if (currentQuantity > 0) {
-                    holder.totalquantity.setText(String.valueOf(currentQuantity - 1));
-                }
+                removeCartItem(product.getId());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return cartitem.size();
+        return cartItems.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
@@ -74,5 +110,45 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             addquantity = itemView.findViewById(R.id.cart_add_product_quantity);
             totalquantity = itemView.findViewById(R.id.cart_total_product_quantity);
         }
+    }
+
+    private void loadCartItems(Integer tip, Integer couponCode, String aditionalNote) {
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(tip, couponCode, aditionalNote);
+        call.enqueue(new Callback<CartFetchResponse>() {
+            @Override
+            public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                if (response.isSuccessful()) {
+                    CartFetchResponse cartFetchResponse = response.body();
+                    cartItems = cartFetchResponse.getCartModelList();
+                    adapter.notifyDataSetChanged();
+                    Log.e(TAG, "onResponse: loadCartItems message : " + cartFetchResponse.getMessage());
+                } else handleApiError(TAG, response, context);
+            }
+
+            @Override
+            public void onFailure(Call<CartFetchResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void removeCartItem(int productId) {
+        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).removeCartItem(productId, 1);
+
+        call.enqueue(new Callback<AddToCartResponse>() {
+            @Override
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+                if (response.isSuccessful()) {
+                    loadCartItems(null, null, null);
+                    Log.e(TAG, "onResponse: add to cart : message " + response.body().getMessage());
+                }
+                handleApiError(TAG, response, context);
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
