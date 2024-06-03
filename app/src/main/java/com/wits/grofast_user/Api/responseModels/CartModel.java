@@ -1,34 +1,57 @@
 package com.wits.grofast_user.Api.responseModels;
 
 public class CartModel {
-    private Integer customer_id;
-    private Integer product_id;
-    private Integer quantity;
-    private String uuid;
-    private Integer id;
     private Integer amount;
 
-    public Integer getCustomer_id() {
-        return customer_id;
-    }
+    private Integer quantity;
 
-    public Integer getProduct_id() {
-        return product_id;
+    private String updated_at;
+
+    private Integer product_id;
+
+    private String created_at;
+
+    private Integer id;
+
+    private Integer customer_id;
+
+    private String uuid;
+
+    private ProductModel product;
+
+    public Integer getAmount() {
+        return amount;
     }
 
     public Integer getQuantity() {
         return quantity;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public Integer getProduct_id() {
+        return product_id;
+    }
+
+    public String getCreated_at() {
+        return created_at;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getCustomer_id() {
+        return customer_id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public ProductModel getProduct() {
+        return product;
     }
 }

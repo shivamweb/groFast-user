@@ -7,14 +7,12 @@ import static com.wits.grofast_user.CommonUtilities.showToast;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -145,7 +143,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
                     Log.e("Addtocart", "Product added to cart quantity :" + quantity);
-                    showToast(context,cartResponse.getMessage());
+                    showToast(context, cartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
                 }

@@ -3,6 +3,7 @@ package com.wits.grofast_user.MainHomePage;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +58,7 @@ public class HomePage extends AppCompatActivity {
     private CircleImageView userProfile;
     private View headerView;
     private UserDetailSession userDetailSession;
+    private final String TAG = "HomePage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,13 @@ public class HomePage extends AppCompatActivity {
         });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.navhome);
+
+        if (savedInstanceState == null) {
+            loadfragment(new HomeFragment(), true);
+        }
+
+
         frameLayout = findViewById(R.id.fragmentnav);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -121,8 +130,6 @@ public class HomePage extends AppCompatActivity {
                 return true;
             }
         });
-        bottomNavigationView.setSelectedItemId(R.id.navhome);
-        loadfragment(new HomeFragment(), true);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -171,7 +178,10 @@ public class HomePage extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentnav, fragment);
+        fragmentTransaction.addToBackStack(null); // Add to back stack for subsequent transactions
         fragmentTransaction.commit();
+
+        Log.e(TAG, "loadfragment: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
 
         if (fragment instanceof OffersFragment) {
             updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
@@ -257,5 +267,18 @@ public class HomePage extends AppCompatActivity {
         userName.setText(name);
         Glide.with(getApplicationContext()).load(userDetailSession.getImage()).placeholder(R.drawable.account).into(userProfile);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager.getBackStackEntryCount() <= 1) {
+            Log.e(TAG, "onBackPressed: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
+            finish();
+            super.onBackPressed(); // This will close the activity
+        } else {
+            fragmentManager.popBackStack();
+        }
     }
 }

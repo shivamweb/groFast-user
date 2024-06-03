@@ -6,17 +6,13 @@ import static com.wits.grofast_user.CommonUtilities.showToast;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -27,14 +23,12 @@ import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
 import com.wits.grofast_user.Api.responseClasses.CartResponse;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
-import com.wits.grofast_user.CommonUtilities;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.List;
 
-import jp.wasabeef.blurry.Blurry;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -148,7 +142,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
                     Log.e("Addtocart", "Product added to cart quantity :" + quantity);
-                    showToast(context,cartResponse.getMessage());
+                    showToast(context, cartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
                 }
