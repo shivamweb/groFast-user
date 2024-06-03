@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.wits.grofast_user.Adapter.AllOffersAdapter;
 import com.wits.grofast_user.Adapter.CartResentAddProductAdapter;
+import com.wits.grofast_user.Adapter.TaxesChargesAdapter;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
@@ -26,15 +27,17 @@ import java.util.List;
 import java.util.Map;
 
 public class CartFragment extends Fragment {
-
-    RecyclerView recyclerView_cart_resent_product;
+    RecyclerView recyclerView_cart_resent_product, taxes_charges_cart_recycleview;
     CartResentAddProductAdapter cartResentAddProduct;
-    List<Map<String, Object>> Items;
+    TaxesChargesAdapter taxesChargesAdapter;
+    List<Map<String, Object>> ResetItems;
+    List<Map<String, Object>> TaxesItems;
     TextView additem;
-    LinearLayout additemlayout, showedittextlayout;
-    EditText additemedittext;
-    AppCompatButton additembutton;
-    ImageView additemimage;
+    LinearLayout additemlayout, showeditItemtextlayout, addcartlayout, showeditCouponlayout, Taxeslayout;
+    EditText additemedittext, coupontext;
+    AppCompatButton additembutton, addCouponbutton;
+    ImageView additemimage, couponimagechange, Taxesimage;
+    LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,38 +52,80 @@ public class CartFragment extends Fragment {
 
         //Linear layout
         additemlayout = root.findViewById(R.id.cart_add_item_linearlayout);
-        showedittextlayout = root.findViewById(R.id.cart_add_item_show_detail_layout);
+        showeditItemtextlayout = root.findViewById(R.id.cart_add_item_show_detail_layout);
+        addcartlayout = root.findViewById(R.id.cart_add_coupon_layout);
+        showeditCouponlayout = root.findViewById(R.id.cart_add_coupon_show_detail_layout);
+        Taxeslayout = root.findViewById(R.id.cart_add_taxes_layout);
 
         //Edittext
         additemedittext = root.findViewById(R.id.cart_add_item_edittext);
+        coupontext = root.findViewById(R.id.cart_add_coupon_edittext);
 
         //Button
         additembutton = root.findViewById(R.id.cart_add_item_button);
+        addCouponbutton = root.findViewById(R.id.cart_add_coupon_button);
 
         //Image view
         additemimage = root.findViewById(R.id.cart_add_item_image);
+        couponimagechange = root.findViewById(R.id.cart_add_coupon_image);
+        Taxesimage = root.findViewById(R.id.cart_add_taxes_image);
+
+        Taxeslayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (taxes_charges_cart_recycleview.getVisibility() == View.VISIBLE) {
+                    taxes_charges_cart_recycleview.setVisibility(View.GONE);
+                    Taxesimage.setImageResource(R.drawable.hide_arrow);
+                } else {
+                    taxes_charges_cart_recycleview.setVisibility(View.VISIBLE);
+                    Taxesimage.setImageResource(R.drawable.arrow_up);
+                }
+            }
+        });
 
         additemlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (showedittextlayout.getVisibility() == View.VISIBLE) {
-                    showedittextlayout.setVisibility(View.GONE);
+                if (showeditItemtextlayout.getVisibility() == View.VISIBLE) {
+                    showeditItemtextlayout.setVisibility(View.GONE);
                     additemimage.setImageResource(R.drawable.hide_arrow);
                 } else {
-                    showedittextlayout.setVisibility(View.VISIBLE);
+                    showeditItemtextlayout.setVisibility(View.VISIBLE);
                     additemimage.setImageResource(R.drawable.arrow_up);
                 }
             }
         });
 
-        //Cart Item
+        addcartlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showeditCouponlayout.getVisibility() == View.VISIBLE) {
+                    showeditCouponlayout.setVisibility(View.GONE);
+                    couponimagechange.setImageResource(R.drawable.hide_arrow);
+                } else {
+                    showeditCouponlayout.setVisibility(View.VISIBLE);
+                    couponimagechange.setImageResource(R.drawable.arrow_up);
+                }
+            }
+        });
+
+        //Resent Cart Item
         recyclerView_cart_resent_product = root.findViewById(R.id.fragment_cart_resent_product);
-        Items = new ArrayList<>();
+        ResetItems = new ArrayList<>();
         loadCartProductItem();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
-        cartResentAddProduct = new CartResentAddProductAdapter(getContext(), Items);
+        cartResentAddProduct = new CartResentAddProductAdapter(getContext(), ResetItems);
         recyclerView_cart_resent_product.setAdapter(cartResentAddProduct);
+
+        //Taxes Charges cart item
+        taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
+        TaxesItems = new ArrayList<>();
+        loadTaxesItem();
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        taxes_charges_cart_recycleview.setLayoutManager(linearLayoutManager);
+        taxesChargesAdapter = new TaxesChargesAdapter(getContext(), TaxesItems);
+        taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
 
         additem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +155,26 @@ public class CartFragment extends Fragment {
         item3.put("Price", "2000");
         item3.put("image", R.drawable.gobhi_image);
 
-        Items.add(item1);
-        Items.add(item2);
-        Items.add(item3);
+        ResetItems.add(item1);
+        ResetItems.add(item2);
+        ResetItems.add(item3);
+    }
+
+    private void loadTaxesItem() {
+        Map<String, Object> item1 = new HashMap<>();
+        item1.put("Name", "Gobhi vegitable haha");
+        item1.put("SubName", "2000");
+
+        Map<String, Object> item2 = new HashMap<>();
+        item2.put("Name", "Gobhi tomato");
+        item2.put("SubName", "2000");
+
+        Map<String, Object> item3 = new HashMap<>();
+        item3.put("Name", "Gobhi catego");
+        item3.put("SubName", "2000");
+
+        TaxesItems.add(item1);
+        TaxesItems.add(item2);
+        TaxesItems.add(item3);
     }
 }

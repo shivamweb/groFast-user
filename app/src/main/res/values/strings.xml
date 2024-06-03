@@ -122,6 +122,7 @@
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>
     <string name="add_product_name">Add item which not found in menu</string>
+    <string name="add_coupon_name">Enter Coupon code</string>
 
     //My Address
     <string name="edit_address">Edit Address</string>
