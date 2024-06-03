@@ -33,6 +33,7 @@ import com.wits.grofast_user.Details.Notification;
 import com.wits.grofast_user.Details.NotificationSetting;
 import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.Details.Wallethistory;
+import com.wits.grofast_user.Enums.FragmentEnum;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -104,28 +105,34 @@ public class HomePage extends AppCompatActivity {
         });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.navhome);
 
         if (savedInstanceState == null) {
-            loadfragment(new HomeFragment(), true);
+            loadfragment(new HomeFragment(), FragmentEnum.HOME.getTag());
+            bottomNavigationView.setSelectedItemId(R.id.navhome);
         }
 
 
         frameLayout = findViewById(R.id.fragmentnav);
+        bottomNavigationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.navproduct) {
-                    loadfragment(new ProductFragment(), false);
+                    loadfragment(new ProductFragment(), FragmentEnum.PRODUCT.getTag());
                 } else if (id == R.id.navoffers) {
-                    loadfragment(new OffersFragment(), false);
+                    loadfragment(new OffersFragment(), FragmentEnum.OFFER.getTag());
                 } else if (id == R.id.navhome) {
-                    loadfragment(new HomeFragment(), true);
+                    loadfragment(new HomeFragment(), FragmentEnum.HOME.getTag());
                 } else if (id == R.id.navcart) {
-                    loadfragment(new CartFragment(), false);
+                    loadfragment(new CartFragment(), FragmentEnum.CART.getTag());
                 } else {
-                    loadfragment(new HistoryFragment(), false);
+                    loadfragment(new HistoryFragment(), FragmentEnum.HISTORY.getTag());
                 }
                 return true;
             }
@@ -136,13 +143,13 @@ public class HomePage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.menu_home) {
-                    loadfragment(new HomeFragment(), false);
+                    loadfragment(new HomeFragment(), FragmentEnum.HOME.getTag());
                 } else if (id == R.id.menu_enable_location) {
 
                 } else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
                 } else if (id == R.id.menu_offers) {
-                    loadfragment(new OffersFragment(), false);
+                    loadfragment(new OffersFragment(), FragmentEnum.OFFER.getTag());
                 } else if (id == R.id.menu_wallet) {
                     if (userDetailSession.isWalletActivated())
                         startActivity(new Intent(HomePage.this, Wallethistory.class));
@@ -174,14 +181,12 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    private void loadfragment(Fragment fragment, boolean isAppInitialized) {
+    private void loadfragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentnav, fragment);
+        fragmentTransaction.replace(R.id.fragmentnav, fragment, tag);
         fragmentTransaction.addToBackStack(null); // Add to back stack for subsequent transactions
         fragmentTransaction.commit();
-
-        Log.e(TAG, "loadfragment: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
 
         if (fragment instanceof OffersFragment) {
             updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
@@ -249,6 +254,18 @@ public class HomePage extends AppCompatActivity {
         LocationItems.add(item3);
     }
 
+//    private void updateBottomNavigation(String tag) {
+//        Log.e(TAG, "updateBottomNavigation: tag " + tag);
+//        if (tag != null) {
+//            if (tag != null) {
+//                FragmentEnum item = FragmentEnum.fromTag(tag);
+//                if (item != null) {
+//                    bottomNavigationView.setSelectedItemId(item.getNavId());
+//                }
+//            }
+//        }
+//    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -272,13 +289,16 @@ public class HomePage extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 
-        if (fragmentManager.getBackStackEntryCount() <= 1) {
-            Log.e(TAG, "onBackPressed: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
-            finish();
-            super.onBackPressed(); // This will close the activity
+        Log.e(TAG, "onBackPressed: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
+        if (backStackEntryCount <= 1) {
+            super.onBackPressed();
+            finish();// This will close the activity
         } else {
+            String previousFragmentTag = fragmentManager.findFragmentById(R.id.fragmentnav).getTag();
             fragmentManager.popBackStack();
+//            updateBottomNavigation(fragmentManager.findFragmentById(R.id.fragmentnav).getTag());
         }
     }
 }
