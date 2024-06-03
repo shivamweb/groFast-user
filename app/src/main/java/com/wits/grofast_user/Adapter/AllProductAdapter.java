@@ -7,14 +7,12 @@ import static com.wits.grofast_user.CommonUtilities.showToast;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -23,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
-import com.wits.grofast_user.Api.responseClasses.CartResponse;
+import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
@@ -133,26 +131,26 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
 
     private void Addtocart(ViewHolders holder, int id, int amount, int quantity) {
         UserActivitySession userActivitySession = new UserActivitySession(context);
-        Call<CartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, amount, quantity);
-        call.enqueue(new Callback<CartResponse>() {
+        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, amount, quantity);
+        call.enqueue(new Callback<AddToCartResponse>() {
             @Override
-            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
                 if (response.isSuccessful()) {
                     holder.btn_add_to_cart.setVisibility(View.VISIBLE);
                     holder.progressBar.setVisibility(View.GONE);
-                    CartResponse cartResponse = response.body();
-                    Log.e("Addtocart", "Product added to cart message :" + cartResponse.getMessage());
+                    AddToCartResponse addToCartResponse = response.body();
+                    Log.e("Addtocart", "Product added to cart message :" + addToCartResponse.getMessage());
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
                     Log.e("Addtocart", "Product added to cart quantity :" + quantity);
-                    showToast(context,cartResponse.getMessage());
+                    showToast(context, addToCartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
                 }
             }
 
             @Override
-            public void onFailure(Call<CartResponse> call, Throwable t) {
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
 
             }
         });
