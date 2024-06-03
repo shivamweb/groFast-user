@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
-import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
+import com.wits.grofast_user.Api.responseClasses.CartResponse;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
@@ -131,26 +131,26 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
 
     private void Addtocart(ViewHolders holder, int id, int amount, int quantity) {
         UserActivitySession userActivitySession = new UserActivitySession(context);
-        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, amount, quantity);
-        call.enqueue(new Callback<AddToCartResponse>() {
+        Call<CartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, amount, quantity);
+        call.enqueue(new Callback<CartResponse>() {
             @Override
-            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
                 if (response.isSuccessful()) {
                     holder.btn_add_to_cart.setVisibility(View.VISIBLE);
                     holder.progressBar.setVisibility(View.GONE);
-                    AddToCartResponse addToCartResponse = response.body();
-                    Log.e("Addtocart", "Product added to cart message :" + addToCartResponse.getMessage());
+                    CartResponse cartResponse = response.body();
+                    Log.e("Addtocart", "Product added to cart message :" + cartResponse.getMessage());
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
                     Log.e("Addtocart", "Product added to cart quantity :" + quantity);
-                    showToast(context, addToCartResponse.getMessage());
+                    showToast(context, cartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
                 }
             }
 
             @Override
-            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+            public void onFailure(Call<CartResponse> call, Throwable t) {
 
             }
         });

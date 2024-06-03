@@ -1,6 +1,6 @@
 package com.wits.grofast_user.Api.responseModels;
 
-public class CartItem {
+public class CartModel {
     private Integer amount;
 
     private Integer quantity;
@@ -16,6 +16,8 @@ public class CartItem {
     private Integer customer_id;
 
     private String uuid;
+
+    private ProductModel product;
 
     public Integer getAmount() {
         return amount;
@@ -47,5 +49,9 @@ public class CartItem {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public ProductModel getProduct() {
+        return product;
     }
 }
