@@ -1,13 +1,8 @@
 package com.wits.grofast_user.MainHomePage;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +11,49 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wits.grofast_user.Adapter.AllOffersAdapter;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.wits.grofast_user.Adapter.CartResentAddProductAdapter;
 import com.wits.grofast_user.Adapter.TaxesChargesAdapter;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.CartInterface;
+import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
+import com.wits.grofast_user.Api.responseClasses.CartFetchResponse;
+import com.wits.grofast_user.Api.responseModels.CartModel;
+import com.wits.grofast_user.Api.responseModels.TaxAndCharge;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CartFragment extends Fragment {
     RecyclerView recyclerView_cart_resent_product, taxes_charges_cart_recycleview;
-    CartResentAddProductAdapter cartResentAddProduct;
+    CartResentAddProductAdapter cartItemsAdapter;
     TaxesChargesAdapter taxesChargesAdapter;
-    List<Map<String, Object>> ResetItems;
+    //    List<Map<String, Object>> ResetItems;
     List<Map<String, Object>> TaxesItems;
+
+    private List<CartModel> cartModelList = new ArrayList<>();
+    private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
+    private UserActivitySession userActivitySession;
     TextView additem;
     LinearLayout additemlayout, showeditItemtextlayout, addcartlayout, showeditCouponlayout, Taxeslayout;
     EditText additemedittext, coupontext;
     AppCompatButton additembutton, addCouponbutton;
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
+    private final String TAG = "CartFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +65,7 @@ public class CartFragment extends Fragment {
         }
 
         additem = root.findViewById(R.id.cart_add_more_item);
+        userActivitySession = new UserActivitySession(getContext());
 
         //Linear layout
         additemlayout = root.findViewById(R.id.cart_add_item_linearlayout);
@@ -111,12 +128,10 @@ public class CartFragment extends Fragment {
 
         //Resent Cart Item
         recyclerView_cart_resent_product = root.findViewById(R.id.fragment_cart_resent_product);
-        ResetItems = new ArrayList<>();
-        loadCartProductItem();
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
-        cartResentAddProduct = new CartResentAddProductAdapter(getContext(), ResetItems);
-        recyclerView_cart_resent_product.setAdapter(cartResentAddProduct);
+
+        loadCartItems(null, null, null);
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
@@ -139,27 +154,27 @@ public class CartFragment extends Fragment {
         return root;
     }
 
-    private void loadCartProductItem() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Gobhi vegitable haha");
-        item1.put("Price", "2000");
-        item1.put("image", R.drawable.gobhi_image);
+    private void loadCartItems(Integer tip, Integer couponCode, String aditionalNote) {
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(tip, couponCode, aditionalNote);
 
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "Gobhi tomato");
-        item2.put("Price", "2000");
-        item2.put("image", R.drawable.gobhi_image);
+        call.enqueue(new Callback<CartFetchResponse>() {
+            @Override
+            public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                if (response.isSuccessful()) {
+                    CartFetchResponse cartFetchResponse = response.body();
+                    cartModelList = cartFetchResponse.getCartModelList();
 
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("Name", "Gobhi catego");
-        item3.put("Price", "2000");
-        item3.put("image", R.drawable.gobhi_image);
+                    cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext());
+                    recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
+                } else handleApiError(TAG, response, getContext());
+            }
 
-        ResetItems.add(item1);
-        ResetItems.add(item2);
-        ResetItems.add(item3);
+            @Override
+            public void onFailure(Call<CartFetchResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
-
     private void loadTaxesItem() {
         Map<String, Object> item1 = new HashMap<>();
         item1.put("Name", "Gobhi vegitable haha");
