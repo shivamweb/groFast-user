@@ -130,6 +130,14 @@ public class CartFragment extends Fragment {
             }
         });
 
+        addCouponbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userActivitySession.setCoupon(coupontext.getText().toString());
+                loadCartItems(null);
+            }
+        });
+
         View.OnClickListener tipClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,9 +156,28 @@ public class CartFragment extends Fragment {
                     tipamount.setVisibility(View.GONE);
                 }
 
-                loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
+                loadCartItems(null);
             }
         };
+
+        coupontext.setText(userActivitySession.getCoupon());
+        additemedittext.setText(userActivitySession.getAditionalNote());
+        additemedittext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                userActivitySession.storeAditionalNote(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         tipamount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -165,7 +192,7 @@ public class CartFragment extends Fragment {
 //                } else userActivitySession.setTip(null);
                 Log.e(TAG, "onTextChanged: tip text " + s.toString());
                 userActivitySession.setTip(s.toString());
-                loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
+                loadCartItems(null);
             }
 
             @Override
@@ -250,7 +277,7 @@ public class CartFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
 
-        loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
+        loadCartItems(null);
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
@@ -270,8 +297,8 @@ public class CartFragment extends Fragment {
         return root;
     }
 
-    private void loadCartItems(Integer tip, Integer couponCode, String aditionalNote) {
-        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(tip, couponCode, aditionalNote);
+    private void loadCartItems(String aditionalNote) {
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), userActivitySession.getCoupon(), aditionalNote);
         startProgrtessBar();
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
