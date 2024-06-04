@@ -41,6 +41,19 @@ public class UserActivitySession {
         return sharedPreferences.getInt("productFetchIndicator", 0);
     }
 
+    public void setTip(String tip) {
+        editor.putString("userOrderTip", tip);
+        editor.apply();
+    }
+
+    public String getTip() {
+        String tip = sharedPreferences.getString("userOrderTip", "0");
+        if (tip.equals("")) {
+            tip = "0";
+        }
+        return tip;
+    }
+
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
