@@ -145,7 +145,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
                     Log.e("Addtocart", "Product added to cart quantity :" + quantity);
-                    showToast(context, cartResponse.getMessage());
+                    showToast(context, addToCartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
                 }

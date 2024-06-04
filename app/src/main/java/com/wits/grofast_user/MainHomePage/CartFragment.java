@@ -63,10 +63,6 @@ public class CartFragment extends Fragment {
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
     private UserActivitySession userActivitySession;
-    TextView additem;
-    LinearLayout additemlayout, showeditItemtextlayout, addcartlayout, showeditCouponlayout, Taxeslayout;
-    EditText additemedittext, coupontext;
-    AppCompatButton additembutton, addCouponbutton;
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
     private final String TAG = "CartFragment";
