@@ -14,8 +14,8 @@ public class CartFetchResponse {
     @SerializedName("cartDetails")
     private List<CartModel> cartModelList;
 
-    private Integer subtotal;
-    private Integer total;
+    private Double subtotal;
+    private Double total;
 
     @SerializedName("tax_and_charges")
     private List<TaxAndCharge> taxAndCharges;
@@ -32,11 +32,11 @@ public class CartFetchResponse {
         return cartModelList;
     }
 
-    public Integer getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public Integer getTotal() {
+    public Double getTotal() {
         return total;
     }
 

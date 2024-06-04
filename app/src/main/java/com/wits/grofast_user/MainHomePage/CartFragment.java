@@ -43,7 +43,8 @@ public class CartFragment extends Fragment {
     CartResentAddProductAdapter cartItemsAdapter;
     TaxesChargesAdapter taxesChargesAdapter;
 
-    TextView additem, couponLink, tip20, tip30, tipother, grandTotal, subTotal;
+    TextView additem, couponLink, tip20, tip30, tipother;
+    private static TextView grandTotal, subTotal;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
     AppCompatButton additembutton, addCouponbutton, checkout;
@@ -212,8 +213,8 @@ public class CartFragment extends Fragment {
 
                     subTotal.setText(cartFetchResponse.getSubtotal().toString());
                     grandTotal.setText(cartFetchResponse.getTotal().toString());
-                    cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext());
                     taxesChargesAdapter = new TaxesChargesAdapter(getContext(), taxAndCharges);
+                    cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext(), taxes_charges_cart_recycleview);
 
                     recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
                     taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
@@ -252,5 +253,13 @@ public class CartFragment extends Fragment {
                 getResources().getDimensionPixelSize(R.dimen.padding_left_right),
                 selectedTip.getPaddingBottom()
         );
+    }
+
+    public static TextView getSubTotalTextView() {
+        return subTotal;
+    }
+
+    public static TextView getGrandTotalTotalTextView() {
+        return grandTotal;
     }
 }
