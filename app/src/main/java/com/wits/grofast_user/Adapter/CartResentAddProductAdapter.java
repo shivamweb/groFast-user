@@ -21,6 +21,8 @@ import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
 import com.wits.grofast_user.Api.responseClasses.CartFetchResponse;
 import com.wits.grofast_user.Api.responseModels.CartModel;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
+import com.wits.grofast_user.Api.responseModels.TaxAndCharge;
+import com.wits.grofast_user.MainHomePage.CartFragment;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
@@ -33,14 +35,16 @@ import retrofit2.Response;
 public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResentAddProductAdapter.ViewHolders> {
     private List<CartModel> cartItems;
     private Context context;
+    private RecyclerView recyclerView;
 
     private final String TAG = "CartResentAddProductAdapter";
     private UserActivitySession userActivitySession;
     private CartResentAddProductAdapter adapter;
 
-    public CartResentAddProductAdapter(List<CartModel> cartItems, Context context) {
+    public CartResentAddProductAdapter(List<CartModel> cartItems, Context context, RecyclerView recyclerView) {
         this.cartItems = cartItems;
         this.context = context;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -66,7 +70,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             @Override
             public void onClick(View v) {
                 Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(product.getId(), 1);
-
+                CartFragment.startProgrtessBar();
                 call.enqueue(new Callback<AddToCartResponse>() {
                     @Override
                     public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
@@ -117,10 +121,19 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                CartFragment.stopProgrtessBar();
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartItems = cartFetchResponse.getCartModelList();
+                    List<TaxAndCharge> taxAndCharges = cartFetchResponse.getTaxAndCharges();
+                    TaxesChargesAdapter taxesChargesAdapter = new TaxesChargesAdapter(context, taxAndCharges);
+
+                    recyclerView.setAdapter(taxesChargesAdapter);
                     adapter.notifyDataSetChanged();
+
+                    CartFragment.getSubTotalTextView().setText(cartFetchResponse.getSubtotal().toString());
+                    CartFragment.getGrandTotalTotalTextView().setText(cartFetchResponse.getTotal().toString());
+
                     Log.e(TAG, "onResponse: loadCartItems message : " + cartFetchResponse.getMessage());
                 } else handleApiError(TAG, response, context);
             }
@@ -128,13 +141,14 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             @Override
             public void onFailure(Call<CartFetchResponse> call, Throwable t) {
                 t.printStackTrace();
+                CartFragment.stopProgrtessBar();
             }
         });
     }
 
     private void removeCartItem(int productId) {
         Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).removeCartItem(productId, 1);
-
+        CartFragment.startProgrtessBar();
         call.enqueue(new Callback<AddToCartResponse>() {
             @Override
             public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {

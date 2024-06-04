@@ -9,18 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.TaxAndCharge;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class TaxesChargesAdapter extends RecyclerView.Adapter<TaxesChargesAdapter.ViewHolders> {
-    private List<Map<String, Object>> itemlist;
+    private List<TaxAndCharge> taxAndCharges;
     private Context context;
 
-    public TaxesChargesAdapter(Context context, List<Map<String, Object>> itemlist) {
+    public TaxesChargesAdapter(Context context, List<TaxAndCharge> taxAndCharges) {
         this.context = context;
-        this.itemlist = itemlist;
+        this.taxAndCharges = taxAndCharges;
     }
 
     @NonNull
@@ -31,14 +31,14 @@ public class TaxesChargesAdapter extends RecyclerView.Adapter<TaxesChargesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TaxesChargesAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = itemlist.get(position);
-        holder.name.setText((String) item.get("Name"));
-        holder.subname.setText((String) item.get("SubName"));
+        TaxAndCharge item = taxAndCharges.get(position);
+        holder.name.setText(item.getText());
+        holder.subname.setText("" + item.getValue());
     }
 
     @Override
     public int getItemCount() {
-        return itemlist.size();
+        return taxAndCharges.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

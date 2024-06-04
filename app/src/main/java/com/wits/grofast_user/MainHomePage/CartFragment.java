@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -32,9 +33,7 @@ import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,15 +43,19 @@ public class CartFragment extends Fragment {
     RecyclerView recyclerView_cart_resent_product, taxes_charges_cart_recycleview;
     CartResentAddProductAdapter cartItemsAdapter;
     TaxesChargesAdapter taxesChargesAdapter;
-    //    List<Map<String, Object>> ResetItems;
-    List<Map<String, Object>> TaxesItems;
-    TextView additem, couponLink, tip20, tip30, tipother, grandTotal, subTotal;
+
+    TextView additem, couponLink, tip20, tip30, tipother;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
     AppCompatButton additembutton, addCouponbutton, checkout;
 
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
+
+    private static TextView grandTotal, subTotal;
+    private static ProgressBar progressBar;
+    private static LinearLayout cartLinearLayout;
+
     private UserActivitySession userActivitySession;
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
@@ -101,6 +104,10 @@ public class CartFragment extends Fragment {
         couponimagechange = root.findViewById(R.id.cart_add_coupon_image);
         Taxesimage = root.findViewById(R.id.cart_add_taxes_image);
 
+        progressBar = root.findViewById(R.id.progress_bar_cart_fragment);
+        cartLinearLayout = root.findViewById(R.id.cart_linear_layout);
+
+        startProgrtessBar();
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,12 +193,9 @@ public class CartFragment extends Fragment {
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
-        TaxesItems = new ArrayList<>();
-        loadTaxesItem();
+
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         taxes_charges_cart_recycleview.setLayoutManager(linearLayoutManager);
-        taxesChargesAdapter = new TaxesChargesAdapter(getContext(), TaxesItems);
-        taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
 
         additem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,41 +215,29 @@ public class CartFragment extends Fragment {
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                stopProgrtessBar();
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
+                    taxAndCharges = cartFetchResponse.getTaxAndCharges();
 
                     subTotal.setText(cartFetchResponse.getSubtotal().toString());
                     grandTotal.setText(cartFetchResponse.getTotal().toString());
-                    cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext());
+                    taxesChargesAdapter = new TaxesChargesAdapter(getContext(), taxAndCharges);
+                    cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext(), taxes_charges_cart_recycleview);
+
                     recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
+                    taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
                 } else handleApiError(TAG, response, getContext());
             }
 
             @Override
             public void onFailure(Call<CartFetchResponse> call, Throwable t) {
+                stopProgrtessBar();
                 t.printStackTrace();
             }
         });
     }
-    private void loadTaxesItem() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Gobhi vegitable haha");
-        item1.put("SubName", "2000");
-
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "Gobhi tomato");
-        item2.put("SubName", "2000");
-
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("Name", "Gobhi catego");
-        item3.put("SubName", "2000");
-
-        TaxesItems.add(item1);
-        TaxesItems.add(item2);
-        TaxesItems.add(item3);
-    }
-
     private void resetTipSelection() {
         resetTip(tip20);
         resetTip(tip30);
@@ -272,5 +264,21 @@ public class CartFragment extends Fragment {
                 getResources().getDimensionPixelSize(R.dimen.padding_left_right),
                 selectedTip.getPaddingBottom()
         );
+    }
+
+    public static TextView getSubTotalTextView() {
+        return subTotal;
+    }
+
+    public static TextView getGrandTotalTotalTextView() {
+        return grandTotal;
+    }
+
+    public static void startProgrtessBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public static void stopProgrtessBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }
