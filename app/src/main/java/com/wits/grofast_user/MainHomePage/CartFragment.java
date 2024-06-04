@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -44,13 +45,17 @@ public class CartFragment extends Fragment {
     TaxesChargesAdapter taxesChargesAdapter;
 
     TextView additem, couponLink, tip20, tip30, tipother;
-    private static TextView grandTotal, subTotal;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
     AppCompatButton additembutton, addCouponbutton, checkout;
 
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
+
+    private static TextView grandTotal, subTotal;
+    private static ProgressBar progressBar;
+    private static LinearLayout cartLinearLayout;
+
     private UserActivitySession userActivitySession;
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
@@ -99,6 +104,10 @@ public class CartFragment extends Fragment {
         couponimagechange = root.findViewById(R.id.cart_add_coupon_image);
         Taxesimage = root.findViewById(R.id.cart_add_taxes_image);
 
+        progressBar = root.findViewById(R.id.progress_bar_cart_fragment);
+        cartLinearLayout = root.findViewById(R.id.cart_linear_layout);
+
+        startProgrtessBar();
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +215,7 @@ public class CartFragment extends Fragment {
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                stopProgrtessBar();
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
@@ -223,6 +233,7 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CartFetchResponse> call, Throwable t) {
+                stopProgrtessBar();
                 t.printStackTrace();
             }
         });
@@ -261,5 +272,13 @@ public class CartFragment extends Fragment {
 
     public static TextView getGrandTotalTotalTextView() {
         return grandTotal;
+    }
+
+    public static void startProgrtessBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public static void stopProgrtessBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }

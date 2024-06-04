@@ -70,7 +70,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             @Override
             public void onClick(View v) {
                 Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(product.getId(), 1);
-
+                CartFragment.startProgrtessBar();
                 call.enqueue(new Callback<AddToCartResponse>() {
                     @Override
                     public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
@@ -121,6 +121,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
+                CartFragment.stopProgrtessBar();
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartItems = cartFetchResponse.getCartModelList();
@@ -140,13 +141,14 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             @Override
             public void onFailure(Call<CartFetchResponse> call, Throwable t) {
                 t.printStackTrace();
+                CartFragment.stopProgrtessBar();
             }
         });
     }
 
     private void removeCartItem(int productId) {
         Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).removeCartItem(productId, 1);
-
+        CartFragment.startProgrtessBar();
         call.enqueue(new Callback<AddToCartResponse>() {
             @Override
             public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
