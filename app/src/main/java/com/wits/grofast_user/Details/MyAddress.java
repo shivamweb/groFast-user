@@ -5,16 +5,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
 import com.wits.grofast_user.Adapter.ShowAllAddressAdapter;
 import com.wits.grofast_user.R;
 
@@ -51,40 +47,11 @@ public class MyAddress extends AppCompatActivity {
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAddAddressDialogbox();
+                Intent i =new Intent(getApplicationContext(),AddAddress.class);
+                startActivity(i);
             }
         });
 
-    }
-
-    private void openAddAddressDialogbox() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.add_address_layout, null);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-
-        ImageView close = dialogView.findViewById(R.id.close_add_address);
-        TextView add = dialogView.findViewById(R.id.add_address_textview);
-        TextView edit = dialogView.findViewById(R.id.edit_address_textview);
-        AppCompatButton savebutton = dialogView.findViewById(R.id.all_address_save);
-        AppCompatButton editbutton = dialogView.findViewById(R.id.all_address_edit);
-
-        edit.setVisibility(View.GONE);
-        add.setVisibility(View.VISIBLE);
-        savebutton.setVisibility(View.VISIBLE);
-        editbutton.setVisibility(View.GONE);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
-        }
-        dialog.show();
     }
 
     private void loadAddressItems() {

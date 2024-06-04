@@ -8,16 +8,22 @@
     tools:context=".MainHomePage.CartFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/cart_data_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/linear_padding"
+            android:layout_marginTop="@dimen/linear_padding"
+            android:layout_marginEnd="@dimen/linear_padding"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/cart_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/linear_padding"
-                android:layout_marginTop="@dimen/linear_padding"
-                android:layout_marginEnd="@dimen/linear_padding"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
@@ -371,23 +377,24 @@
                                     android:textColor="@color/Login_theme"
                                     android:textSize="@dimen/small_text" />
 
+                                <EditText
+                                    android:id="@+id/tip_amount_enter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@drawable/button_line"
+                                    android:drawableStart="@drawable/baseline_currency_rupee_24"
+                                    android:drawableTint="@color/Login_theme"
+                                    android:hint="@string/add_amount"
+                                    android:inputType="number"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:textColor="@color/Login_theme"
+                                    android:textSize="@dimen/hint_text_size"
+                                    android:visibility="gone" />
+
                             </LinearLayout>
 
-                            <EditText
-                                android:id="@+id/tip_amount_enter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/button_line"
-                                android:hint="@string/add_amount"
-                                android:paddingLeft="20dp"
-                                android:drawableStart="@drawable/baseline_currency_rupee_24"
-                                android:visibility="gone"
-                                android:drawableTint="@color/Login_theme"
-                                android:paddingRight="20dp"
-                                android:inputType="number"
-                                android:textColor="@color/Login_theme"
-                                android:textSize="@dimen/hint_text_size" />
 
                         </LinearLayout>
 
@@ -436,6 +443,9 @@
                     android:textSize="@dimen/button_text_size" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 

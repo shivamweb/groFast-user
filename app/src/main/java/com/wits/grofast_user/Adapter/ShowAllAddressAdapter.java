@@ -1,7 +1,7 @@
 package com.wits.grofast_user.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Details.EditAddress;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -40,40 +40,10 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showEditDialog();
+                Intent in = new Intent(context, EditAddress.class);
+                context.startActivity(in);
             }
         });
-    }
-
-    private void showEditDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View dialogView = inflater.inflate(R.layout.add_address_layout, null);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-
-        ImageView close = dialogView.findViewById(R.id.close_add_address);
-        TextView add = dialogView.findViewById(R.id.add_address_textview);
-        TextView edit = dialogView.findViewById(R.id.edit_address_textview);
-        AppCompatButton savebutton = dialogView.findViewById(R.id.all_address_save);
-        AppCompatButton editbutton = dialogView.findViewById(R.id.all_address_edit);
-
-        edit.setVisibility(View.VISIBLE);
-        add.setVisibility(View.GONE);
-        savebutton.setVisibility(View.GONE);
-        editbutton.setVisibility(View.VISIBLE);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
-        }
-        dialog.show();
     }
 
     @Override

@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/linear_padding"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/linear_padding">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -25,8 +25,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -38,12 +38,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="Name"
                     android:textSize="@dimen/hint_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="Number"
                     android:textSize="@dimen/hint_text_size" />
 
@@ -51,6 +53,198 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_corners">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recieved_by"
+                    android:textColor="@color/Login_theme"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/name"
+                    android:textColor="@color/default_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textview_design"
+                    android:hint="@string/recieved_name"
+                    android:padding="@dimen/textview_inner_padding"
+                    android:textColor="@color/textview_text_color"
+                    android:textColorHint="@color/default_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/phone_number"
+                    android:textColor="@color/default_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textview_design"
+                    android:hint="@string/recieved_number"
+                    android:padding="@dimen/textview_inner_padding"
+                    android:textColor="@color/textview_text_color"
+                    android:textColorHint="@color/default_color" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_corners">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/baseline_location_on_24"
+                        android:drawablePadding="5dp"
+                        android:layout_weight="1"
+                        android:drawableTint="@color/Login_theme"
+                        android:text="@string/delivery_address"
+                        android:textColor="@color/Login_theme"
+                        android:textSize="@dimen/text_size" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/change_selected_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:text="@string/change_button"
+                        android:textAllCaps="false"
+                        android:background="@drawable/selected_text"
+                        android:textColor="@color/button_text_color"/>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/selected_delivery_address_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/color_button"
+                    android:text="@string/delivery_address_btn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_text_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+                <TextView
+                    android:id="@+id/selected_address_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/hint_text_size"
+                    android:textColor="@color/default_color"
+                    android:text="he"
+                    android:visibility="gone"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_corners">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/baseline_payment_24"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/Login_theme"
+                    android:text="@string/payment"
+                    android:textColor="@color/Login_theme"
+                    android:textSize="@dimen/text_size" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/cash_on_Delivery_radiobtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:buttonTint="@color/textview_text_color"
+                        android:drawableRight="@drawable/cash"
+                        android:drawablePadding="5dp"
+                        android:text="@string/cash"
+                        android:textColor="@color/textview_text_color"
+                        android:textSize="@dimen/hint_text_size" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/place_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/place_order"
+            android:textSize="@dimen/hint_text_size"
+            android:textAllCaps="false"
+            android:background="@drawable/color_button"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/button_text_color"/>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

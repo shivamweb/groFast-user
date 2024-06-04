@@ -1,57 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Details.EditAddress">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/add_address_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/add_address_button"
-                android:textColor="@color/textview_text_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/edit_address_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/edit_address"
-                android:textColor="@color/textview_text_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/close_add_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:src="@drawable/baseline_close_24" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line_color" />
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,7 +35,6 @@
                 android:background="@drawable/textview_design"
                 android:hint="@string/hint_enter_address"
                 android:inputType="textMultiLine"
-                android:maxLines="10"
                 android:overScrollMode="always"
                 android:padding="@dimen/textview_inner_padding"
                 android:scrollbars="vertical"
@@ -99,9 +57,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/textview_design"
-                android:text="@string/India"
                 android:padding="@dimen/textview_inner_padding"
                 android:scrollbars="vertical"
+                android:text="@string/India"
                 android:textColor="@color/textview_text_color"
                 android:textColorHint="@color/default_color"
                 android:textSize="16sp" />
@@ -120,9 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/textview_design"
-                android:text="@string/Bihar"
                 android:padding="@dimen/textview_inner_padding"
                 android:scrollbars="vertical"
+                android:text="@string/Bihar"
                 android:textColor="@color/textview_text_color"
                 android:textColorHint="@color/default_color"
                 android:textSize="16sp" />
@@ -168,21 +126,6 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/all_address_save"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/round_background"
-            android:gravity="center"
-            android:text="@string/save_address_button"
-            android:textAllCaps="false"
-            android:textColor="@color/button_text_color"
-            android:textSize="@dimen/button_text_size" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/all_address_edit"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -195,8 +138,7 @@
             android:text="@string/update_address_button"
             android:textAllCaps="false"
             android:textColor="@color/button_text_color"
-            android:textSize="@dimen/button_text_size"
-            android:visibility="gone" />
+            android:textSize="@dimen/button_text_size" />
 
     </LinearLayout>
 

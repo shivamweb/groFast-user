@@ -79,6 +79,10 @@ public class HomePage extends AppCompatActivity {
         notification = findViewById(R.id.notification_home);
         headerView = navigationView.getHeaderView(0);
 
+        if (getIntent().getBooleanExtra("openHomeFragment", false)) {
+            openProductFragment();
+        }
+
         menuBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +164,7 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, NotificationSetting.class));
                 } else if (id == R.id.menu_notification) {
                     startActivity(new Intent(HomePage.this, Notification.class));
-                }  else if (id == R.id.menu_cart) {
+                } else if (id == R.id.menu_cart) {
                     loadfragment(new CartFragment(), FragmentEnum.CART.getTag());
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
@@ -193,12 +197,12 @@ public class HomePage extends AppCompatActivity {
         if (fragment instanceof OffersFragment) {
             updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
         } else if (fragment instanceof ProductFragment) {
-            updateActionBar(getString(R.string.bottom_menu_product),0, 0);
+            updateActionBar(getString(R.string.bottom_menu_product), 0, 0);
         } else if (fragment instanceof CartFragment) {
-            updateActionBar(getString(R.string.bottom_menu_cart),0, 0);
-        }else if (fragment instanceof HistoryFragment) {
-            updateActionBar(getString(R.string.bottom_menu_history),0, 0);
-        }else {
+            updateActionBar(getString(R.string.bottom_menu_cart), 0, 0);
+        } else if (fragment instanceof HistoryFragment) {
+            updateActionBar(getString(R.string.bottom_menu_history), 0, 0);
+        } else {
             updateActionBar(getString(R.string.set_location), R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
         }
     }
@@ -258,18 +262,6 @@ public class HomePage extends AppCompatActivity {
         LocationItems.add(item3);
     }
 
-//    private void updateBottomNavigation(String tag) {
-//        Log.e(TAG, "updateBottomNavigation: tag " + tag);
-//        if (tag != null) {
-//            if (tag != null) {
-//                FragmentEnum item = FragmentEnum.fromTag(tag);
-//                if (item != null) {
-//                    bottomNavigationView.setSelectedItemId(item.getNavId());
-//                }
-//            }
-//        }
-//    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -298,11 +290,19 @@ public class HomePage extends AppCompatActivity {
         Log.e(TAG, "onBackPressed: BackStackEntryCount " + fragmentManager.getBackStackEntryCount());
         if (backStackEntryCount <= 1) {
             super.onBackPressed();
-            finish();// This will close the activity
+            finish();
         } else {
             String previousFragmentTag = fragmentManager.findFragmentById(R.id.fragmentnav).getTag();
             fragmentManager.popBackStack();
-//            updateBottomNavigation(fragmentManager.findFragmentById(R.id.fragmentnav).getTag());
         }
+    }
+
+    public void openProductFragment() {
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentnav, homeFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
