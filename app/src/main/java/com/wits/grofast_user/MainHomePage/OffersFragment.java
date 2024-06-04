@@ -32,12 +32,12 @@ public class OffersFragment extends Fragment {
         if (getActivity() instanceof HomePage) {
             ((HomePage) getActivity()).updateActionBar(getString(R.string.bottom_menu_offers), 0, 0);
         }
+
+        //offer Item
         recyclerView = root.findViewById(R.id.all_offers_recycleview);
         offerItems = new ArrayList<>();
 
         loadOffersItem();
-
-        //offer Item
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         allOffersAdapter = new AllOffersAdapter(getContext(), offerItems);

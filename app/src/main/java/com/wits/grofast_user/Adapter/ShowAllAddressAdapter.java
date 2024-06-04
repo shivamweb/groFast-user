@@ -35,8 +35,6 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
     @Override
     public void onBindViewHolder(@NonNull ShowAllAddressAdapter.ViewHolders holder, int position) {
         Map<String, Object> item = AllAddress.get(position);
-        holder.name.setText((String) item.get("Name"));
-        holder.mobile.setText((String) item.get("Mobile"));
         holder.address.setText((String) item.get("Address"));
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +82,11 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
-        TextView name, mobile, address;
+        TextView address;
         ImageView edit;
 
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.all_address_name);
-            mobile = itemView.findViewById(R.id.all_address_number);
             address = itemView.findViewById(R.id.all_address_address);
             edit = itemView.findViewById(R.id.all_address_edit);
         }

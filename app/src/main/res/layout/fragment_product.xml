@@ -90,6 +90,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="hello"
+                android:textSize="40dp"
+                android:visibility="invisible"/>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -101,5 +108,18 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/complete_order_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp"
+        android:background="@drawable/round_background"
+        android:gravity="center"
+        android:text="@string/complete_button"
+        android:textAllCaps="false"
+        android:textColor="@color/button_text_color"
+        android:textSize="@dimen/button_text_size" />
 
 </FrameLayout>
