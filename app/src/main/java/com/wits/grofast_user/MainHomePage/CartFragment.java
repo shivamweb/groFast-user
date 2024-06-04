@@ -5,6 +5,9 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +60,7 @@ public class CartFragment extends Fragment {
     private static LinearLayout cartLinearLayout;
 
     private UserActivitySession userActivitySession;
+    private String selectedTip = "0";
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
     private final String TAG = "CartFragment";
@@ -107,7 +111,6 @@ public class CartFragment extends Fragment {
         progressBar = root.findViewById(R.id.progress_bar_cart_fragment);
         cartLinearLayout = root.findViewById(R.id.cart_linear_layout);
 
-        startProgrtessBar();
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,13 +125,60 @@ public class CartFragment extends Fragment {
                 resetTipSelection();
                 updateTipSelection((TextView) v);
 
+                userActivitySession.setTip("0");
+
+                selectedTip = ((TextView) v).getText().toString();
+                if (!selectedTip.equals(getString(R.string.other))) {
+                    userActivitySession.setTip(selectedTip);
+                }
                 if (v == tipother) {
                     tipamount.setVisibility(View.VISIBLE);
                 } else {
                     tipamount.setVisibility(View.GONE);
                 }
+
+                loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
             }
         };
+
+        tipamount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (!s.toString().equals("")) {
+//                    userActivitySession.setTip(s.toString());
+//                } else userActivitySession.setTip(null);
+                Log.e(TAG, "onTextChanged: tip text " + s.toString());
+                userActivitySession.setTip(s.toString());
+                loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        final String sessionTip = userActivitySession.getTip();
+        if (!sessionTip.equals("0")) {
+            Log.e(TAG, "onCreateView: session tip " + sessionTip);
+            if (sessionTip.equals(tip20.getText().toString())) {
+                resetTipSelection();
+                updateTipSelection(tip20);
+            } else if (sessionTip.equals(tip30.getText().toString())) {
+                resetTipSelection();
+                updateTipSelection(tip30);
+            } else {
+                resetTipSelection();
+                updateTipSelection(tipother);
+                tipamount.setText(sessionTip);
+                tipamount.setVisibility(View.VISIBLE);
+            }
+        }
 
         tip20.setOnClickListener(tipClickListener);
         tip30.setOnClickListener(tipClickListener);
@@ -189,7 +239,7 @@ public class CartFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
 
-        loadCartItems(null, null, null);
+        loadCartItems(Integer.parseInt(userActivitySession.getTip()), null, null);
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
@@ -211,7 +261,7 @@ public class CartFragment extends Fragment {
 
     private void loadCartItems(Integer tip, Integer couponCode, String aditionalNote) {
         Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(tip, couponCode, aditionalNote);
-
+        startProgrtessBar();
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {

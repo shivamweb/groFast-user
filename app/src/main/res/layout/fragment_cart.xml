@@ -233,7 +233,7 @@
                                     android:id="@+id/subtotal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="50000"
+                                    android:text="00"
                                     android:textColor="@color/textview_text_color"
                                     android:textSize="@dimen/hint_text_size" />
 
@@ -290,7 +290,7 @@
                                     android:id="@+id/grand_total"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="50000"
+                                    android:text="00"
                                     android:textColor="@color/textview_text_color"
                                     android:textSize="@dimen/hint_text_size" />
 
