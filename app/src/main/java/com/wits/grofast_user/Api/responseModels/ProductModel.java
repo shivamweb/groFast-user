@@ -23,7 +23,7 @@ public class ProductModel {
 
     private Integer tax_id;
 
-    private Integer retail_price;
+    private Integer final_price;
 
     private Integer category_id;
 
@@ -76,8 +76,8 @@ public class ProductModel {
         return tax_id;
     }
 
-    public Integer getRetail_price() {
-        return retail_price;
+    public Integer getFinal_price() {
+        return final_price;
     }
 
     public Integer getCategory_id() {

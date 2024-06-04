@@ -10,5 +10,6 @@
     <dimen name="top_margin">30dp</dimen>
     <dimen name="notification_top">10dp</dimen>
     <dimen name="offer_image_size">85dp</dimen>
-    <dimen name="textview_inner_padding">15dp</dimen>
+    <dimen name="textview_inner_padding">12dp</dimen>
+    <dimen name="padding_left_right">20dp</dimen>
 </resources>

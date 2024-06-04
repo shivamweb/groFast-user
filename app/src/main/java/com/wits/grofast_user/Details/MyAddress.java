@@ -89,13 +89,9 @@ public class MyAddress extends AppCompatActivity {
 
     private void loadAddressItems() {
         Map<String, Object> item1 = new HashMap<>();
-        item1.put("Name", "Home");
-        item1.put("Mobile", "9685745896");
         item1.put("Address", "Bharuch");
 
         Map<String, Object> item2 = new HashMap<>();
-        item2.put("Name", "Office");
-        item2.put("Mobile", "8958958958");
         item2.put("Address", "Ankleshwar");
 
         AddressItems.add(item1);

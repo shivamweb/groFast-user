@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +54,7 @@ public class ProductFragment extends Fragment {
     LinearLayout load;
     private final String TAG = "ProductFragment";
     private UserActivitySession userActivitySession;
+    AppCompatButton completeorderbtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +70,7 @@ public class ProductFragment extends Fragment {
         recyclerView = root.findViewById(R.id.all_product_recycleview);
         load = root.findViewById(R.id.progress_bar_product_page);
         show_data = root.findViewById(R.id.show_product_data);
+        completeorderbtn = root.findViewById(R.id.complete_order_btn);
 
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -78,6 +82,16 @@ public class ProductFragment extends Fragment {
         } else {
             getProducts(1);
         }
+
+        completeorderbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentnav, new CartFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         return root;
     }

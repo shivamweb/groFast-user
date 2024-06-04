@@ -55,7 +55,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
         ProductModel item = productList.get(position);
         holder.name.setText(item.getName());
         holder.weight.setText(item.getQuantity().toString() + " " + item.getUnitName());
-        holder.price.setText(item.getPrice().toString());
+        holder.price.setText(item.getFinal_price().toString());
         Glide.with(context).load(domain + item.getImage()).placeholder(R.drawable.gobhi_image).into(holder.image);
 
         holder.image.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +64,11 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 intent.putExtra("Name", item.getName());
                 intent.putExtra("Weight", item.getQuantity().toString() + " " + item.getUnitName());
-                intent.putExtra("Price", item.getRetail_price().toString());
+                intent.putExtra("Price", item.getFinal_price().toString());
                 intent.putExtra("Description", item.getProduct_detail());
                 intent.putExtra("image", domain + item.getImage());
+                intent.putExtra("quantity", holder.total_product_quantity.getText());
+                intent.putExtra("ProductId", item.getId());
                 Log.e("TAG", "onClick: weight : " + item.getQuantity());
                 Log.e("TAG", "onClick: product id : " + item.getId());
                 context.startActivity(intent);
@@ -96,7 +98,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
             public void onClick(View v) {
                 int quantity = Integer.parseInt(holder.total_product_quantity.getText().toString());
                 int amount = item.getPrice();
-                Addtocart(holder,item.getId(), amount, quantity);
+                Addtocart(holder, item.getId(), amount, quantity);
                 holder.btn_add_to_cart.setVisibility(View.GONE);
                 holder.progressBar.setVisibility(View.VISIBLE);
             }

@@ -110,6 +110,8 @@
     <string name="add_button">Add</string>
     <string name="activate_wallet_button">Activate Wallet</string>
     <string name="checkout_button">Checkout</string>
+    <string name="complete_button">Complete order</string>
+    <string name="reorder_button">Reorder</string>
 
     //Edit Page Details
     <string name="name">Name</string>
@@ -130,6 +132,10 @@
     <string name="full_address">Full Address</string>
     <string name="hint_enter_address">Enter Address</string>
     <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="India">India</string>
+    <string name="Bihar">Bihar</string>
     <string name="pincode">Pincode</string>
 
     //Product details
@@ -180,11 +186,20 @@
     <string name="add_additional_product">Add Additional Product</string>
     <string name="add_coupon">Add Coupon</string>
     <string name="total_item">Item Total</string>
+    <string name="qty">Qty : - </string>
+    <string name="Order_id">Order Id</string>
     <string name="Tex">Taxes &amp; charges</string>
     <string name="grand_total">Grand Total</string>
     <string name="tip">Please tip your delivery partner</string>
     <string name="other">Other</string>
     <string name="cancelation_policy">Cancellation Policy</string>
+    <string name="show_coupon">Show Coupon</string>
+    <string name="add_amount">Enter Amount</string>
+    <string name="Invoice">Invoice</string>
+    <string name="Total">Total : </string>
+
+    //Payment Details
+    <string name="order_by">Order by : </string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_profile_activity">Edit Profile</string>

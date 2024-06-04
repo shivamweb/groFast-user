@@ -52,47 +52,37 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/round_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:id="@+id/remove_product_detail_quantity"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_background"
                             android:src="@drawable/baseline_remove_24" />
 
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="wrap_content"
-                            android:background="@color/line_color" />
-
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/total_product_detail_quantity"
+                            android:layout_width="30dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="0"
+                            android:text="1"
                             android:textColor="@color/textview_text_color"
                             android:textSize="@dimen/button_text_size" />
 
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="wrap_content"
-                            android:background="@color/line_color" />
-
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:id="@+id/add_product_detail_quantity"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
+                            android:background="@drawable/rectangle_background"
                             android:src="@drawable/baseline_add_24" />
-
 
                     </LinearLayout>
 
@@ -116,11 +106,12 @@
 
                     <TextView
                         android:id="@+id/product_detail_price"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:drawableLeft="@drawable/baseline_currency_rupee_24"
                         android:text="2000"
+                        android:gravity="center"
+                        android:layout_marginEnd="10dp"
                         android:textColor="@color/textview_text_color"
                         android:textSize="@dimen/text_size" />
 
@@ -176,13 +167,22 @@
                     android:layout_marginBottom="20dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/product_detail_add_to_cart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_background"
                     android:text="@string/add_cart_button"
                     android:textAllCaps="false"
+                    android:visibility="visible"
                     android:textColor="@color/button_text_color"
                     android:textSize="@dimen/button_text_size" />
+
+                <ProgressBar
+                    android:id="@+id/loader_product_cart_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

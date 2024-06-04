@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/linear_padding"
+        android:padding="10dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -15,7 +15,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/linear_padding">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/add_address_textview"
@@ -58,72 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/linear_padding">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:hint="@string/user_name"
-                android:padding="@dimen/textview_inner_padding"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/phone_number"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/country_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="+91"
-                    android:textColor="@color/textview_text_color"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/line_color" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/hint_phone_number"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:padding="@dimen/textview_inner_padding"
-                    android:textColor="@color/textview_text_color"
-                    android:textColorHint="@color/default_color"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -143,6 +78,49 @@
                 android:inputType="textMultiLine"
                 android:maxLines="10"
                 android:overScrollMode="always"
+                android:padding="@dimen/textview_inner_padding"
+                android:scrollbars="vertical"
+                android:textColor="@color/textview_text_color"
+                android:textColorHint="@color/default_color"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/country"
+                android:textColor="@color/default_color"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textview_design"
+                android:text="@string/India"
+                android:padding="@dimen/textview_inner_padding"
+                android:scrollbars="vertical"
+                android:textColor="@color/textview_text_color"
+                android:textColorHint="@color/default_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/state"
+                android:textColor="@color/default_color"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textview_design"
+                android:text="@string/Bihar"
                 android:padding="@dimen/textview_inner_padding"
                 android:scrollbars="vertical"
                 android:textColor="@color/textview_text_color"
@@ -195,6 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_background"
             android:gravity="center"
@@ -209,6 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/round_background"
             android:gravity="center"

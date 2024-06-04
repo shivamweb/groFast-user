@@ -160,6 +160,8 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, NotificationSetting.class));
                 } else if (id == R.id.menu_notification) {
                     startActivity(new Intent(HomePage.this, Notification.class));
+                }  else if (id == R.id.menu_cart) {
+                    loadfragment(new CartFragment(), false);
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
@@ -194,6 +196,8 @@ public class HomePage extends AppCompatActivity {
             updateActionBar(getString(R.string.bottom_menu_product),0, 0);
         } else if (fragment instanceof CartFragment) {
             updateActionBar(getString(R.string.bottom_menu_cart),0, 0);
+        }else if (fragment instanceof HistoryFragment) {
+            updateActionBar(getString(R.string.bottom_menu_history),0, 0);
         }else {
             updateActionBar(getString(R.string.set_location), R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
         }
