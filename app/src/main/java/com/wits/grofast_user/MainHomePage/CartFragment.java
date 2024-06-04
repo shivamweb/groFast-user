@@ -141,6 +141,7 @@ public class CartFragment extends Fragment {
         View.OnClickListener tipClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 resetTipSelection();
                 updateTipSelection((TextView) v);
 
@@ -156,6 +157,9 @@ public class CartFragment extends Fragment {
                     tipamount.setVisibility(View.GONE);
                 }
 
+                if (v == tip20 || v == tip30) {
+                    tipamount.setText("");
+                }
                 loadCartItems(null);
             }
         };
