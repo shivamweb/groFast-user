@@ -161,7 +161,7 @@ public class HomePage extends AppCompatActivity {
                 } else if (id == R.id.menu_notification) {
                     startActivity(new Intent(HomePage.this, Notification.class));
                 }  else if (id == R.id.menu_cart) {
-                    loadfragment(new CartFragment(), false);
+                    loadfragment(new CartFragment(), FragmentEnum.CART.getTag());
                 } else if (id == R.id.menu_edit_profile) {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
