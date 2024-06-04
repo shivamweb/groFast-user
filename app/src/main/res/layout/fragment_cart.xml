@@ -8,8 +8,17 @@
     tools:context=".MainHomePage.CartFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/cart_data_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/linear_padding"
+            android:layout_marginTop="@dimen/linear_padding"
+            android:layout_marginEnd="@dimen/linear_padding"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/cart_linear_layout"
