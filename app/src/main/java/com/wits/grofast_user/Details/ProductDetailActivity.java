@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Adapter.RelatedProductAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
-import com.wits.grofast_user.Api.responseClasses.CartResponse;
+import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
@@ -122,14 +122,14 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void Addtocart(int id, int amount, int quantity) {
         UserActivitySession userActivitySession = new UserActivitySession(getApplicationContext());
-        Call<CartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, amount, quantity);
-        call.enqueue(new Callback<CartResponse>() {
+        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id,quantity);
+        call.enqueue(new Callback<AddToCartResponse>() {
             @Override
-            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
                 if (response.isSuccessful()) {
                     add_to_cart.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
-                    CartResponse cartResponse = response.body();
+                    AddToCartResponse cartResponse = response.body();
                     Log.e("Addtocart", "Product added to cart message :" + cartResponse.getMessage());
                     Log.e("Addtocart", "Product added to cart id : " + id);
                     Log.e("Addtocart", "Product added to cart amount : " + amount);
@@ -141,7 +141,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CartResponse> call, Throwable t) {
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
 
             }
         });
