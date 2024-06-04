@@ -380,23 +380,24 @@
                                     android:textColor="@color/Login_theme"
                                     android:textSize="@dimen/small_text" />
 
+                                <EditText
+                                    android:id="@+id/tip_amount_enter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/button_line"
+                                    android:hint="@string/add_amount"
+                                    android:paddingLeft="20dp"
+                                    android:layout_marginStart="10dp"
+                                    android:drawableStart="@drawable/baseline_currency_rupee_24"
+                                    android:visibility="gone"
+                                    android:drawableTint="@color/Login_theme"
+                                    android:paddingRight="20dp"
+                                    android:inputType="number"
+                                    android:textColor="@color/Login_theme"
+                                    android:textSize="@dimen/hint_text_size" />
+
                             </LinearLayout>
 
-                            <EditText
-                                android:id="@+id/tip_amount_enter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/button_line"
-                                android:hint="@string/add_amount"
-                                android:paddingLeft="20dp"
-                                android:drawableStart="@drawable/baseline_currency_rupee_24"
-                                android:visibility="gone"
-                                android:drawableTint="@color/Login_theme"
-                                android:paddingRight="20dp"
-                                android:inputType="number"
-                                android:textColor="@color/Login_theme"
-                                android:textSize="@dimen/hint_text_size" />
 
                         </LinearLayout>
 
