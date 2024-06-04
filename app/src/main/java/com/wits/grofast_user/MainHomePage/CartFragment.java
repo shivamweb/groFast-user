@@ -5,14 +5,6 @@ import static com.wits.grofast_user.CommonUtilities.handleApiError;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +23,6 @@ import com.wits.grofast_user.Adapter.CartResentAddProductAdapter;
 import com.wits.grofast_user.Adapter.TaxesChargesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
-import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
 import com.wits.grofast_user.Api.responseClasses.CartFetchResponse;
 import com.wits.grofast_user.Api.responseModels.CartModel;
 import com.wits.grofast_user.Api.responseModels.TaxAndCharge;
@@ -55,7 +46,7 @@ public class CartFragment extends Fragment {
     TaxesChargesAdapter taxesChargesAdapter;
     //    List<Map<String, Object>> ResetItems;
     List<Map<String, Object>> TaxesItems;
-    TextView additem, couponLink, tip20, tip30, tipother;
+    TextView additem, couponLink, tip20, tip30, tipother, grandTotal, subTotal;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
     AppCompatButton additembutton, addCouponbutton, checkout;
@@ -83,6 +74,8 @@ public class CartFragment extends Fragment {
         tip20 = root.findViewById(R.id.tip_20);
         tip30 = root.findViewById(R.id.tip_30);
         tipother = root.findViewById(R.id.tip_other);
+        subTotal = root.findViewById(R.id.subtotal);
+        grandTotal = root.findViewById(R.id.grand_total);
         userActivitySession = new UserActivitySession(getContext());
 
         //Linear layout
@@ -222,6 +215,8 @@ public class CartFragment extends Fragment {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
 
+                    subTotal.setText(cartFetchResponse.getSubtotal().toString());
+                    grandTotal.setText(cartFetchResponse.getTotal().toString());
                     cartItemsAdapter = new CartResentAddProductAdapter(cartModelList, getContext());
                     recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
                 } else handleApiError(TAG, response, getContext());

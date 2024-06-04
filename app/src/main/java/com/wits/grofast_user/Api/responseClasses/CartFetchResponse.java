@@ -8,19 +8,19 @@ import java.util.List;
 
 public class CartFetchResponse {
 
-    private int status;
+    private Integer status;
     private String message;
 
     @SerializedName("cartDetails")
     private List<CartModel> cartModelList;
 
-    private int subtotal;
-    private int total;
+    private Integer subtotal;
+    private Integer total;
 
     @SerializedName("tax_and_charges")
     private List<TaxAndCharge> taxAndCharges;
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -32,11 +32,11 @@ public class CartFetchResponse {
         return cartModelList;
     }
 
-    public int getSubtotal() {
+    public Integer getSubtotal() {
         return subtotal;
     }
 
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
