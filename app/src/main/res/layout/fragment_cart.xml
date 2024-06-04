@@ -193,7 +193,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:background="@drawable/color_button"
-                                android:text="@string/add_button"
+                                android:text="@string/apply_button"
                                 android:textAllCaps="false" />
 
                         </LinearLayout>
@@ -380,19 +380,16 @@
                                 <EditText
                                     android:id="@+id/tip_amount_enter"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="40dp"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:background="@drawable/button_line"
                                     android:drawableStart="@drawable/baseline_currency_rupee_24"
                                     android:drawableTint="@color/Login_theme"
                                     android:hint="@string/add_amount"
                                     android:inputType="number"
-                                    android:paddingLeft="20dp"
-                                    android:paddingRight="20dp"
                                     android:textColor="@color/Login_theme"
                                     android:textSize="@dimen/hint_text_size"
                                     android:visibility="gone" />
-
                             </LinearLayout>
 
 

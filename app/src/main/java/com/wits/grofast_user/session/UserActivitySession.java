@@ -54,6 +54,24 @@ public class UserActivitySession {
         return tip;
     }
 
+    public void setCoupon(String tip) {
+        editor.putString("userOrderCoupon", tip.trim());
+        editor.apply();
+    }
+
+    public String getCoupon() {
+        return sharedPreferences.getString("userOrderCoupon", "");
+    }
+
+    public void storeAditionalNote(String tip) {
+        editor.putString("userAditionalNote", tip.trim());
+        editor.apply();
+    }
+
+    public String getAditionalNote() {
+        return sharedPreferences.getString("userAditionalNote", "");
+    }
+
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

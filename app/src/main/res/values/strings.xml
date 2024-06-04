@@ -109,6 +109,7 @@
     <string name="update_address_button">Update Address</string>
     <string name="add_cart_button">Add item</string>
     <string name="add_button">Add</string>
+    <string name="apply_button">Apply</string>
     <string name="activate_wallet_button">Activate Wallet</string>
     <string name="checkout_button">Checkout</string>
     <string name="complete_button">Complete order</string>

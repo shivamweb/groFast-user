@@ -75,7 +75,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
                     @Override
                     public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
                         if (response.isSuccessful()) {
-                            loadCartItems(null, null);
+                            loadCartItems(null);
                             Log.e(TAG, "onResponse: add to cart : message " + response.body().getMessage());
                         } else handleApiError(TAG, response, context);
                     }
@@ -116,8 +116,8 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
         }
     }
 
-    private void loadCartItems(Integer couponCode, String aditionalNote) {
-        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), couponCode, aditionalNote);
+    private void loadCartItems(String aditionalNote) {
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), userActivitySession.getCoupon(), aditionalNote);
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
@@ -153,7 +153,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
             @Override
             public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
                 if (response.isSuccessful()) {
-                    loadCartItems(null, null);
+                    loadCartItems(null);
                     Log.e(TAG, "onResponse: add to cart : message " + response.body().getMessage());
                 }
                 handleApiError(TAG, response, context);
