@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wits.grofast_user.Adapter.AddresslistAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.AddressInterface;
+import com.wits.grofast_user.Api.interfaces.OrderInterface;
 import com.wits.grofast_user.Api.responseClasses.AddressFetchResponse;
+import com.wits.grofast_user.Api.responseClasses.OrderPlaceResponse;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.R;
@@ -98,7 +100,7 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderPlaceDialog();
+//                placeOrder();
             }
         });
     }
@@ -208,6 +210,25 @@ public class PaymentDetails extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AddressFetchResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void placeOrder(Integer totalAmount, String couponCode, float discount, int deleveryCharges, float cgst, float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
+
+        Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(totalAmount, couponCode, discount, deleveryCharges, cgst, sgst, tip, aditionalNote, addressId, receiverName, receiverPhone, paymentMethod);
+
+        call.enqueue(new Callback<OrderPlaceResponse>() {
+            @Override
+            public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
+                if (response.isSuccessful()) {
+                    OrderPlaceDialog();
+                } else handleApiError(TAG, response, getApplicationContext());
+            }
+
+            @Override
+            public void onFailure(Call<OrderPlaceResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });
