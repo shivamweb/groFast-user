@@ -12,7 +12,7 @@ public interface CartInterface {
     Call<AddToCartResponse> addToCart(@Query("product_id") Integer product_id, @Query("quantity") Integer quantity);
 
     @POST("fetchCartDetails")
-    Call<CartFetchResponse> fetchCartDetails(@Query("tip") Integer tip, @Query("coupon_code") String couponCode, @Query("aditional_note") String aditionalNote);
+    Call<CartFetchResponse> fetchCartDetails(@Query("tip") Integer tip, @Query("coupon") String couponCode, @Query("aditional_note") String aditionalNote);
 
     @POST("remove-cart")
     Call<AddToCartResponse> removeCartItem(@Query("product_id") Integer product_id, @Query("quantity") Integer quantity);

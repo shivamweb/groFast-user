@@ -8,15 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -133,8 +125,7 @@ public class CartFragment extends Fragment {
         addCouponbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userActivitySession.setCoupon(coupontext.getText().toString());
-                loadCartItems(null);
+                loadCartItems(coupontext.getText().toString(), null);
             }
         });
 
@@ -160,7 +151,7 @@ public class CartFragment extends Fragment {
                 if (v == tip20 || v == tip30) {
                     tipamount.setText("");
                 }
-                loadCartItems(null);
+                loadCartItems(userActivitySession.getCoupon(), null);
             }
         };
 
@@ -196,7 +187,7 @@ public class CartFragment extends Fragment {
 //                } else userActivitySession.setTip(null);
                 Log.e(TAG, "onTextChanged: tip text " + s.toString());
                 userActivitySession.setTip(s.toString());
-                loadCartItems(null);
+                loadCartItems(userActivitySession.getCoupon(), null);
             }
 
             @Override
@@ -281,7 +272,7 @@ public class CartFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
 
-        loadCartItems(null);
+        loadCartItems(userActivitySession.getCoupon(), null);
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
@@ -301,8 +292,8 @@ public class CartFragment extends Fragment {
         return root;
     }
 
-    private void loadCartItems(String aditionalNote) {
-        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), userActivitySession.getCoupon(), aditionalNote);
+    private void loadCartItems(String couponCode, String aditionalNote) {
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), couponCode, aditionalNote);
         startProgrtessBar();
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
@@ -312,6 +303,8 @@ public class CartFragment extends Fragment {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
                     taxAndCharges = cartFetchResponse.getTaxAndCharges();
+
+                    userActivitySession.setCoupon(couponCode);
 
                     subTotal.setText(cartFetchResponse.getSubtotal().toString());
                     grandTotal.setText(cartFetchResponse.getTotal().toString());
