@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_button">
-
-        <ScrollView
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -29,5 +25,4 @@
                 <include layout="@layout/shimmer_item_history" />
             </LinearLayout>
         </ScrollView>
-    </com.facebook.shimmer.ShimmerFrameLayout>
-</LinearLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>
