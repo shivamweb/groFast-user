@@ -1,17 +1,14 @@
 package com.wits.grofast_user.Details;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +19,27 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.wits.grofast_user.Adapter.AddresslistAdapter;
-import com.wits.grofast_user.Adapter.ShowAllAddressAdapter;
-import com.wits.grofast_user.MainActivity;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.AddressInterface;
+import com.wits.grofast_user.Api.responseClasses.AddressFetchResponse;
+import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
+import com.wits.grofast_user.session.UserDetailSession;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PaymentDetails extends AppCompatActivity {
     RadioButton radioButton;
@@ -39,9 +47,13 @@ public class PaymentDetails extends AppCompatActivity {
     TextView newaddress, selectedaddressshow;
     RecyclerView address_list_recyclerView;
     AddresslistAdapter addresslistAdapter;
-    List<Map<String, Object>> AddressItems;
     ImageView close;
     Dialog dialog;
+    private TextView customerName, customerNumber;
+    private List<AddressModel> addressList = new ArrayList<>();
+    private UserDetailSession userDetailSession;
+    private UserActivitySession userActivitySession;
+    private final String TAG = "PaymentDetails";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +66,20 @@ public class PaymentDetails extends AppCompatActivity {
         radioButton = findViewById(R.id.cash_on_Delivery_radiobtn);
         radioButton.setChecked(true);
 
+        userDetailSession = new UserDetailSession(getApplicationContext());
+        userActivitySession = new UserActivitySession(getApplicationContext());
+
         select_address = findViewById(R.id.selected_delivery_address_btn);
         changeaddress = findViewById(R.id.change_selected_address);
         selectedaddressshow = findViewById(R.id.selected_address_textview);
         placeOrder = findViewById(R.id.place_order);
+
+        customerName = findViewById(R.id.payment_customer_name);
+        customerNumber = findViewById(R.id.payment_customer_number);
+
+        customerName.setText("Name : " + userDetailSession.getName());
+        customerNumber.setText("Number : " + userDetailSession.getPhoneNo());
+
         select_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +129,7 @@ public class PaymentDetails extends AppCompatActivity {
     }
 
     private void showAddressBottomSheet() {
+        getCustomerAddress();
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.addressbottomsheet);
@@ -116,21 +139,10 @@ public class PaymentDetails extends AppCompatActivity {
 
         //Item
         address_list_recyclerView = dialog.findViewById(R.id.bottom_sheet_address_list_recycleview);
-        AddressItems = new ArrayList<>();
-        loadAddresslistItems();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         address_list_recyclerView.setLayoutManager(linearLayoutManager);
-        addresslistAdapter = new AddresslistAdapter(this, AddressItems, new AddresslistAdapter.OnDeliveryButtonClickListener() {
-            @Override
-            public void onDeliveryButtonClick(String address) {
-                selectedaddressshow.setText(address);
-                selectedaddressshow.setVisibility(View.VISIBLE);
-                changeaddress.setVisibility(View.VISIBLE);
-                select_address.setVisibility(View.GONE);
-                dismissDialog();
-            }
-        });
-        address_list_recyclerView.setAdapter(addresslistAdapter);
+
         newaddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +158,6 @@ public class PaymentDetails extends AppCompatActivity {
             }
         });
 
-
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -154,16 +165,6 @@ public class PaymentDetails extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    private void loadAddresslistItems() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Address", "94, Yogeshwar nagar, Gadkhol patiya, Ankleshwar, 393001");
-
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Address", "B-119, Shaym villa, kapodara Road, Ankleshwar, 393001");
-
-        AddressItems.add(item1);
-        AddressItems.add(item2);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,5 +179,35 @@ public class PaymentDetails extends AppCompatActivity {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    private void getCustomerAddress() {
+        Call<AddressFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(AddressInterface.class).fetchCustmerAddress();
+        call.enqueue(new Callback<AddressFetchResponse>() {
+            @Override
+            public void onResponse(Call<AddressFetchResponse> call, Response<AddressFetchResponse> response) {
+                if (response.isSuccessful()) {
+                    AddressFetchResponse addressFetchResponse = response.body();
+                    addressList = addressFetchResponse.getAddressList();
+                    addresslistAdapter = new AddresslistAdapter(getApplicationContext(), addressList, new AddresslistAdapter.OnDeliveryButtonClickListener() {
+                        @Override
+                        public void onDeliveryButtonClick(String address) {
+                            selectedaddressshow.setText(address);
+                            selectedaddressshow.setVisibility(View.VISIBLE);
+                            changeaddress.setVisibility(View.VISIBLE);
+                            select_address.setVisibility(View.GONE);
+                            dismissDialog();
+                        }
+                    });
+                    address_list_recyclerView.setAdapter(addresslistAdapter);
+                    Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
+                } else handleApiError(TAG, response, getApplicationContext());
+            }
+
+            @Override
+            public void onFailure(Call<AddressFetchResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
