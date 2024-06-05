@@ -24,6 +24,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.CartResentAddProductAdapter;
 import com.wits.grofast_user.Adapter.TaxesChargesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
@@ -55,7 +57,7 @@ public class CartFragment extends Fragment {
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
 
-    private static TextView grandTotal, subTotal,cart_empty_text1;
+    private static TextView grandTotal, subTotal, cart_empty_text1, cart_empty_text2;
     private static ProgressBar progressBar;
     private static LinearLayout cartLinearLayout, cart_empty_layout;
 
@@ -86,6 +88,7 @@ public class CartFragment extends Fragment {
         grandTotal = root.findViewById(R.id.grand_total);
         userActivitySession = new UserActivitySession(getContext());
         cart_empty_text1=root.findViewById(R.id.cart_empty_text1);
+        cart_empty_text2 = root.findViewById(R.id.cart_empty_text2);
 
         //Linear layout
         additemlayout = root.findViewById(R.id.cart_add_item_linearlayout);
@@ -301,10 +304,6 @@ public class CartFragment extends Fragment {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
 
-                    if (cartFetchResponse.getCartModelList().isEmpty()) {
-                        showNoCartMessage(cartFetchResponse.getMessage());
-                    }
-
                     taxAndCharges = cartFetchResponse.getTaxAndCharges();
 
                     userActivitySession.setCoupon(couponCode);
@@ -316,6 +315,20 @@ public class CartFragment extends Fragment {
 
                     recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
                     taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
+                } else if (response.code() == 404) {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        Gson gson = new Gson();
+                        JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
+
+                        String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+                        String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
+
+                        showNoCartMessage(message, errorMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 } else handleApiError(TAG, response, getContext());
             }
 
@@ -327,11 +340,11 @@ public class CartFragment extends Fragment {
         });
     }
 
-    private void showNoCartMessage(String message) {
+    private void showNoCartMessage(String message, String messaage2) {
         datashow.setVisibility(View.GONE);
         cart_empty_layout.setVisibility(View.VISIBLE);
         cart_empty_text1.setText(message);
-
+        cart_empty_text2.setText(messaage2);
     }
 
     private void resetTipSelection() {
