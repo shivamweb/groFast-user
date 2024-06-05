@@ -136,26 +136,20 @@ public class CartFragment extends Fragment {
         View.OnClickListener tipClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 resetTipSelection();
                 updateTipSelection((TextView) v);
 
                 userActivitySession.setTip("0");
-
                 selectedTip = ((TextView) v).getText().toString();
-                if (!selectedTip.equals(getString(R.string.other))) {
-                    userActivitySession.setTip(selectedTip);
-                }
-                if (v == tipother) {
+
+                if (selectedTip.equals(getString(R.string.other))) {
                     tipamount.setVisibility(View.VISIBLE);
                 } else {
+                    userActivitySession.setTip(selectedTip);
+                    loadCartItems(userActivitySession.getCoupon(), null);
+                    tipamount.setText("");
                     tipamount.setVisibility(View.GONE);
                 }
-
-                if (v == tip20 || v == tip30) {
-                    tipamount.setText("");
-                }
-                loadCartItems(userActivitySession.getCoupon(), null);
             }
         };
 
@@ -187,8 +181,10 @@ public class CartFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e(TAG, "onTextChanged: tip text " + s.toString());
-                userActivitySession.setTip(s.toString());
-                loadCartItems(userActivitySession.getCoupon(), null);
+                if (tipamount.getVisibility() == View.VISIBLE) {
+                    userActivitySession.setTip(s.toString());
+                    loadCartItems(userActivitySession.getCoupon(), null);
+                }
             }
 
             @Override
@@ -294,6 +290,7 @@ public class CartFragment extends Fragment {
     }
 
     private void loadCartItems(String couponCode, String aditionalNote) {
+        Log.e(TAG, "loadCartItems: tip " + userActivitySession.getTip());
         Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), couponCode, aditionalNote);
         startProgrtessBar();
         call.enqueue(new Callback<CartFetchResponse>() {
