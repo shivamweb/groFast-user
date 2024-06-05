@@ -77,6 +77,7 @@ public class Wallet extends AppCompatActivity {
                     Log.i(TAG, "onResponse: message " + walletResponse.getMessage());
                     Toast.makeText(Wallet.this, "" + walletResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(in);
+                    finish();
                 } else handleApiError(TAG, response, getApplicationContext());
             }
 

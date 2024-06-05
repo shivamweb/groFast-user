@@ -21,10 +21,6 @@
         android:icon="@drawable/home"
         android:title="@string/menu_home" />
 
-    <item
-        android:id="@+id/menu_enable_location"
-        android:icon="@drawable/enablelocation"
-        android:title="@string/menu_enable_location" />
 
     <item
         android:id="@+id/menu_coupon"
@@ -73,6 +69,7 @@
         android:title="@string/menu_my_address" />
 
     <item
+        android:id="@+id/menu_support"
         android:icon="@drawable/support"
         android:title="@string/menu_support" />
 

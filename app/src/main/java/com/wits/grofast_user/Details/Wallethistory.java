@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class Wallethistory extends AppCompatActivity {
     private UserActivitySession userActivitySession;
     private LinearLayoutManager linearLayoutManager;
     private TextView noWalletHistory;
+    LinearLayout nowalletlayout, walletlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +52,12 @@ public class Wallethistory extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.wallet_history_recycleview);
         noWalletHistory = findViewById(R.id.no_wallet_hostory);
+        nowalletlayout = findViewById(R.id.no_wallet_layout);
+        walletlayout = findViewById(R.id.wallet_history_layout);
 
+        //Wallet history Item
         userActivitySession = new UserActivitySession(getApplicationContext());
-//        load_data.setVisibility(View.VISIBLE);
-//        data.setVisibility(View.GONE);
         loadWalletDetails();
-
-        //Coupon Item
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -71,8 +72,9 @@ public class Wallethistory extends AppCompatActivity {
                     WalletResponse walletResponse = response.body();
                     WalletPaginatedRes walletPaginatedRes = walletResponse.getWalletPaginatedRes();
                     walletModelslist = walletPaginatedRes.getWalletList();
-                    if (walletPaginatedRes.getWalletList().isEmpty())
+                    if (walletPaginatedRes.getWalletList().isEmpty()) {
                         showNoWalletMessage(walletResponse.getMessage());
+                    }
                     wallethistoryAdapter = new WallethistoryAdapter(walletModelslist, getApplicationContext());
                     recyclerView.setAdapter(wallethistoryAdapter);
 
@@ -90,9 +92,9 @@ public class Wallethistory extends AppCompatActivity {
     }
 
     private void showNoWalletMessage(String message) {
-        recyclerView.setVisibility(View.GONE);
+        walletlayout.setVisibility(View.GONE);
         noWalletHistory.setText(message);
-        noWalletHistory.setVisibility(View.VISIBLE);
+        nowalletlayout.setVisibility(View.VISIBLE);
     }
 
     @Override
