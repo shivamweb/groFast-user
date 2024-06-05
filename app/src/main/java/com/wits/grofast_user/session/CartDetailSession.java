@@ -44,6 +44,46 @@ public class CartDetailSession {
         return sharedPreferences.getString("userAditionalNote", "");
     }
 
+    public void setTotalAmount(Float total) {
+        editor.putFloat("userCartTotal", total);
+    }
+
+    public Float getTotalAmount() {
+        return sharedPreferences.getFloat("userCartTotal", 0);
+    }
+
+    public void setDiscount(Float discount) {
+        editor.putFloat("userCartDiscount", discount);
+    }
+
+    public Float getDiscount() {
+        return sharedPreferences.getFloat("userCartDiscount", 0);
+    }
+
+    public void setDeleveryCharges(Float charges) {
+        editor.putFloat("userCartDeleveryCharges", charges);
+    }
+
+    public Float getDeleveryCharges() {
+        return sharedPreferences.getFloat("userCartDeleveryCharges", 0);
+    }
+
+    public void setSgst(Float sgst) {
+        editor.putFloat("userCartSgst", sgst);
+    }
+
+    public Float getSgst() {
+        return sharedPreferences.getFloat("userCartSgst", 0);
+    }
+
+    public void setCgst(float cgst) {
+        editor.putFloat("userCartCgst", cgst);
+    }
+
+    public Float getCgst() {
+        return sharedPreferences.getFloat("userCartCgst", 0);
+    }
+
     public void clearSession() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

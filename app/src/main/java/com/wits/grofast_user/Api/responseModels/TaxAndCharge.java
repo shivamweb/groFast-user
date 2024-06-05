@@ -3,13 +3,13 @@ package com.wits.grofast_user.Api.responseModels;
 public class TaxAndCharge {
 
     private String text;
-    private double value;
+    private Float value;
 
     public String getText() {
         return text;
     }
 
-    public double getValue() {
+    public Float getValue() {
         return value;
     }
 }

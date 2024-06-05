@@ -308,8 +308,6 @@ public class CartFragment extends Fragment {
 
                     taxAndCharges = cartFetchResponse.getTaxAndCharges();
 
-                    cartDetailSession.setCoupon(couponCode);
-
                     subTotal.setText(cartFetchResponse.getSubtotal().toString());
                     grandTotal.setText(cartFetchResponse.getTotal().toString());
                     taxesChargesAdapter = new TaxesChargesAdapter(getContext(), taxAndCharges);
@@ -317,6 +315,9 @@ public class CartFragment extends Fragment {
 
                     recyclerView_cart_resent_product.setAdapter(cartItemsAdapter);
                     taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
+
+                    cartDetailSession.setCoupon(couponCode);
+                    cartDetailSession.setTotalAmount(cartFetchResponse.getTotal());
                 } else if (response.code() == 404) {
                     try {
                         String errorBodyString = response.errorBody().string();

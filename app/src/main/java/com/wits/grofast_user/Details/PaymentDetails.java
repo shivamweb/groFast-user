@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import com.wits.grofast_user.Api.responseClasses.OrderPlaceResponse;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.CartDetailSession;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
 
@@ -55,7 +57,9 @@ public class PaymentDetails extends AppCompatActivity {
     private List<AddressModel> addressList = new ArrayList<>();
     private UserDetailSession userDetailSession;
     private UserActivitySession userActivitySession;
+    private CartDetailSession cartDetailSession;
     private Integer selectedAddressId;
+    private EditText receiverName, receiverNumber;
     private final String TAG = "PaymentDetails";
 
     @Override
@@ -71,6 +75,7 @@ public class PaymentDetails extends AppCompatActivity {
 
         userDetailSession = new UserDetailSession(getApplicationContext());
         userActivitySession = new UserActivitySession(getApplicationContext());
+        cartDetailSession = new CartDetailSession(getApplicationContext());
 
         select_address = findViewById(R.id.selected_delivery_address_btn);
         changeaddress = findViewById(R.id.change_selected_address);
@@ -79,6 +84,8 @@ public class PaymentDetails extends AppCompatActivity {
 
         customerName = findViewById(R.id.payment_customer_name);
         customerNumber = findViewById(R.id.payment_customer_number);
+        receiverName = findViewById(R.id.receiver_name);
+        receiverNumber = findViewById(R.id.receiver_number);
 
         customerName.setText("Name : " + userDetailSession.getName());
         customerNumber.setText("Number : " + userDetailSession.getPhoneNo());
@@ -100,7 +107,7 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                placeOrder();
+                placeOrder(cartDetailSession.getTotalAmount(), cartDetailSession.getCoupon(), cartDetailSession.getDiscount(), cartDetailSession.getDeleveryCharges(), cartDetailSession.getCgst(), cartDetailSession.getSgst(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiverName.getText().toString().trim(), Integer.parseInt(receiverNumber.getText().toString()), 1);
             }
         });
     }
@@ -215,7 +222,7 @@ public class PaymentDetails extends AppCompatActivity {
         });
     }
 
-    private void placeOrder(Integer totalAmount, String couponCode, float discount, int deleveryCharges, float cgst, float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
+    private void placeOrder(Float totalAmount, String couponCode, Float discount, Float deleveryCharges, Float cgst, Float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
 
         Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(totalAmount, couponCode, discount, deleveryCharges, cgst, sgst, tip, aditionalNote, addressId, receiverName, receiverPhone, paymentMethod);
 
@@ -223,6 +230,7 @@ public class PaymentDetails extends AppCompatActivity {
             @Override
             public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
                 if (response.isSuccessful()) {
+                    cartDetailSession.clearSession();
                     OrderPlaceDialog();
                 } else handleApiError(TAG, response, getApplicationContext());
             }
