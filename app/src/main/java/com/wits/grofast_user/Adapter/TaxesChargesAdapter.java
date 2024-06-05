@@ -38,7 +38,7 @@ public class TaxesChargesAdapter extends RecyclerView.Adapter<TaxesChargesAdapte
         TaxAndCharge item = taxAndCharges.get(position);
 
         String text = item.getText();
-        Integer value = Integer.parseInt(item.getValue().toString());
+        Float value = item.getValue();
         holder.name.setText(text);
         holder.subname.setText(value.toString());
 

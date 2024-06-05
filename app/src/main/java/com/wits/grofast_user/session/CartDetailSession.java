@@ -44,44 +44,44 @@ public class CartDetailSession {
         return sharedPreferences.getString("userAditionalNote", "");
     }
 
-    public void setTotalAmount(Integer total) {
-        editor.putInt("userCartTotal", total);
+    public void setTotalAmount(Float total) {
+        editor.putFloat("userCartTotal", total);
     }
 
-    public Integer getTotalAmount() {
-        return sharedPreferences.getInt("userCartTotal", 0);
+    public Float getTotalAmount() {
+        return sharedPreferences.getFloat("userCartTotal", 0);
     }
 
-    public void setDiscount(Integer discount) {
-        editor.putInt("userCartDiscount", discount);
+    public void setDiscount(Float discount) {
+        editor.putFloat("userCartDiscount", discount);
     }
 
-    public Integer getDiscount() {
-        return sharedPreferences.getInt("userCartDiscount", 0);
+    public Float getDiscount() {
+        return sharedPreferences.getFloat("userCartDiscount", 0);
     }
 
-    public void setDeleveryCharges(Integer charges) {
-        editor.putInt("userCartDeleveryCharges", charges);
+    public void setDeleveryCharges(Float charges) {
+        editor.putFloat("userCartDeleveryCharges", charges);
     }
 
-    public Integer getDeleveryCharges() {
-        return sharedPreferences.getInt("userCartDeleveryCharges", 0);
+    public Float getDeleveryCharges() {
+        return sharedPreferences.getFloat("userCartDeleveryCharges", 0);
     }
 
-    public void setSgst(Integer sgst) {
-        editor.putInt("userCartSgst", sgst);
+    public void setSgst(Float sgst) {
+        editor.putFloat("userCartSgst", sgst);
     }
 
-    public Integer getSgst() {
-        return sharedPreferences.getInt("userCartSgst", 0);
+    public Float getSgst() {
+        return sharedPreferences.getFloat("userCartSgst", 0);
     }
 
-    public void setCgst(Integer cgst) {
-        editor.putInt("userCartCgst", cgst);
+    public void setCgst(float cgst) {
+        editor.putFloat("userCartCgst", cgst);
     }
 
-    public Integer getCgst() {
-        return sharedPreferences.getInt("userCartCgst", 0);
+    public Float getCgst() {
+        return sharedPreferences.getFloat("userCartCgst", 0);
     }
 
     public void clearSession() {

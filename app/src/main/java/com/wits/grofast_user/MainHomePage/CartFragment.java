@@ -317,7 +317,7 @@ public class CartFragment extends Fragment {
                     taxes_charges_cart_recycleview.setAdapter(taxesChargesAdapter);
 
                     cartDetailSession.setCoupon(couponCode);
-                    cartDetailSession.setTotalAmount(Integer.parseInt(cartFetchResponse.getTotal().toString()));
+                    cartDetailSession.setTotalAmount(cartFetchResponse.getTotal());
                 } else if (response.code() == 404) {
                     try {
                         String errorBodyString = response.errorBody().string();

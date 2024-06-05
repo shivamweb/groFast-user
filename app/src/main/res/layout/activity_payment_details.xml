@@ -86,6 +86,7 @@
                     android:textSize="@dimen/hint_text_size" />
 
                 <EditText
+                    android:id="@+id/receiver_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -104,9 +105,11 @@
                     android:textSize="@dimen/hint_text_size" />
 
                 <EditText
+                    android:id="@+id/receiver_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:inputType="number"
                     android:background="@drawable/textview_design"
                     android:hint="@string/recieved_number"
                     android:padding="@dimen/textview_inner_padding"

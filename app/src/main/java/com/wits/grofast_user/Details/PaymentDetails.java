@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class PaymentDetails extends AppCompatActivity {
     private UserActivitySession userActivitySession;
     private CartDetailSession cartDetailSession;
     private Integer selectedAddressId;
+    private EditText receiverName, receiverNumber;
     private final String TAG = "PaymentDetails";
 
     @Override
@@ -82,6 +84,8 @@ public class PaymentDetails extends AppCompatActivity {
 
         customerName = findViewById(R.id.payment_customer_name);
         customerNumber = findViewById(R.id.payment_customer_number);
+        receiverName = findViewById(R.id.receiver_name);
+        receiverNumber = findViewById(R.id.receiver_number);
 
         customerName.setText("Name : " + userDetailSession.getName());
         customerNumber.setText("Number : " + userDetailSession.getPhoneNo());
@@ -103,7 +107,7 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeOrder(cartDetailSession.getTotalAmount(), cartDetailSession.getCoupon(), cartDetailSession.getDiscount(), cartDetailSession.getDeleveryCharges(), cartDetailSession.getCgst(), cartDetailSession.getSgst(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, "amit", 123, 1);
+                placeOrder(cartDetailSession.getTotalAmount(), cartDetailSession.getCoupon(), cartDetailSession.getDiscount(), cartDetailSession.getDeleveryCharges(), cartDetailSession.getCgst(), cartDetailSession.getSgst(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiverName.getText().toString().trim(), Integer.parseInt(receiverNumber.getText().toString()), 1);
             }
         });
     }
@@ -218,7 +222,7 @@ public class PaymentDetails extends AppCompatActivity {
         });
     }
 
-    private void placeOrder(Integer totalAmount, String couponCode, float discount, int deleveryCharges, float cgst, float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
+    private void placeOrder(Float totalAmount, String couponCode, Float discount, Float deleveryCharges, Float cgst, Float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
 
         Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(totalAmount, couponCode, discount, deleveryCharges, cgst, sgst, tip, aditionalNote, addressId, receiverName, receiverPhone, paymentMethod);
 
