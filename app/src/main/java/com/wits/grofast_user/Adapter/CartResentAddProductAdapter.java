@@ -138,6 +138,9 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
                     CartFragment.getGrandTotalTotalTextView().setText(cartFetchResponse.getTotal().toString());
 
                     Log.e(TAG, "onResponse: loadCartItems message : " + cartFetchResponse.getMessage());
+
+                    cartDetailSession.setTotalAmount(Integer.parseInt(cartFetchResponse.getTotal().toString()));
+
                 } else handleApiError(TAG, response, context);
             }
 

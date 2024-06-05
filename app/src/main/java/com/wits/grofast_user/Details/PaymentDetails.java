@@ -226,6 +226,7 @@ public class PaymentDetails extends AppCompatActivity {
             @Override
             public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
                 if (response.isSuccessful()) {
+                    cartDetailSession.clearSession();
                     OrderPlaceDialog();
                 } else handleApiError(TAG, response, getApplicationContext());
             }
