@@ -1,5 +1,6 @@
 package com.wits.grofast_user.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,21 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.Details.EditAddress;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.ViewHolders> {
-    private List<Map<String, Object>> AllAddress;
+    private List<AddressModel> addressList;
     private Context context;
     private int selectedPosition = -1;
     private OnDeliveryButtonClickListener deliveryButtonClickListener;
 
-    public AddresslistAdapter(Context context, List<Map<String, Object>> AllAddress,OnDeliveryButtonClickListener listener) {
+    public AddresslistAdapter(Context context, List<AddressModel> addressList, OnDeliveryButtonClickListener listener) {
         this.context = context;
-        this.AllAddress = AllAddress;
+        this.addressList = addressList;
         this.deliveryButtonClickListener = listener;
     }
 
@@ -38,9 +39,10 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddresslistAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = AllAddress.get(position);
-        holder.address.setText((String) item.get("Address"));
+    public void onBindViewHolder(@NonNull AddresslistAdapter.ViewHolders holder, @SuppressLint("RecyclerView") int position) {
+        AddressModel item = addressList.get(position);
+        String customerAddress = item.getAddress() + "," + item.getCity() + "," + item.getPin_code();
+        holder.address.setText(customerAddress);
 
         holder.radioButton.setChecked(position == selectedPosition);
         holder.layout.setVisibility(position == selectedPosition ? View.VISIBLE : View.GONE);
@@ -66,7 +68,7 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
             @Override
             public void onClick(View v) {
                 if (deliveryButtonClickListener != null) {
-                    deliveryButtonClickListener.onDeliveryButtonClick((String) item.get("Address"));
+                    deliveryButtonClickListener.onDeliveryButtonClick(customerAddress, item.getId());
                 }
             }
         });
@@ -82,7 +84,7 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
 
     @Override
     public int getItemCount() {
-        return AllAddress.size();
+        return addressList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
@@ -101,6 +103,6 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
         }
     }
     public interface OnDeliveryButtonClickListener {
-        void onDeliveryButtonClick(String address);
+        void onDeliveryButtonClick(String address, int id);
     }
 }
