@@ -24,6 +24,7 @@ import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Api.responseModels.TaxAndCharge;
 import com.wits.grofast_user.MainHomePage.CartFragment;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.CartDetailSession;
 import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
 
     private final String TAG = "CartResentAddProductAdapter";
     private UserActivitySession userActivitySession;
+    private CartDetailSession cartDetailSession;
     private CartResentAddProductAdapter adapter;
 
     public CartResentAddProductAdapter(List<CartModel> cartItems, Context context, RecyclerView recyclerView) {
@@ -56,6 +58,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
     @Override
     public void onBindViewHolder(@NonNull CartResentAddProductAdapter.ViewHolders holder, int position) {
         userActivitySession = new UserActivitySession(context);
+        cartDetailSession = new CartDetailSession(context);
         adapter = this;
         CartModel item = cartItems.get(position);
         ProductModel product = item.getProduct();
@@ -117,7 +120,7 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
     }
 
     private void loadCartItems(String aditionalNote) {
-        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(userActivitySession.getTip()), userActivitySession.getCoupon(), aditionalNote);
+        Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getCoupon(), aditionalNote);
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
