@@ -53,6 +53,7 @@ public class PaymentDetails extends AppCompatActivity {
     private List<AddressModel> addressList = new ArrayList<>();
     private UserDetailSession userDetailSession;
     private UserActivitySession userActivitySession;
+    private Integer selectedAddressId;
     private final String TAG = "PaymentDetails";
 
     @Override
@@ -191,11 +192,12 @@ public class PaymentDetails extends AppCompatActivity {
                     addressList = addressFetchResponse.getAddressList();
                     addresslistAdapter = new AddresslistAdapter(getApplicationContext(), addressList, new AddresslistAdapter.OnDeliveryButtonClickListener() {
                         @Override
-                        public void onDeliveryButtonClick(String address) {
+                        public void onDeliveryButtonClick(String address, int addressId) {
                             selectedaddressshow.setText(address);
                             selectedaddressshow.setVisibility(View.VISIBLE);
                             changeaddress.setVisibility(View.VISIBLE);
                             select_address.setVisibility(View.GONE);
+                            selectedAddressId = addressId;
                             dismissDialog();
                         }
                     });

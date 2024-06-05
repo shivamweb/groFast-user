@@ -68,7 +68,7 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
             @Override
             public void onClick(View v) {
                 if (deliveryButtonClickListener != null) {
-                    deliveryButtonClickListener.onDeliveryButtonClick(customerAddress);
+                    deliveryButtonClickListener.onDeliveryButtonClick(customerAddress, item.getId());
                 }
             }
         });
@@ -103,6 +103,6 @@ public class AddresslistAdapter extends RecyclerView.Adapter<AddresslistAdapter.
         }
     }
     public interface OnDeliveryButtonClickListener {
-        void onDeliveryButtonClick(String address);
+        void onDeliveryButtonClick(String address, int id);
     }
 }
