@@ -33,6 +33,7 @@ import com.wits.grofast_user.Api.responseClasses.OrderPlaceResponse;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.CartDetailSession;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
 
@@ -55,6 +56,7 @@ public class PaymentDetails extends AppCompatActivity {
     private List<AddressModel> addressList = new ArrayList<>();
     private UserDetailSession userDetailSession;
     private UserActivitySession userActivitySession;
+    private CartDetailSession cartDetailSession;
     private Integer selectedAddressId;
     private final String TAG = "PaymentDetails";
 
@@ -71,6 +73,7 @@ public class PaymentDetails extends AppCompatActivity {
 
         userDetailSession = new UserDetailSession(getApplicationContext());
         userActivitySession = new UserActivitySession(getApplicationContext());
+        cartDetailSession = new CartDetailSession(getApplicationContext());
 
         select_address = findViewById(R.id.selected_delivery_address_btn);
         changeaddress = findViewById(R.id.change_selected_address);
@@ -100,7 +103,7 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                placeOrder();
+                placeOrder(cartDetailSession.getTotalAmount(), cartDetailSession.getCoupon(), cartDetailSession.getDiscount(), cartDetailSession.getDeleveryCharges(), cartDetailSession.getCgst(), cartDetailSession.getSgst(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, "amit", 123, 1);
             }
         });
     }
