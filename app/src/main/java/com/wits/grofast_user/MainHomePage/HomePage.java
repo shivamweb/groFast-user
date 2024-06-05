@@ -31,6 +31,7 @@ import com.wits.grofast_user.Details.EditProfile;
 import com.wits.grofast_user.Details.MyAddress;
 import com.wits.grofast_user.Details.Notification;
 import com.wits.grofast_user.Details.NotificationSetting;
+import com.wits.grofast_user.Details.Support;
 import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.Details.Wallethistory;
 import com.wits.grofast_user.Enums.FragmentEnum;
@@ -93,7 +94,6 @@ public class HomePage extends AppCompatActivity {
                 }
             }
         });
-
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,12 +101,12 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-        textview_set_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openlocationDialogbox();
-            }
-        });
+//        textview_set_location.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openlocationDialogbox();
+//            }
+//        });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -148,9 +148,7 @@ public class HomePage extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.menu_home) {
                     loadfragment(new HomeFragment(), FragmentEnum.HOME.getTag());
-                } else if (id == R.id.menu_enable_location) {
-
-                } else if (id == R.id.menu_coupon) {
+                }  else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
                 } else if (id == R.id.menu_offers) {
                     loadfragment(new OffersFragment(), FragmentEnum.OFFER.getTag());
@@ -170,6 +168,8 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
+                }else if (id == R.id.menu_support) {
+                    startActivity(new Intent(HomePage.this, Support.class));
                 } else if (id == R.id.menu_language) {
 
                 } else if (id == R.id.menu_logout) {
@@ -203,7 +203,7 @@ public class HomePage extends AppCompatActivity {
         } else if (fragment instanceof HistoryFragment) {
             updateActionBar(getString(R.string.bottom_menu_history), 0, 0);
         } else {
-            updateActionBar(getString(R.string.set_location), R.drawable.baseline_location_on_24, R.drawable.baseline_keyboard_arrow_down_24);
+            updateActionBar(getString(R.string.bottom_menu_home), 0, 0);
         }
     }
 

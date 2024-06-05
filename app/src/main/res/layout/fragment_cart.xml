@@ -18,7 +18,8 @@
             android:layout_marginStart="@dimen/linear_padding"
             android:layout_marginTop="@dimen/linear_padding"
             android:layout_marginEnd="@dimen/linear_padding"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:id="@+id/cart_linear_layout"
@@ -445,6 +446,45 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <LinearLayout
+        android:id="@+id/cart_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_cart" />
+
+        <TextView
+            android:id="@+id/cart_empty_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="no data istory hhahaha"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/cart_empty_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="nodara "
+            android:textColor="@color/default_color"
+            android:textSize="@dimen/hint_text_size"
+            android:visibility="visible" />
+
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar_cart_fragment"

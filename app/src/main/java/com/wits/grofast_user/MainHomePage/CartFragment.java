@@ -55,9 +55,9 @@ public class CartFragment extends Fragment {
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
 
-    private static TextView grandTotal, subTotal;
+    private static TextView grandTotal, subTotal,cart_empty_text1;
     private static ProgressBar progressBar;
-    private static LinearLayout cartLinearLayout;
+    private static LinearLayout cartLinearLayout, cart_empty_layout;
 
     private UserActivitySession userActivitySession;
     private String selectedTip = "0";
@@ -65,7 +65,6 @@ public class CartFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     private final String TAG = "CartFragment";
     NestedScrollView datashow;
-    LinearLayout dataload;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +85,7 @@ public class CartFragment extends Fragment {
         subTotal = root.findViewById(R.id.subtotal);
         grandTotal = root.findViewById(R.id.grand_total);
         userActivitySession = new UserActivitySession(getContext());
+        cart_empty_text1=root.findViewById(R.id.cart_empty_text1);
 
         //Linear layout
         additemlayout = root.findViewById(R.id.cart_add_item_linearlayout);
@@ -95,6 +95,7 @@ public class CartFragment extends Fragment {
         Taxeslayout = root.findViewById(R.id.cart_add_taxes_layout);
         tiplayout = root.findViewById(R.id.tip_layout);
         datashow = root.findViewById(R.id.cart_data_show);
+        cart_empty_layout = root.findViewById(R.id.cart_empty_layout);
 
         //Edittext
         additemedittext = root.findViewById(R.id.cart_add_item_edittext);
@@ -182,9 +183,6 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (!s.toString().equals("")) {
-//                    userActivitySession.setTip(s.toString());
-//                } else userActivitySession.setTip(null);
                 Log.e(TAG, "onTextChanged: tip text " + s.toString());
                 userActivitySession.setTip(s.toString());
                 loadCartItems(userActivitySession.getCoupon(), null);
@@ -302,6 +300,11 @@ public class CartFragment extends Fragment {
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
+
+                    if (cartFetchResponse.getCartModelList().isEmpty()) {
+                        showNoCartMessage(cartFetchResponse.getMessage());
+                    }
+
                     taxAndCharges = cartFetchResponse.getTaxAndCharges();
 
                     userActivitySession.setCoupon(couponCode);
@@ -323,6 +326,14 @@ public class CartFragment extends Fragment {
             }
         });
     }
+
+    private void showNoCartMessage(String message) {
+        datashow.setVisibility(View.GONE);
+        cart_empty_layout.setVisibility(View.VISIBLE);
+        cart_empty_text1.setText(message);
+
+    }
+
     private void resetTipSelection() {
         resetTip(tip20);
         resetTip(tip30);
