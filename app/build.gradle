@@ -47,4 +47,6 @@ dependencies {
     //blur dependency
     implementation 'jp.wasabeef:blurry:4.0.1'
 
+//    DIPENDENCY FOR SHIMMER EFFECT
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }

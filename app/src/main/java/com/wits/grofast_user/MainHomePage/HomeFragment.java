@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
@@ -18,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.wits.grofast_user.Adapter.HomeViewProductAdapter;
 import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
@@ -46,8 +46,8 @@ public class HomeFragment extends Fragment {
     private List<CategoryModel> categoryList = new ArrayList<>();
     private List<ProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
+    private ShimmerFrameLayout shimmerFrameLayout;
     TextView view_all_categories, view_all_product;
-    LinearLayout load_categories;
     NestedScrollView layoutcategories;
     private boolean isCategoriesLoaded = false;
     private boolean isProductsLoaded = false;
@@ -66,8 +66,8 @@ public class HomeFragment extends Fragment {
         view_all_categories = root.findViewById(R.id.view_all_categories_homepage);
         view_all_product = root.findViewById(R.id.view_all_product);
 
-        load_categories = root.findViewById(R.id.progress_bar_top_categories);
         layoutcategories = root.findViewById(R.id.layout_top_categories);
+        shimmerFrameLayout = root.findViewById(R.id.shimmer_layout_home);
 
         ShowPageLoader();
 
@@ -168,12 +168,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void ShowPageLoader() {
-        load_categories.setVisibility(View.VISIBLE);
-        layoutcategories.setVisibility(View.INVISIBLE);
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        layoutcategories.setVisibility(View.GONE);
     }
 
     private void HidePageLoader() {
-        load_categories.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.GONE);
+        shimmerFrameLayout.stopShimmer();
         layoutcategories.setVisibility(View.VISIBLE);
     }
 

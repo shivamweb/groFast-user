@@ -296,8 +296,8 @@
     </androidx.core.widget.NestedScrollView>
 
     <include
-        android:id="@+id/progress_bar_top_categories"
-        layout="@layout/loading_activity"
+        android:id="@+id/shimmer_layout_home"
+        layout="@layout/shimmer_layout"
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="match_parent" />
