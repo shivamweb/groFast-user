@@ -53,8 +53,6 @@ public class MyAddress extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        loadAddress();
-
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,4 +94,9 @@ public class MyAddress extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadAddress();
+    }
 }
