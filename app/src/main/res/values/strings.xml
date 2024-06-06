@@ -28,6 +28,7 @@
     <string name="toast_enter_receiver_name">Please enter receiver name</string>
     <string name="toast_valid_receiver_name">Please enter valid receiver name</string>
     <string name="toast_select_delevery_address">Please select address</string>
+    <string name="toast_aditional_note_saved">Suggestion saved</string>
 
     //Otp Page
     <string name="otp_title">OTP Verification</string>
