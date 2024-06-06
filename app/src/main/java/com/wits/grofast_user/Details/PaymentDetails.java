@@ -112,14 +112,12 @@ public class PaymentDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String receiver = receiverName.getText().toString().trim();
-                if (!receiver.isEmpty()) {
-                    if (validatePhone(receiverNumber, getApplicationContext()) && validateReceiverName(receiver, getApplicationContext())) {
+                if (validateReceiverName(receiver, getApplicationContext()) && validatePhone(receiverNumber, getApplicationContext())) {
                         if (selectedAddressId != null)
                             placeOrder(cartDetailSession.getCoupon(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiver, Long.parseLong(receiverNumber.getText().toString()), 1);
                         else
                             Toast.makeText(getApplicationContext(), getString(R.string.toast_select_delevery_address), Toast.LENGTH_SHORT).show();
                     }
-                }
             }
         });
     }

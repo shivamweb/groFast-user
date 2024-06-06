@@ -32,8 +32,6 @@ public class CommonUtilities {
 
     public static void handleApiError(String TAG, Response response, Context context) {
         try {
-            Log.e(TAG, "login status " + response.code());
-
             String errorBodyString = response.errorBody().string();
             Gson gson = new Gson();
             JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
