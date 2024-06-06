@@ -1,11 +1,16 @@
 package com.wits.grofast_user.Api.responseModels;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
   private Integer id;
-  private Integer is_wallet_activated;
+
+  @SerializedName("is_wallet_activated")
+  private Integer walletStatus;
+
   private String uuid;
   private String phone_no;
   private String image;
@@ -42,6 +47,6 @@ public class UserModel implements Serializable {
   }
 
   public Integer getWalletStatus() {
-    return is_wallet_activated;
+    return walletStatus;
   }
 }
