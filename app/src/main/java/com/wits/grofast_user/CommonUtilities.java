@@ -1,6 +1,5 @@
 package com.wits.grofast_user;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,14 +8,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
-
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -219,5 +215,30 @@ public class CommonUtilities {
                 resend.setTextColor(context.getColor(R.color.button_text_color));
             }
         }.start();
+    }
+
+    public static boolean validatePhone(EditText etPhone, Context context) {
+        if (etPhone.getText() == null || etPhone.getText().toString().isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_message_enter_number), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        String phone = etPhone.getText().toString();
+        if (!(phone.length() == 10 && phone.matches("\\d+"))) {
+            Toast.makeText(context, context.getString(R.string.toast_message_valid_number), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateReceiverName(String name, Context context) {
+        if (name.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_receiver_name), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (name.length() < 3) {
+            Toast.makeText(context, context.getString(R.string.toast_valid_receiver_name), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

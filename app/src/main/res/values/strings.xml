@@ -25,6 +25,9 @@
     <string name="toast_message_enter_valid_email">Please enter valid E-mail id</string>
     <string name="toast_message_new_phone">Please change to a new phone number.</string>
     <string name="toast_coupon_code_copied">Coupon code copied</string>
+    <string name="toast_enter_receiver_name">Please enter receiver name</string>
+    <string name="toast_valid_receiver_name">Please enter valid receiver name</string>
+    <string name="toast_select_delevery_address">Please select address</string>
 
     //Otp Page
     <string name="otp_title">OTP Verification</string>

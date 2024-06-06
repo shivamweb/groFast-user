@@ -1,6 +1,8 @@
 package com.wits.grofast_user.Details;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
+import static com.wits.grofast_user.CommonUtilities.validatePhone;
+import static com.wits.grofast_user.CommonUtilities.validateReceiverName;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -19,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -108,7 +111,15 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeOrder( cartDetailSession.getCoupon(),  Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiverName.getText().toString().trim(), Long.parseLong(receiverNumber.getText().toString()), 1);
+                String receiver = receiverName.getText().toString().trim();
+                if (!receiver.isEmpty()) {
+                    if (validatePhone(receiverNumber, getApplicationContext()) && validateReceiverName(receiver, getApplicationContext())) {
+                        if (selectedAddressId != null)
+                            placeOrder(cartDetailSession.getCoupon(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiver, Long.parseLong(receiverNumber.getText().toString()), 1);
+                        else
+                            Toast.makeText(getApplicationContext(), getString(R.string.toast_select_delevery_address), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }

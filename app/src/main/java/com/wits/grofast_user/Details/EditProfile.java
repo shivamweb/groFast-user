@@ -371,7 +371,6 @@ public class EditProfile extends AppCompatActivity {
                             userDetailSession.setEmail(userModel.getEmail());
                             userDetailSession.setGender(userModel.getGender());
                         }
-                        finish();
                         Toast.makeText(EditProfile.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     } else handleApiError(TAG, response, getApplicationContext());
                 }
