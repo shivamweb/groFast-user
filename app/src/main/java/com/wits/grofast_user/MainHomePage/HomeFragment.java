@@ -150,9 +150,6 @@ public class HomeFragment extends Fragment {
                     productAdapter = new HomeViewProductAdapter(productList, getContext());
                     product_recycleview.setAdapter(productAdapter);
 
-                    Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
-                    Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
-
                     isProductsLoaded = true;
                     checkIfDataLoaded();
                 } else {

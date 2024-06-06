@@ -318,7 +318,7 @@ public class CartFragment extends Fragment {
 
                     cartDetailSession.setCoupon(couponCode);
                     cartDetailSession.setTotalAmount(cartFetchResponse.getTotal());
-                } else if (response.code() == 404) {
+                } else if (response.code() == 422) {
                     try {
                         String errorBodyString = response.errorBody().string();
                         Gson gson = new Gson();

@@ -30,6 +30,7 @@ import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.AddressInterface;
 import com.wits.grofast_user.Api.interfaces.OrderInterface;
 import com.wits.grofast_user.Api.responseClasses.AddressFetchResponse;
+import com.wits.grofast_user.Api.responseClasses.OrderModel;
 import com.wits.grofast_user.Api.responseClasses.OrderPlaceResponse;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
@@ -107,7 +108,7 @@ public class PaymentDetails extends AppCompatActivity {
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placeOrder(cartDetailSession.getTotalAmount(), cartDetailSession.getCoupon(), cartDetailSession.getDiscount(), cartDetailSession.getDeleveryCharges(), cartDetailSession.getCgst(), cartDetailSession.getSgst(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiverName.getText().toString().trim(), Integer.parseInt(receiverNumber.getText().toString()), 1);
+                placeOrder( cartDetailSession.getCoupon(),  Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiverName.getText().toString().trim(), Long.parseLong(receiverNumber.getText().toString()), 1);
             }
         });
     }
@@ -222,16 +223,36 @@ public class PaymentDetails extends AppCompatActivity {
         });
     }
 
-    private void placeOrder(Float totalAmount, String couponCode, Float discount, Float deleveryCharges, Float cgst, Float sgst, int tip, String aditionalNote, int addressId, String receiverName, Integer receiverPhone, int paymentMethod) {
+    private void placeOrder( String couponCode, int tip, String aditionalNote, int addressId, String receiverName, Long receiverPhone, int paymentMethod) {
 
-        Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(totalAmount, couponCode, discount, deleveryCharges, cgst, sgst, tip, aditionalNote, addressId, receiverName, receiverPhone, paymentMethod);
-
+        Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(couponCode,tip,aditionalNote,addressId,receiverName,receiverPhone,paymentMethod);
         call.enqueue(new Callback<OrderPlaceResponse>() {
             @Override
             public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
                 if (response.isSuccessful()) {
+                    OrderPlaceResponse orderPlaceResponse = response.body();
+                    OrderModel orderDetails = orderPlaceResponse.getOrderDetails();
+
                     cartDetailSession.clearSession();
                     OrderPlaceDialog();
+
+                    {
+                        Log.i(TAG, "onResponse placeOrder: message " + orderPlaceResponse.getMessage());
+
+                        Log.i(TAG, "onResponse placeOrder: total " + orderDetails.getTotal_amount());
+                        Log.i(TAG, "onResponse placeOrder: coupon " + orderDetails.getCoupon());
+                        Log.i(TAG, "onResponse placeOrder: discount " + orderDetails.getDiscount());
+                        Log.i(TAG, "onResponse placeOrder: cgst " + orderDetails.getCgst());
+                        Log.i(TAG, "onResponse placeOrder: sgst " + orderDetails.getSgst());
+                        Log.i(TAG, "onResponse placeOrder: Delevery Charges " + orderDetails.getDelivery_charges());
+                        Log.i(TAG, "onResponse placeOrder: tip " + orderDetails.getTip());
+                        Log.i(TAG, "onResponse placeOrder: address " + orderDetails.getAddress());
+                        Log.i(TAG, "onResponse placeOrder: note " + orderDetails.getAdditional_note());
+                        Log.i(TAG, "onResponse placeOrder: receiver name  " + orderDetails.getReceiver_name());
+                        Log.i(TAG, "onResponse placeOrder: receiver number " + orderDetails.getReceiver_phone_no());
+                        Log.i(TAG, "onResponse placeOrder: payment method " + orderDetails.getPayment_metod());
+                        Log.i(TAG, "onResponse placeOrder: order status " + orderDetails.getOrder_status());
+                    }
                 } else handleApiError(TAG, response, getApplicationContext());
             }
 

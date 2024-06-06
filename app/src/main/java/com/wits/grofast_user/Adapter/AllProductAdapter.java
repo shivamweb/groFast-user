@@ -69,8 +69,6 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                 intent.putExtra("image", domain + item.getImage());
                 intent.putExtra("quantity", holder.total_product_quantity.getText());
                 intent.putExtra("ProductId", item.getId());
-                Log.e("TAG", "onClick: weight : " + item.getQuantity());
-                Log.e("TAG", "onClick: product id : " + item.getId());
                 context.startActivity(intent);
             }
         });
@@ -141,10 +139,6 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                     holder.btn_add_to_cart.setVisibility(View.VISIBLE);
                     holder.progressBar.setVisibility(View.GONE);
                     AddToCartResponse addToCartResponse = response.body();
-                    Log.e("Addtocart", "Product added to cart message :" + addToCartResponse.getMessage());
-                    Log.e("Addtocart", "Product added to cart id : " + id);
-                    Log.e("Addtocart", "Product added to cart amount : " + amount);
-                    Log.e("Addtocart", "Product added to cart quantity :" + quantity);
                     showToast(context, addToCartResponse.getMessage());
                 } else {
                     handleApiError(TAG, response, context);
