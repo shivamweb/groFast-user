@@ -10,18 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.OrderItemModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class AllInnerHistoryAdapter extends RecyclerView.Adapter<AllInnerHistoryAdapter.ViewHolders> {
-    private List<Map<String, Object>> historyinnerItem;
+    private List<OrderItemModel> orderItems;
     private Context context;
 
-    public AllInnerHistoryAdapter(Context context, List<Map<String, Object>> historyinnerItem) {
+    public AllInnerHistoryAdapter(Context context, List<OrderItemModel> orderItems) {
         this.context = context;
-        this.historyinnerItem = historyinnerItem;
+        this.orderItems = orderItems;
     }
 
     @NonNull
@@ -32,16 +32,17 @@ public class AllInnerHistoryAdapter extends RecyclerView.Adapter<AllInnerHistory
 
     @Override
     public void onBindViewHolder(@NonNull AllInnerHistoryAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = historyinnerItem.get(position);
-        holder.quantity.setText((String) item.get("Quantity"));
-        holder.productname.setText((String) item.get("Product_Name"));
-        holder.price.setText((String) item.get("Price"));
-        holder.image.setImageResource((int) item.get("image"));
+        OrderItemModel item = orderItems.get(position);
+
+        holder.quantity.setText("" + item.getQuantity());
+        holder.productname.setText("" + item.getProduct_id());
+        holder.price.setText("" + item.getPrice());
+        holder.image.setImageResource(item.getQuantity());
     }
 
     @Override
     public int getItemCount() {
-        return historyinnerItem.size();
+        return orderItems.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {

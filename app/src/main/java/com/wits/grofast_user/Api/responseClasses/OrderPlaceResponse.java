@@ -7,7 +7,7 @@ public class OrderPlaceResponse {
     private String message;
 
     @SerializedName("order")
-    private OrderModel orderDetails;
+    private OrderModelPlaceOrder orderDetails;
 
     public int getStatus() {
         return status;
@@ -17,7 +17,7 @@ public class OrderPlaceResponse {
         return message;
     }
 
-    public OrderModel getOrderDetails() {
+    public OrderModelPlaceOrder getOrderDetails() {
         return orderDetails;
     }
 }

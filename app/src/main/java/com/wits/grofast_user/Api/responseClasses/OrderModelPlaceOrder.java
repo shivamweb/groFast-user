@@ -1,6 +1,6 @@
 package com.wits.grofast_user.Api.responseClasses;
 
-public class OrderModel {
+public class OrderModelPlaceOrder {
     private String sgst;
 
     private String country;

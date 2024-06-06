@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,18 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.OrderItemModel;
+import com.wits.grofast_user.Api.responseModels.OrderModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.ViewHolders> {
-    private List<Map<String, Object>> historyItem;
+    private List<OrderModel> orderList;
     private Context context;
 
-    public AllHistoryAdapter(Context context, List<Map<String, Object>> historyItem) {
+    public AllHistoryAdapter(Context context, List<OrderModel> orderList) {
         this.context = context;
-        this.historyItem = historyItem;
+        this.orderList = orderList;
     }
 
     @NonNull
@@ -34,13 +34,13 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull AllHistoryAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = historyItem.get(position);
-        holder.ProductOrderId.setText((String) item.get("Order_Id"));
-        holder.ProductDate.setText((String) item.get("Date"));
-        holder.ProductPrice.setText((String) item.get("Price"));
+        OrderModel item = orderList.get(position);
+        holder.ProductOrderId.setText("" + item.getId());
+        holder.ProductDate.setText(item.getCreated_at());
+        holder.ProductPrice.setText("" + item.getTotal_amount());
 
-        List<Map<String, Object>> innerItems = (List<Map<String, Object>>) item.get("InnerData");
-        AllInnerHistoryAdapter allInnerHistoryAdapter = new AllInnerHistoryAdapter(context, innerItems);
+        List<OrderItemModel> orderItems = item.getOrderItems();
+        AllInnerHistoryAdapter allInnerHistoryAdapter = new AllInnerHistoryAdapter(context, orderItems);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(allInnerHistoryAdapter);
@@ -49,7 +49,7 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return historyItem.size();
+        return orderList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
