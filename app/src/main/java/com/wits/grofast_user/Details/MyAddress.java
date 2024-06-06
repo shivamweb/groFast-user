@@ -1,29 +1,41 @@
 package com.wits.grofast_user.Details;
 
+import static com.wits.grofast_user.CommonUtilities.handleApiError;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-
 import com.wits.grofast_user.Adapter.ShowAllAddressAdapter;
+import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.AddressInterface;
+import com.wits.grofast_user.Api.responseClasses.AddressFetchResponse;
+import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyAddress extends AppCompatActivity {
     RecyclerView recyclerView;
     ShowAllAddressAdapter showAllAddressAdapter;
-    List<Map<String, Object>> AddressItems;
+    private List<AddressModel> addressList = new ArrayList<>();
+    private UserActivitySession userActivitySession;
     AppCompatButton add_address;
+    private final String TAG = "MyAddress";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +45,15 @@ public class MyAddress extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.outline_arrow_back_24);
         setContentView(R.layout.activity_my_address);
+
         recyclerView = findViewById(R.id.show_all_address_recycleview);
         add_address = findViewById(R.id.Add_address);
-        AddressItems = new ArrayList<>();
-
-        loadAddressItems();
+        userActivitySession = new UserActivitySession(getApplicationContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        showAllAddressAdapter = new ShowAllAddressAdapter(this, AddressItems);
-        recyclerView.setAdapter(showAllAddressAdapter);
+
+        loadAddress();
 
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,15 +65,26 @@ public class MyAddress extends AppCompatActivity {
 
     }
 
-    private void loadAddressItems() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("Address", "Bharuch");
+    private void loadAddress() {
+        Call<AddressFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(AddressInterface.class).fetchCustmerAddress();
+        call.enqueue(new Callback<AddressFetchResponse>() {
+            @Override
+            public void onResponse(Call<AddressFetchResponse> call, Response<AddressFetchResponse> response) {
+                if (response.isSuccessful()) {
+                    AddressFetchResponse addressFetchResponse = response.body();
+                    addressList = addressFetchResponse.getAddressList();
+                    showAllAddressAdapter = new ShowAllAddressAdapter(getApplicationContext(), addressList);
+                    recyclerView.setAdapter(showAllAddressAdapter);
 
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("Address", "Ankleshwar");
+                    Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
+                } else handleApiError(TAG, response, getApplicationContext());
+            }
 
-        AddressItems.add(item1);
-        AddressItems.add(item2);
+            @Override
+            public void onFailure(Call<AddressFetchResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override

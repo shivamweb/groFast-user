@@ -11,19 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.Details.EditAddress;
 import com.wits.grofast_user.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAdapter.ViewHolders> {
-    private List<Map<String, Object>> AllAddress;
+    private List<AddressModel> addressList;
     private Context context;
 
-    public ShowAllAddressAdapter(Context context, List<Map<String, Object>> AllAddress) {
+    public ShowAllAddressAdapter(Context context, List<AddressModel> addressList) {
         this.context = context;
-        this.AllAddress = AllAddress;
+        this.addressList = addressList;
     }
 
     @NonNull
@@ -34,13 +34,16 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
 
     @Override
     public void onBindViewHolder(@NonNull ShowAllAddressAdapter.ViewHolders holder, int position) {
-        Map<String, Object> item = AllAddress.get(position);
-        holder.address.setText((String) item.get("Address"));
+        AddressModel item = addressList.get(position);
+        String customerAddress = item.getAddress() + "," + item.getCity() + "," + item.getPin_code();
+        holder.address.setText(customerAddress);
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(context, EditAddress.class);
+                in.putExtra("address", item);
+                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
             }
         });
@@ -48,7 +51,7 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
 
     @Override
     public int getItemCount() {
-        return AllAddress.size();
+        return addressList.size();
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
