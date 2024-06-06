@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
@@ -160,22 +161,6 @@ public class CartFragment extends Fragment {
 
         coupontext.setText(cartDetailSession.getCoupon());
         additemedittext.setText(cartDetailSession.getAditionalNote());
-        additemedittext.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                cartDetailSession.storeAditionalNote(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         tipamount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -195,6 +180,16 @@ public class CartFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        additembutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String note = additemedittext.getText().toString().trim();
+                if (!note.isEmpty())
+                    Toast.makeText(getActivity(), getString(R.string.toast_aditional_note_saved), Toast.LENGTH_SHORT).show();
+                cartDetailSession.storeAditionalNote(note);
             }
         });
 

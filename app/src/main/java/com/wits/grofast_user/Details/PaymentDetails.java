@@ -166,6 +166,7 @@ public class PaymentDetails extends AppCompatActivity {
         newaddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dismissDialog();
                 Intent in = new Intent(getApplicationContext(), AddAddress.class);
                 startActivity(in);
             }

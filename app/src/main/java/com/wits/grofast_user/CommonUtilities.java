@@ -21,6 +21,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -239,4 +240,70 @@ public class CommonUtilities {
         }
         return true;
     }
+
+    public static boolean validateAddress(String address, Context context) {
+
+        if (address.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_addres), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (address.length() < 6) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_valid_addres), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateCountry(String country, Context context) {
+
+        if (country.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_country), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (country.length() < 4) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_valid_country), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateState(String state, Context context) {
+
+        if (state.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_state), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (state.length() < 4) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_valid_state), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateCity(String city, Context context) {
+
+        if (city.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_city), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (city.length() < 4) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_valid_city), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validatePincode(String pincode, Context context) {
+
+        if (pincode.isEmpty()) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_pincode), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (pincode.length() != 6) {
+            Toast.makeText(context, context.getString(R.string.toast_enter_valid_pincode), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
 }

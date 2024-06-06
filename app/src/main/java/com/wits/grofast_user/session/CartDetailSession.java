@@ -35,8 +35,8 @@ public class CartDetailSession {
         return sharedPreferences.getString("userOrderCoupon", "");
     }
 
-    public void storeAditionalNote(String tip) {
-        editor.putString("userAditionalNote", tip.trim());
+    public void storeAditionalNote(String note) {
+        editor.putString("userAditionalNote", note.trim());
         editor.apply();
     }
 
