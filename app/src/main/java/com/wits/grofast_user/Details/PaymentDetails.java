@@ -33,9 +33,9 @@ import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.AddressInterface;
 import com.wits.grofast_user.Api.interfaces.OrderInterface;
 import com.wits.grofast_user.Api.responseClasses.AddressFetchResponse;
-import com.wits.grofast_user.Api.responseClasses.OrderModelPlaceOrder;
 import com.wits.grofast_user.Api.responseClasses.OrderPlaceResponse;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
+import com.wits.grofast_user.Api.responseModels.OrderModel;
 import com.wits.grofast_user.MainHomePage.HomePage;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.CartDetailSession;
@@ -241,7 +241,7 @@ public class PaymentDetails extends AppCompatActivity {
             public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
                 if (response.isSuccessful()) {
                     OrderPlaceResponse orderPlaceResponse = response.body();
-                    OrderModelPlaceOrder orderDetails = orderPlaceResponse.getOrderDetails();
+                    OrderModel orderDetails = orderPlaceResponse.getOrderDetails();
 
                     cartDetailSession.clearSession();
                     OrderPlaceDialog();
