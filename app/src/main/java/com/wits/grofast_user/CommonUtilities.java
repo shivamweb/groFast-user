@@ -20,7 +20,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -47,12 +46,8 @@ public class CommonUtilities {
             String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
 
             Log.e(TAG, "onResponse -> status       : " + status);
-            Log.e(TAG, "onResponse -> message      : " + message);
             Log.e(TAG, "onResponse -> errorMessage : " + errorMessage);
-
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> status       : " + status);
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> message      : " + message);
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> errorMessage : " + errorMessage);
+            Log.e(TAG, "onResponse -> message      : " + message);
 
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
