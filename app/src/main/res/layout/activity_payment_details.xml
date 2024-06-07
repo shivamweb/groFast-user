@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Name"
+                    android:textColor="@color/textview_text_color"
                     android:textSize="@dimen/hint_text_size" />
 
                 <TextView
@@ -49,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Number"
+                    android:textColor="@color/textview_text_color"
                     android:textSize="@dimen/hint_text_size" />
 
             </LinearLayout>
@@ -82,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/name"
-                    android:textColor="@color/default_color"
+                    android:textColor="@color/textview_text_color"
                     android:textSize="@dimen/hint_text_size" />
 
                 <EditText
@@ -101,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/phone_number"
-                    android:textColor="@color/default_color"
+                    android:textColor="@color/textview_text_color"
                     android:textSize="@dimen/hint_text_size" />
 
                 <EditText
@@ -109,10 +111,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:inputType="number"
-                    android:maxLength="10"
                     android:background="@drawable/textview_design"
                     android:hint="@string/recieved_number"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:padding="@dimen/textview_inner_padding"
                     android:textColor="@color/textview_text_color"
                     android:textColorHint="@color/default_color" />
@@ -146,9 +148,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:drawableStart="@drawable/baseline_location_on_24"
                         android:drawablePadding="5dp"
-                        android:layout_weight="1"
                         android:drawableTint="@color/Login_theme"
                         android:text="@string/delivery_address"
                         android:textColor="@color/Login_theme"
@@ -158,11 +160,11 @@
                         android:id="@+id/change_selected_address"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:visibility="gone"
+                        android:background="@drawable/selected_text"
                         android:text="@string/change_button"
                         android:textAllCaps="false"
-                        android:background="@drawable/selected_text"
-                        android:textColor="@color/button_text_color"/>
+                        android:textColor="@color/button_text_color"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -181,12 +183,12 @@
                     android:id="@+id/selected_address_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:layout_marginStart="10dp"
-                    android:textSize="@dimen/hint_text_size"
-                    android:textColor="@color/default_color"
+                    android:layout_marginTop="15dp"
                     android:text="he"
-                    android:visibility="gone"/>
+                    android:textColor="@color/default_color"
+                    android:textSize="@dimen/hint_text_size"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
@@ -245,12 +247,20 @@
             android:id="@+id/place_order"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/place_order"
-            android:textSize="@dimen/hint_text_size"
-            android:textAllCaps="false"
-            android:background="@drawable/color_button"
             android:layout_marginTop="20dp"
-            android:textColor="@color/button_text_color"/>
+            android:background="@drawable/color_button"
+            android:text="@string/place_order"
+            android:textAllCaps="false"
+            android:textColor="@color/button_text_color"
+            android:textSize="@dimen/hint_text_size" />
+
+        <ProgressBar
+            android:id="@+id/place_ordre_loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="20dp" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

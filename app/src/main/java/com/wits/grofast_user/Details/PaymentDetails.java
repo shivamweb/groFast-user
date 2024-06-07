@@ -6,6 +6,7 @@ import static com.wits.grofast_user.CommonUtilities.validateReceiverName;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +68,7 @@ public class PaymentDetails extends AppCompatActivity {
     private Integer selectedAddressId;
     private EditText receiverName, receiverNumber;
     private final String TAG = "PaymentDetails";
+    ProgressBar progressBar, place_order_loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class PaymentDetails extends AppCompatActivity {
         changeaddress = findViewById(R.id.change_selected_address);
         selectedaddressshow = findViewById(R.id.selected_address_textview);
         placeOrder = findViewById(R.id.place_order);
+        place_order_loader = findViewById(R.id.place_ordre_loader);
 
         customerName = findViewById(R.id.payment_customer_name);
         customerNumber = findViewById(R.id.payment_customer_number);
@@ -113,11 +118,14 @@ public class PaymentDetails extends AppCompatActivity {
             public void onClick(View v) {
                 String receiver = receiverName.getText().toString().trim();
                 if (validateReceiverName(receiver, getApplicationContext()) && validatePhone(receiverNumber, getApplicationContext())) {
-                        if (selectedAddressId != null)
-                            placeOrder(cartDetailSession.getCoupon(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiver, Long.parseLong(receiverNumber.getText().toString()), 1);
-                        else
-                            Toast.makeText(getApplicationContext(), getString(R.string.toast_select_delevery_address), Toast.LENGTH_SHORT).show();
+                    if (selectedAddressId != null) {
+                        placeOrder.setVisibility(View.GONE);
+                        place_order_loader.setVisibility(View.VISIBLE);
+                        placeOrder(cartDetailSession.getCoupon(), Integer.parseInt(cartDetailSession.getTip()), cartDetailSession.getAditionalNote(), selectedAddressId, receiver, Long.parseLong(receiverNumber.getText().toString()), 1);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.toast_select_delevery_address), Toast.LENGTH_SHORT).show();
                     }
+                }
             }
         });
     }
@@ -149,19 +157,20 @@ public class PaymentDetails extends AppCompatActivity {
     }
 
     private void showAddressBottomSheet() {
-        getCustomerAddress();
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.addressbottomsheet);
 
         newaddress = dialog.findViewById(R.id.bottomsheet_add_new_Address);
         close = dialog.findViewById(R.id.bottomsheet_close);
+        progressBar = dialog.findViewById(R.id.loader_address_select);
 
         //Item
         address_list_recyclerView = dialog.findViewById(R.id.bottom_sheet_address_list_recycleview);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         address_list_recyclerView.setLayoutManager(linearLayoutManager);
+        getCustomerAddress();
 
         newaddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +195,6 @@ public class PaymentDetails extends AppCompatActivity {
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -203,11 +211,15 @@ public class PaymentDetails extends AppCompatActivity {
     }
 
     private void getCustomerAddress() {
+        progressBar.setVisibility(View.VISIBLE);
+        address_list_recyclerView.setVisibility(View.GONE);
         Call<AddressFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(AddressInterface.class).fetchCustmerAddress();
         call.enqueue(new Callback<AddressFetchResponse>() {
             @Override
             public void onResponse(Call<AddressFetchResponse> call, Response<AddressFetchResponse> response) {
                 if (response.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    address_list_recyclerView.setVisibility(View.VISIBLE);
                     AddressFetchResponse addressFetchResponse = response.body();
                     addressList = addressFetchResponse.getAddressList();
                     addresslistAdapter = new AddresslistAdapter(getApplicationContext(), addressList, new AddresslistAdapter.OnDeliveryButtonClickListener() {
@@ -233,16 +245,16 @@ public class PaymentDetails extends AppCompatActivity {
         });
     }
 
-    private void placeOrder( String couponCode, int tip, String aditionalNote, int addressId, String receiverName, Long receiverPhone, int paymentMethod) {
-
-        Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(couponCode,tip,aditionalNote,addressId,receiverName,receiverPhone,paymentMethod);
+    private void placeOrder(String couponCode, int tip, String aditionalNote, int addressId, String receiverName, Long receiverPhone, int paymentMethod) {
+        Call<OrderPlaceResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OrderInterface.class).placeOrder(couponCode, tip, aditionalNote, addressId, receiverName, receiverPhone, paymentMethod);
         call.enqueue(new Callback<OrderPlaceResponse>() {
             @Override
             public void onResponse(Call<OrderPlaceResponse> call, Response<OrderPlaceResponse> response) {
                 if (response.isSuccessful()) {
+                    placeOrder.setVisibility(View.VISIBLE);
+                    place_order_loader.setVisibility(View.GONE);
                     OrderPlaceResponse orderPlaceResponse = response.body();
                     OrderModel orderDetails = orderPlaceResponse.getOrderDetails();
-
                     cartDetailSession.clearSession();
                     OrderPlaceDialog();
 
@@ -263,11 +275,17 @@ public class PaymentDetails extends AppCompatActivity {
                         Log.i(TAG, "onResponse placeOrder: payment method " + orderDetails.getPayment_metod());
                         Log.i(TAG, "onResponse placeOrder: order status " + orderDetails.getOrder_status());
                     }
-                } else handleApiError(TAG, response, getApplicationContext());
+                } else {
+                    placeOrder.setVisibility(View.VISIBLE);
+                    place_order_loader.setVisibility(View.GONE);
+                    handleApiError(TAG, response, getApplicationContext());
+                }
             }
 
             @Override
             public void onFailure(Call<OrderPlaceResponse> call, Throwable t) {
+                placeOrder.setVisibility(View.VISIBLE);
+                place_order_loader.setVisibility(View.GONE);
                 t.printStackTrace();
             }
         });

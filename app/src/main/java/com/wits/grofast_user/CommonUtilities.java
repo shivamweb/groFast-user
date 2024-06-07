@@ -242,7 +242,6 @@ public class CommonUtilities {
     }
 
     public static boolean validateAddress(String address, Context context) {
-
         if (address.isEmpty()) {
             Toast.makeText(context, context.getString(R.string.toast_enter_addres), Toast.LENGTH_SHORT).show();
             return false;

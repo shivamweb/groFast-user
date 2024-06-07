@@ -55,13 +55,12 @@ public class CartFragment extends Fragment {
     TextView additem, couponLink, tip20, tip30, tipother;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
-    AppCompatButton additembutton, addCouponbutton, checkout;
+    AppCompatButton additembutton, addCouponbutton, checkout,startshopping;
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
     private static TextView grandTotal, subTotal, cart_empty_text1, cart_empty_text2;
     private static ProgressBar progressBar;
     private static LinearLayout cartLinearLayout, cart_empty_layout;
-
     private UserActivitySession userActivitySession;
     private CartDetailSession cartDetailSession;
     private String selectedTip = "0";
@@ -116,6 +115,7 @@ public class CartFragment extends Fragment {
         additembutton = root.findViewById(R.id.cart_add_item_button);
         addCouponbutton = root.findViewById(R.id.cart_add_coupon_button);
         checkout = root.findViewById(R.id.checkout);
+        startshopping=root.findViewById(R.id.cart_empty_start_shopping);
 
         //Image view
         additemimage = root.findViewById(R.id.cart_add_item_image);
@@ -124,6 +124,16 @@ public class CartFragment extends Fragment {
 
         progressBar = root.findViewById(R.id.progress_bar_cart_fragment);
         cartLinearLayout = root.findViewById(R.id.cart_linear_layout);
+
+        startshopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentnav, new ProductFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
