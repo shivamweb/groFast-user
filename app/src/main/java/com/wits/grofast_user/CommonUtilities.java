@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,9 +21,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.wits.grofast_user.session.UserDetailSession;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,9 +37,14 @@ import java.util.Locale;
 import retrofit2.Response;
 
 public class CommonUtilities {
+    private static FirebaseAnalytics mFirebaseAnalytics;
 
     public static void handleApiError(String TAG, Response response, Context context) {
         try {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+            UserDetailSession userDetailSession = new UserDetailSession(context);
+            Bundle bundle = new Bundle();
+
             String errorBodyString = response.errorBody().string();
             Gson gson = new Gson();
             JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
@@ -50,10 +57,13 @@ public class CommonUtilities {
             Log.e(TAG, "onResponse -> message      : " + message);
             Log.e(TAG, "onResponse -> errorMessage : " + errorMessage);
 
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> status       : " + status);
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> message      : " + message);
-            FirebaseCrashlytics.getInstance().log(TAG + " :: onResponse -> errorMessage : " + errorMessage);
-
+            bundle.putInt("User Id ", userDetailSession.getUserId());
+            bundle.putString("user_name", userDetailSession.getName());
+            bundle.putString("TAG", TAG);
+            bundle.putString("status", status);
+            bundle.putString("message", message);
+            bundle.putString("errorMessage", errorMessage);
+            mFirebaseAnalytics.logEvent("ApiError", bundle);
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e(TAG, "handleApiError: error " + e.getMessage());
