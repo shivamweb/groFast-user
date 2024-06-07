@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.wits.grofast_user.Adapter.AllProductAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.ProductInerface;
@@ -46,15 +47,17 @@ public class ProductFragment extends Fragment {
         return fragment;
     }
 
+    private boolean isCategoriesProductLoaded = false;
+    private boolean isProductsLoaded = false;
     RecyclerView recyclerView;
     AllProductAdapter allProductAdapter;
     private List<ProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
     NestedScrollView show_data;
-    LinearLayout load;
     private final String TAG = "ProductFragment";
     private UserActivitySession userActivitySession;
     AppCompatButton completeorderbtn;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,10 +71,11 @@ public class ProductFragment extends Fragment {
 
         userActivitySession = new UserActivitySession(getContext());
         recyclerView = root.findViewById(R.id.all_product_recycleview);
-        load = root.findViewById(R.id.progress_bar_product_page);
+        shimmerFrameLayout = root.findViewById(R.id.shimmer_layout_product);
         show_data = root.findViewById(R.id.show_product_data);
         completeorderbtn = root.findViewById(R.id.complete_order_btn);
 
+        ShowPageLoader();
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -97,15 +101,11 @@ public class ProductFragment extends Fragment {
     }
 
     private void getProducts(int page) {
-        load.setVisibility(View.VISIBLE);
-        show_data.setVisibility(GONE);
         Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProducts(page);
         call.enqueue(new Callback<ProductResponse>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                load.setVisibility(GONE);
-                show_data.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     ProductResponse productResponse = response.body();
                     ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
@@ -117,6 +117,7 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: getProducts message " + productResponse.getMessage());
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+                    HidePageLoader();
                 } else {
                     if (isAdded()) handleApiError(TAG, response, getContext());
                 }
@@ -130,16 +131,12 @@ public class ProductFragment extends Fragment {
     }
 
     private void getProductByCategory(String category) {
-        load.setVisibility(View.VISIBLE);
-        show_data.setVisibility(GONE);
 
         Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProductsByCategory(1, category);
 
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                load.setVisibility(GONE);
-                show_data.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     ProductResponse productResponse = response.body();
                     ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
@@ -152,6 +149,7 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
                     Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    HidePageLoader();
                 } else {
                     handleApiError(TAG, response, getContext());
                 }
@@ -162,6 +160,20 @@ public class ProductFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void ShowPageLoader() {
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        show_data.setVisibility(View.GONE);
+        completeorderbtn.setVisibility(GONE);
+    }
+
+    private void HidePageLoader() {
+        shimmerFrameLayout.setVisibility(View.GONE);
+        shimmerFrameLayout.stopShimmer();
+        show_data.setVisibility(View.VISIBLE);
+        completeorderbtn.setVisibility(View.VISIBLE);
     }
 
     @Override
