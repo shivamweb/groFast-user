@@ -93,13 +93,6 @@ public class Wallethistory extends AppCompatActivity {
         });
 
     }
-
-    private void showNoWalletMessage(String message) {
-        walletlayout.setVisibility(View.GONE);
-        noWalletHistory.setText(message);
-        nowalletlayout.setVisibility(View.VISIBLE);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -118,4 +111,11 @@ public class Wallethistory extends AppCompatActivity {
         walletlayout.setVisibility(View.VISIBLE);
         loader.setVisibility(GONE);
     }
+
+    private void showNoWalletMessage(String message) {
+        walletlayout.setVisibility(View.GONE);
+        noWalletHistory.setText(message);
+        nowalletlayout.setVisibility(View.VISIBLE);
+    }
+
 }

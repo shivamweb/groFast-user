@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -36,6 +39,9 @@ public class MyAddress extends AppCompatActivity {
     private UserActivitySession userActivitySession;
     AppCompatButton add_address;
     private final String TAG = "MyAddress";
+    ProgressBar progressBar;
+    LinearLayout noaddresslayout;
+    TextView noaddresstext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +54,18 @@ public class MyAddress extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.show_all_address_recycleview);
         add_address = findViewById(R.id.Add_address);
+        progressBar = findViewById(R.id.loader_address);
+        noaddresslayout = findViewById(R.id.no_address_layout);
+        noaddresstext = findViewById(R.id.no_address_text1);
         userActivitySession = new UserActivitySession(getApplicationContext());
-
+        ShowPageLoader();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         add_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(getApplicationContext(),AddAddress.class);
+                Intent i = new Intent(getApplicationContext(), AddAddress.class);
                 startActivity(i);
             }
         });
@@ -73,7 +82,11 @@ public class MyAddress extends AppCompatActivity {
                     addressList = addressFetchResponse.getAddressList();
                     showAllAddressAdapter = new ShowAllAddressAdapter(getApplicationContext(), addressList);
                     recyclerView.setAdapter(showAllAddressAdapter);
-
+                    HidePageLoader();
+                    if (addressList.isEmpty()){
+                        recyclerView.setVisibility(View.GONE);
+                        noaddresslayout.setVisibility(View.VISIBLE);
+                    }
                     Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
                 } else handleApiError(TAG, response, getApplicationContext());
             }
@@ -94,9 +107,28 @@ public class MyAddress extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void ShowPageLoader() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        add_address.setVisibility(View.GONE);
+    }
+
+    private void HidePageLoader() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        add_address.setVisibility(View.VISIBLE);
+    }
+
+    private void showNoWalletMessage(String message) {
+        recyclerView.setVisibility(View.GONE);
+        noaddresstext.setText(message);
+        noaddresslayout.setVisibility(View.VISIBLE);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        ShowPageLoader();
         loadAddress();
     }
 }
