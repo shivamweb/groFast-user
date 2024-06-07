@@ -83,7 +83,7 @@ public class EditProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         userDetailSession = new UserDetailSession(getApplicationContext());
-        userActivitySession=new UserActivitySession(getApplicationContext());
+        userActivitySession = new UserActivitySession(getApplicationContext());
         showProfileImage = findViewById(R.id.show_profile_image);
         addProfileImage = findViewById(R.id.add_profile_image);
         editProfileImage = findViewById(R.id.edit_profile_image);
@@ -248,7 +248,7 @@ public class EditProfile extends AppCompatActivity {
                 String enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
                 loadingOverlay.setVisibility(View.VISIBLE);
                 Integer userOtp = Integer.parseInt(enteredOtp);
-                Call<OtpVerifyResponse> call = RetrofitService.getClient().create(UserInterface.class).verifyOtp(phone, userOtp);
+                Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).verifyOtp(phone, userOtp);
                 call.enqueue(new Callback<OtpVerifyResponse>() {
                     @Override
                     public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
@@ -430,7 +430,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void sendOtp(String phone) {
-        Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(phone);
+        Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).login(phone);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -494,6 +494,7 @@ public class EditProfile extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

@@ -86,7 +86,7 @@ public class OtpPage extends AppCompatActivity {
                 if (isOtpValid()) {
                     loadingOverlay.setVisibility(View.VISIBLE);
                     Integer userOtp = Integer.parseInt(enteredOtp);
-                    Call<OtpVerifyResponse> call = RetrofitService.getClient().create(UserInterface.class).verifyOtp(receivedPhone, userOtp);
+                    Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).verifyOtp(receivedPhone, userOtp);
                     call.enqueue(new Callback<OtpVerifyResponse>() {
                         @Override
                         public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
@@ -130,7 +130,7 @@ public class OtpPage extends AppCompatActivity {
             public void onClick(View v) {
                 if (countDownTimer.getText().toString().equals("00:00")) {
                     loadingOverlay.setVisibility(View.VISIBLE);
-                    Call<LoginResponse> call = RetrofitService.getClient().create(UserInterface.class).login(receivedPhone);
+                    Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).login(receivedPhone);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override

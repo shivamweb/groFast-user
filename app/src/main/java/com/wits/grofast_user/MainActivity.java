@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     showToastAndFocus(getString(R.string.toast_message_valid_number));
                 } else {
                     Log.e(TAG, "onClick: phone no " + phone);
-                    UserInterface userInterface = RetrofitService.getClient().create(UserInterface.class);
+                    UserInterface userInterface = RetrofitService.getUnAuthorizedClient().create(UserInterface.class);
                     Call<LoginResponse> call = userInterface.login(phone);
                     loadingOverlay.setVisibility(View.VISIBLE);
                     call.enqueue(new Callback<LoginResponse>() {
