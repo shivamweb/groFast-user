@@ -64,19 +64,19 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="@dimen/card_corners">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            app:cardCornerRadius="@dimen/card_corners">-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wallet_history_recycleview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/linear_padding" />
+                android:layout_marginTop="10dp"
+                android:layout_height="match_parent" />
 
-        </androidx.cardview.widget.CardView>
+<!--        </androidx.cardview.widget.CardView>-->
 
     </LinearLayout>
 
@@ -120,5 +120,13 @@
 
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loader_wallet_history"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
 
 </LinearLayout>
