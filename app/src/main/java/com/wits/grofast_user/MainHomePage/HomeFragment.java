@@ -98,7 +98,6 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentnav, fragment);
