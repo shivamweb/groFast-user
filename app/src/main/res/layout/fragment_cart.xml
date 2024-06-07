@@ -450,10 +450,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@color/white"
         android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -482,7 +481,17 @@
             android:textSize="@dimen/hint_text_size"
             android:visibility="visible" />
 
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cart_empty_start_shopping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_background"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/start_shopping"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <ProgressBar
@@ -496,8 +505,8 @@
         android:id="@+id/shimmer_layout_cart"
         layout="@layout/shimmer_layout"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 
 </FrameLayout>
