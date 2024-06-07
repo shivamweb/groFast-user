@@ -1,6 +1,10 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.CommonUtilities.getDateFromTimestamp;
+import static com.wits.grofast_user.CommonUtilities.getTimeFromTimestamp;
+
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +35,18 @@ public class WallethistoryAdapter extends RecyclerView.Adapter<WallethistoryAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WallethistoryAdapter.ViewHolders holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
         WalletModel model = walletList.get(position);
 
         holder.status.setText(model.getStatus());
         holder.point.setText(model.getPoints().toString());
         holder.orderid.setText(model.getOrder_id().toString());
-        holder.created.setText(model.getCreated_at());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String date = getDateFromTimestamp(model.getCreated_at());
+            String time = getTimeFromTimestamp(model.getCreated_at());
+            holder.created.setText(date + " " + time);
+        } else holder.created.setText("" + model.getCreated_at());
     }
 
     @Override
