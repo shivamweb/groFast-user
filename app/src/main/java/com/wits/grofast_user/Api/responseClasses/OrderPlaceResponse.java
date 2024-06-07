@@ -1,13 +1,14 @@
 package com.wits.grofast_user.Api.responseClasses;
 
 import com.google.gson.annotations.SerializedName;
+import com.wits.grofast_user.Api.responseModels.OrderModel;
 
 public class OrderPlaceResponse {
     private int status;
     private String message;
 
     @SerializedName("order")
-    private OrderModelPlaceOrder orderDetails;
+    private OrderModel orderDetails;
 
     public int getStatus() {
         return status;
@@ -17,7 +18,7 @@ public class OrderPlaceResponse {
         return message;
     }
 
-    public OrderModelPlaceOrder getOrderDetails() {
+    public OrderModel getOrderDetails() {
         return orderDetails;
     }
 }
