@@ -81,10 +81,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             totalqunatity.setText(getIntent().getStringExtra("quantity"));
             Glide.with(getApplicationContext()).load(getIntent().getStringExtra("image")).placeholder(R.drawable.gobhi_image).into(productImage);
         }
+
+        //Related Product Item
         relatedItems = new ArrayList<>();
         loadRelatedItems();
-
-        //Product Item
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         relatedProductAdapter = new RelatedProductAdapter(this, relatedItems);
