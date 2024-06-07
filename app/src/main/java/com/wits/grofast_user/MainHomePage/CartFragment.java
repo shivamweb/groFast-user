@@ -51,14 +51,12 @@ public class CartFragment extends Fragment {
     RecyclerView recyclerView_cart_resent_product, taxes_charges_cart_recycleview;
     CartResentAddProductAdapter cartItemsAdapter;
     TaxesChargesAdapter taxesChargesAdapter;
-
     TextView additem, couponLink, tip20, tip30, tipother;
     LinearLayout additemlayout, showeditItemtextlayout, addcoponlayout, showeditCouponlayout, Taxeslayout, tiplayout;
     EditText additemedittext, coupontext, tipamount;
     AppCompatButton additembutton, addCouponbutton, checkout;
     private List<CartModel> cartModelList = new ArrayList<>();
     private List<TaxAndCharge> taxAndCharges = new ArrayList<>();
-
     private static TextView grandTotal, subTotal, cart_empty_text1, cart_empty_text2;
     private static ProgressBar progressBar;
     private static LinearLayout cartLinearLayout, cart_empty_layout;

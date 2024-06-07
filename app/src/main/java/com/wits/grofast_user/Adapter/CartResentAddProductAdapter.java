@@ -37,7 +37,6 @@ public class CartResentAddProductAdapter extends RecyclerView.Adapter<CartResent
     private List<CartModel> cartItems;
     private Context context;
     private RecyclerView recyclerView;
-
     private final String TAG = "CartResentAddProductAdapter";
     private UserActivitySession userActivitySession;
     private CartDetailSession cartDetailSession;
