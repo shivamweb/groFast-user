@@ -8,14 +8,6 @@
     android:orientation="vertical"
     tools:context=".Details.Coupon">
 
-    <include
-        android:id="@+id/coupon_load"
-        layout="@layout/loading_activity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_coupon_data"
         android:layout_width="match_parent"
@@ -72,6 +64,53 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/coupon_load"
+        layout="@layout/loading_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/no_coupon_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_coupon" />
+
+        <TextView
+            android:id="@+id/no_coupon_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="no data istory hhahaha"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/no_coupon_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="nodara "
+            android:textColor="@color/default_color"
+            android:textSize="@dimen/hint_text_size"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
 </LinearLayout>
 

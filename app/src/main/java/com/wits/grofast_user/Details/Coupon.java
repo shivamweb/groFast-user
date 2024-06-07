@@ -1,5 +1,6 @@
 package com.wits.grofast_user.Details;
 
+import static android.view.View.GONE;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wits.grofast_user.Adapter.AllCouponAdapter;
 import com.wits.grofast_user.Adapter.AllProductAdapter;
@@ -46,8 +48,9 @@ public class Coupon extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     private final String TAG = "CouponActivity";
     private UserActivitySession userActivitySession;
-    LinearLayout load_data;
+    LinearLayout load_data, nocouponlayout;
     NestedScrollView data;
+    TextView nocoupontext1, nocoupontext2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,7 @@ public class Coupon extends AppCompatActivity {
         data = findViewById(R.id.scroll_coupon_data);
 
         userActivitySession = new UserActivitySession(getApplicationContext());
-        load_data.setVisibility(View.VISIBLE);
-        data.setVisibility(View.GONE);
+        ShowPageLoader();
         loadCouponItems();
 
         //Coupon Item
@@ -78,14 +80,18 @@ public class Coupon extends AppCompatActivity {
         call.enqueue(new Callback<CouponResponse>() {
             @Override
             public void onResponse(Call<CouponResponse> call, Response<CouponResponse> response) {
-                load_data.setVisibility(View.GONE);
-                data.setVisibility(View.VISIBLE);
+
                 if (response.isSuccessful()) {
                     CouponResponse couponResponse = response.body();
                     CouponPaginationRes couponPaginationRes = couponResponse.getCouponPaginationRes();
                     couponModelList = couponPaginationRes.getCouponList();
                     allCouponAdapter = new AllCouponAdapter(getApplicationContext(), couponModelList);
                     recyclerView.setAdapter(allCouponAdapter);
+                    HidePageLoader();
+                    if (couponPaginationRes.getCouponList().isEmpty()) {
+                        data.setVisibility(View.GONE);
+                        nocouponlayout.setVisibility(View.VISIBLE);
+                    }
                     Log.i(TAG, "onResponse: total products " + couponPaginationRes.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + couponPaginationRes.getTo());
                 } else {
@@ -109,4 +115,20 @@ public class Coupon extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void ShowPageLoader() {
+        load_data.setVisibility(View.VISIBLE);
+        data.setVisibility(View.GONE);
+    }
+
+    private void HidePageLoader() {
+        load_data.setVisibility(View.GONE);
+        data.setVisibility(View.VISIBLE);
+    }
+
+    private void showNoWalletMessage(String message) {
+        data.setVisibility(View.GONE);
+        nocoupontext1.setText(message);
+        nocouponlayout.setVisibility(View.VISIBLE);
+    }
 }
