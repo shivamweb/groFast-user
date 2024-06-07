@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "819067731048",
+    "project_id": "grofast-60909",
+    "storage_bucket": "grofast-60909.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819067731048:android:fe486a7c5a3d9cf56e0fdd",
+        "android_client_info": {
+          "package_name": "com.wits.grofast_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbhXOeHItu3S5B0bUpyG1XwzxGnShFPGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819067731048:android:6ccff7a50b6d98de6e0fdd",
+        "android_client_info": {
+          "package_name": "com.wits.grofast_user.MainHomePage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbhXOeHItu3S5B0bUpyG1XwzxGnShFPGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
