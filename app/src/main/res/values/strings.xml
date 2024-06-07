@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Grocery Delivery App</string>
+    <string name="app_name">Grofast Grocery Store</string>
 
     <!-- Main Activity-->
 
-    <string name="appname">Grocery Delivery App</string>
+    <string name="appname">Grofast Grocery Store</string>
     <string name="hint_login_or_sign_up">Log in or sign up</string>
     <string name="hint_phone_number">Phone number</string>
     <string name="login_end_title">By continuing you agree to our</string>

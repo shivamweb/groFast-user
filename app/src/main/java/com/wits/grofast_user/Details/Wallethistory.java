@@ -1,5 +1,6 @@
 package com.wits.grofast_user.Details;
 
+import static android.view.View.GONE;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +33,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Wallethistory extends AppCompatActivity {
-
     private RecyclerView recyclerView;
     private WallethistoryAdapter wallethistoryAdapter;
     private final String TAG = "WalletHistoryActivity";
@@ -40,6 +41,7 @@ public class Wallethistory extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private TextView noWalletHistory;
     LinearLayout nowalletlayout, walletlayout;
+    ProgressBar loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +56,14 @@ public class Wallethistory extends AppCompatActivity {
         noWalletHistory = findViewById(R.id.no_wallet_hostory);
         nowalletlayout = findViewById(R.id.no_wallet_layout);
         walletlayout = findViewById(R.id.wallet_history_layout);
+        loader = findViewById(R.id.loader_wallet_history);
 
         //Wallet history Item
         userActivitySession = new UserActivitySession(getApplicationContext());
-        loadWalletDetails();
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
+        ShowPageLoader();
+        loadWalletDetails();
     }
 
     private void loadWalletDetails() {
@@ -72,12 +75,12 @@ public class Wallethistory extends AppCompatActivity {
                     WalletResponse walletResponse = response.body();
                     WalletPaginatedRes walletPaginatedRes = walletResponse.getWalletPaginatedRes();
                     walletModelslist = walletPaginatedRes.getWalletList();
+                    wallethistoryAdapter = new WallethistoryAdapter(walletModelslist, getApplicationContext());
+                    recyclerView.setAdapter(wallethistoryAdapter);
+                    HidePageLoader();
                     if (walletPaginatedRes.getWalletList().isEmpty()) {
                         showNoWalletMessage(walletResponse.getMessage());
                     }
-                    wallethistoryAdapter = new WallethistoryAdapter(walletModelslist, getApplicationContext());
-                    recyclerView.setAdapter(wallethistoryAdapter);
-
                     Log.i(TAG, "onResponse: fetched " + walletPaginatedRes.getTo() + " wallets");
                     Log.i(TAG, "onResponse: total wallets " + walletPaginatedRes.getTotal());
                 } else handleApiError(TAG, response, getApplicationContext());
@@ -104,5 +107,15 @@ public class Wallethistory extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void ShowPageLoader() {
+        walletlayout.setVisibility(View.GONE);
+        loader.setVisibility(View.VISIBLE);
+    }
+
+    private void HidePageLoader() {
+        walletlayout.setVisibility(View.VISIBLE);
+        loader.setVisibility(GONE);
     }
 }
