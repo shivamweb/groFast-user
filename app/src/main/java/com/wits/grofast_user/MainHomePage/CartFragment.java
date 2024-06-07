@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.CartResentAddProductAdapter;
@@ -67,11 +68,11 @@ public class CartFragment extends Fragment {
     ImageView additemimage, couponimagechange, Taxesimage;
     LinearLayoutManager linearLayoutManager;
     private final String TAG = "CartFragment";
-    NestedScrollView datashow;
+    private NestedScrollView datashow;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_cart, container, false);
 
@@ -88,10 +89,12 @@ public class CartFragment extends Fragment {
         subTotal = root.findViewById(R.id.subtotal);
         grandTotal = root.findViewById(R.id.grand_total);
 
+        shimmerFrameLayout = root.findViewById(R.id.shimmer_layout_cart);
+
         userActivitySession = new UserActivitySession(getContext());
         cartDetailSession = new CartDetailSession(getContext());
 
-        cart_empty_text1=root.findViewById(R.id.cart_empty_text1);
+        cart_empty_text1 = root.findViewById(R.id.cart_empty_text1);
         cart_empty_text2 = root.findViewById(R.id.cart_empty_text2);
 
         //Linear layout
@@ -133,7 +136,7 @@ public class CartFragment extends Fragment {
         addCouponbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadCartItems(coupontext.getText().toString(), null);
+                loadCartItems(coupontext.getText().toString(), null, false);
             }
         });
 
@@ -150,7 +153,7 @@ public class CartFragment extends Fragment {
                     tipamount.setVisibility(View.VISIBLE);
                 } else {
                     cartDetailSession.setTip(selectedTip);
-                    loadCartItems(cartDetailSession.getCoupon(), null);
+                    loadCartItems(cartDetailSession.getCoupon(), null, false);
                     tipamount.setText("");
                     tipamount.setVisibility(View.GONE);
                 }
@@ -171,7 +174,7 @@ public class CartFragment extends Fragment {
                 Log.e(TAG, "onTextChanged: tip text " + s.toString());
                 if (tipamount.getVisibility() == View.VISIBLE) {
                     cartDetailSession.setTip(s.toString());
-                    loadCartItems(cartDetailSession.getCoupon(), null);
+                    loadCartItems(cartDetailSession.getCoupon(), null, false);
                 }
             }
 
@@ -267,7 +270,7 @@ public class CartFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_cart_resent_product.setLayoutManager(linearLayoutManager);
 
-        loadCartItems(cartDetailSession.getCoupon(), null);
+        loadCartItems(cartDetailSession.getCoupon(), null, true);
 
         //Taxes Charges cart item
         taxes_charges_cart_recycleview = root.findViewById(R.id.taxes_charges_cart_recycleview);
@@ -287,14 +290,16 @@ public class CartFragment extends Fragment {
         return root;
     }
 
-    private void loadCartItems(String couponCode, String aditionalNote) {
+    private void loadCartItems(String couponCode, String aditionalNote, boolean isFirstLoad) {
         Log.e(TAG, "loadCartItems: tip " + cartDetailSession.getTip());
         Call<CartFetchResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).fetchCartDetails(Integer.parseInt(cartDetailSession.getTip()), couponCode, aditionalNote);
-        startProgrtessBar();
+        if (isFirstLoad) startShimmereffect();
+        else startProgrtessBar();
         call.enqueue(new Callback<CartFetchResponse>() {
             @Override
             public void onResponse(Call<CartFetchResponse> call, Response<CartFetchResponse> response) {
                 stopProgrtessBar();
+                stopShimmereffect();
                 if (response.isSuccessful()) {
                     CartFetchResponse cartFetchResponse = response.body();
                     cartModelList = cartFetchResponse.getCartModelList();
@@ -330,6 +335,7 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CartFetchResponse> call, Throwable t) {
+                stopShimmereffect();
                 stopProgrtessBar();
                 t.printStackTrace();
             }
@@ -363,12 +369,7 @@ public class CartFragment extends Fragment {
         selectedTip.setCompoundDrawableTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
 
         // Ensure the padding remains 20dp on left and right
-        selectedTip.setPadding(
-                getResources().getDimensionPixelSize(R.dimen.padding_left_right),
-                selectedTip.getPaddingTop(),
-                getResources().getDimensionPixelSize(R.dimen.padding_left_right),
-                selectedTip.getPaddingBottom()
-        );
+        selectedTip.setPadding(getResources().getDimensionPixelSize(R.dimen.padding_left_right), selectedTip.getPaddingTop(), getResources().getDimensionPixelSize(R.dimen.padding_left_right), selectedTip.getPaddingBottom());
     }
 
     public static TextView getSubTotalTextView() {
@@ -385,5 +386,17 @@ public class CartFragment extends Fragment {
 
     public static void stopProgrtessBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void startShimmereffect() {
+        datashow.setVisibility(View.GONE);
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void stopShimmereffect() {
+        datashow.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
     }
 }
