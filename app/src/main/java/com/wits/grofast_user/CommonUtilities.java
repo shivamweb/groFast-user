@@ -312,6 +312,9 @@ public class CommonUtilities {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getDateFromTimestamp(String isoTimestamp) {
+        if (isoTimestamp == null || isoTimestamp.isEmpty()) {
+            return "";
+        }
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoTimestamp);
         ZonedDateTime istDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
 
@@ -321,6 +324,9 @@ public class CommonUtilities {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getTimeFromTimestamp(String isoTimestamp) {
+        if (isoTimestamp == null || isoTimestamp.isEmpty()) {
+            return "";
+        }
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoTimestamp);
         ZonedDateTime istDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
 
