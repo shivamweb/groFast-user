@@ -1,6 +1,9 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.CommonUtilities.getDateFromTimestamp;
+
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +36,13 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AllHistoryAdapter.ViewHolders holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolders holder, int position) {
         OrderModel item = orderList.get(position);
         holder.ProductOrderId.setText("" + item.getId());
-        holder.ProductDate.setText(item.getCreated_at());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            holder.ProductDate.setText(getDateFromTimestamp(item.getCreated_at()));
+        } else holder.ProductDate.setText(item.getCreated_at());
+
         holder.ProductPrice.setText("" + item.getTotal_amount());
 
         List<OrderItemModel> orderItems = item.getOrderItems();

@@ -20,6 +20,8 @@ public class OrderItemModel {
 
     private String uuid;
 
+    private ProductModel product;
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -54,5 +56,9 @@ public class OrderItemModel {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public ProductModel getProduct() {
+        return product;
     }
 }

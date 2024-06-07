@@ -1,5 +1,7 @@
 package com.wits.grofast_user.Adapter;
 
+import static com.wits.grofast_user.Api.RetrofitService.domain;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.responseModels.OrderItemModel;
+import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -33,11 +37,12 @@ public class AllInnerHistoryAdapter extends RecyclerView.Adapter<AllInnerHistory
     @Override
     public void onBindViewHolder(@NonNull AllInnerHistoryAdapter.ViewHolders holder, int position) {
         OrderItemModel item = orderItems.get(position);
+        ProductModel product = item.getProduct();
 
         holder.quantity.setText("" + item.getQuantity());
-        holder.productname.setText("" + item.getProduct_id());
-        holder.price.setText("" + item.getPrice());
-        holder.image.setImageResource(item.getQuantity());
+        holder.productname.setText("" + product.getName());
+        holder.price.setText("" + item.getSubtotal());
+        Glide.with(context).load(domain + product.getImage()).placeholder(R.drawable.apple).into(holder.image);
     }
 
     @Override

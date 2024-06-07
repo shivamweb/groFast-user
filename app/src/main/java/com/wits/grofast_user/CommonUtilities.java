@@ -3,6 +3,7 @@ package com.wits.grofast_user;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,14 +17,17 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -305,5 +309,25 @@ public class CommonUtilities {
         }
         return true;
     }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getDateFromTimestamp(String isoTimestamp) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoTimestamp);
+        ZonedDateTime istDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return istDateTime.format(dateFormatter);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getTimeFromTimestamp(String isoTimestamp) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(isoTimestamp);
+        ZonedDateTime istDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        return istDateTime.format(timeFormatter);
+    }
+
 
 }
