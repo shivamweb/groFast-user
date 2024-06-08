@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,112 +19,103 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/full_address"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
+                android:hint="@string/full_address"
+                app:boxStrokeColor="@color/active"
+                app:hintTextColor="@color/default_color">
 
-            <EditText
-                android:id="@+id/edit_address_address"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_address_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textview_text_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:hint="@string/hint_enter_address"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:padding="@dimen/textview_inner_padding"
-                android:scrollbars="vertical"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color"
-                android:textSize="16sp" />
+                android:hint="@string/country"
+                app:boxStrokeColor="@color/active"
+                app:hintTextColor="@color/default_color">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_address_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="@string/India"
+                    android:textColor="@color/textview_text_color"
+                    android:textSize="@dimen/hint_text_size" />
 
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/country"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
+                android:hint="@string/state"
+                app:boxStrokeColor="@color/active"
+                app:hintTextColor="@color/default_color">
 
-            <EditText
-                android:id="@+id/edit_address_country"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_address_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:text="@string/Bihar"
+                    android:textColor="@color/textview_text_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:padding="@dimen/textview_inner_padding"
-                android:scrollbars="vertical"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color"
-                android:textSize="16sp" />
+                android:hint="@string/city"
+                app:boxStrokeColor="@color/active"
+                app:hintTextColor="@color/default_color">
 
-            <TextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_address_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textview_text_color"
+                    android:textSize="@dimen/hint_text_size" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/state"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
+                android:hint="@string/pincode"
+                app:boxStrokeColor="@color/active"
+                app:hintTextColor="@color/default_color">
 
-            <EditText
-                android:id="@+id/edit_address_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:padding="@dimen/textview_inner_padding"
-                android:scrollbars="vertical"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color"
-                android:textSize="16sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_address_pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textview_text_color"
+                    android:textSize="@dimen/hint_text_size" />
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/city"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/edit_address_city"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:hint="Location"
-                android:padding="@dimen/textview_inner_padding"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/pincode"
-                android:textColor="@color/default_color"
-                android:textSize="@dimen/text_size"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/edit_address_pincode"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_design"
-                android:padding="@dimen/textview_inner_padding"
-                android:textColor="@color/textview_text_color"
-                android:textColorHint="@color/default_color" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

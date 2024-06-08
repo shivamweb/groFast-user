@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.AddressInterface;
 import com.wits.grofast_user.Api.responseClasses.AddressAddResponse;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class AddAddress extends AppCompatActivity {
 
     private AppCompatButton saveAddress;
-    private EditText address, country, state, city, pincode;
+    private TextInputEditText address, country, state, city, pincode;
     private final String TAG = "AddAddress";
     private UserActivitySession userActivitySession;
     @Override

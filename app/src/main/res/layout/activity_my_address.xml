@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:layout_above="@id/Add_address"
             android:clipToPadding="false"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="16dp"
+            android:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/Add_address"
@@ -33,33 +34,33 @@
             android:textColor="@color/button_text_color"
             android:textSize="@dimen/button_text_size" />
 
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/no_address_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
+        <LinearLayout
+            android:id="@+id/no_address_layout"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/add_address_icon" />
-
-        <TextView
-            android:id="@+id/no_address_text1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="There is not address added by you"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size" />
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/add_address_icon" />
+
+            <TextView
+                android:id="@+id/no_address_text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="There is "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/loader_address"

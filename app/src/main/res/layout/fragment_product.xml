@@ -4,13 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
+    android:id="@+id/fram_product"
     tools:context=".MainHomePage.ProductFragment">
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/show_product_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -106,13 +112,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="10dp"
         android:background="@drawable/round_background"
         android:gravity="center"
         android:text="@string/complete_button"
         android:textAllCaps="false"
         android:textColor="@color/button_text_color"
-        android:textSize="@dimen/button_text_size" />
+        android:textSize="@dimen/button_text_size"
+        android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/no_product_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/empty_product" />
+
+        <TextView
+            android:id="@+id/no_product_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="There is "
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size" />
+
+    </LinearLayout>
 
     <include
         android:id="@+id/shimmer_layout_product"

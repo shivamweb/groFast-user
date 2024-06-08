@@ -186,6 +186,8 @@
     <string name="India">India</string>
     <string name="Bihar">Bihar</string>
     <string name="pincode">Pincode</string>
+    <string name="Choose_an_action">Choose an action</string>
+    <string name="delete_address">Delete Address</string>
 
 
     <!--    Product details-->
