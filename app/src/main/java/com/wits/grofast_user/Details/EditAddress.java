@@ -11,6 +11,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.wits.grofast_user.Api.responseModels.AddressModel;
 import com.wits.grofast_user.R;
 
@@ -21,10 +22,10 @@ public class EditAddress extends AppCompatActivity {
     private AddressModel addressModel;
     private final String TAG = "EditAddress";
 
-    private EditText country, state, address;
-    private Spinner spinCity, spinPincode;
+    private TextInputEditText country, state, address, spinCity, spinPincode;
     private List<String> cityList = new ArrayList<>();
     private List<String> pincodeList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +56,11 @@ public class EditAddress extends AppCompatActivity {
             address.setText(addressModel.getAddress());
             country.setText(addressModel.getCountry());
             state.setText(addressModel.getState());
+            spinCity.setText(addressModel.getCity());
+            spinPincode.setText(addressModel.getPin_code());
 
-            cityList.add(addressModel.getCity());
-            pincodeList.add(addressModel.getPin_code());
+//            cityList.add(addressModel.getCity());
+//            pincodeList.add(addressModel.getPin_code());
 
             ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, cityList);
             ArrayAdapter<String> pincodeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, pincodeList);
@@ -65,10 +68,11 @@ public class EditAddress extends AppCompatActivity {
             cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             pincodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            spinCity.setAdapter(cityAdapter);
-            spinPincode.setAdapter(pincodeAdapter);
+//            spinCity.setAdapter(cityAdapter);
+//            spinPincode.setAdapter(pincodeAdapter);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

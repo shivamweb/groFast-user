@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -20,12 +22,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.AllProductAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.ProductInerface;
 import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.ProductResponse;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
+import com.wits.grofast_user.KeyboardUtil;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
@@ -58,6 +63,9 @@ public class ProductFragment extends Fragment {
     private UserActivitySession userActivitySession;
     AppCompatButton completeorderbtn;
     private ShimmerFrameLayout shimmerFrameLayout;
+    RelativeLayout product_layout;
+    LinearLayout no_product_layout;
+    TextView no_product_text;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +82,9 @@ public class ProductFragment extends Fragment {
         shimmerFrameLayout = root.findViewById(R.id.shimmer_layout_product);
         show_data = root.findViewById(R.id.show_product_data);
         completeorderbtn = root.findViewById(R.id.complete_order_btn);
+        product_layout = root.findViewById(R.id.relative_layout_product);
+        no_product_layout = root.findViewById(R.id.no_product_layout);
+        no_product_text = root.findViewById(R.id.no_product_text1);
 
         ShowPageLoader();
         //Product Item
@@ -96,6 +107,18 @@ public class ProductFragment extends Fragment {
                 transaction.commit();
             }
         });
+        final View rootLayout = root.findViewById(R.id.fram_product);
+        KeyboardUtil.setKeyboardVisibilityListener(rootLayout, new KeyboardUtil.KeyboardVisibilityListener() {
+            @Override
+            public void onKeyboardVisibilityChanged(boolean isVisible) {
+                if (isVisible) {
+                    completeorderbtn.setVisibility(View.GONE);
+                } else {
+                    completeorderbtn.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
         return root;
     }
@@ -131,9 +154,7 @@ public class ProductFragment extends Fragment {
     }
 
     private void getProductByCategory(String category) {
-
         Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProductsByCategory(1, category);
-
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
@@ -150,6 +171,19 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
                     Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     HidePageLoader();
+                } else if (response.code() == 422) {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        Gson gson = new Gson();
+                        JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
+
+                        String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+                        String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
+
+                        showNoProductMessage(message);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     handleApiError(TAG, response, getContext());
                 }
@@ -160,6 +194,12 @@ public class ProductFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void showNoProductMessage(String message) {
+        product_layout.setVisibility(View.GONE);
+        no_product_layout.setVisibility(View.VISIBLE);
+        no_product_text.setText(message);
     }
 
     private void ShowPageLoader() {

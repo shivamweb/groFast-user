@@ -17,6 +17,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.ShowAllAddressAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.AddressInterface;
@@ -83,12 +85,23 @@ public class MyAddress extends AppCompatActivity {
                     showAllAddressAdapter = new ShowAllAddressAdapter(getApplicationContext(), addressList);
                     recyclerView.setAdapter(showAllAddressAdapter);
                     HidePageLoader();
-                    if (addressList.isEmpty()){
-                        recyclerView.setVisibility(View.GONE);
-                        noaddresslayout.setVisibility(View.VISIBLE);
-                    }
                     Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
-                } else handleApiError(TAG, response, getApplicationContext());
+                }
+                else if (response.code() == 422) {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        Gson gson = new Gson();
+                        JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
+
+                        String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+                        String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
+
+                        showNoAddressMessage(message);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                handleApiError(TAG, response, getApplicationContext());
             }
 
             @Override
@@ -119,10 +132,11 @@ public class MyAddress extends AppCompatActivity {
         add_address.setVisibility(View.VISIBLE);
     }
 
-    private void showNoWalletMessage(String message) {
+    private void showNoAddressMessage(String message) {
         recyclerView.setVisibility(View.GONE);
-        noaddresstext.setText(message);
         noaddresslayout.setVisibility(View.VISIBLE);
+        add_address.setVisibility(View.VISIBLE);
+        noaddresstext.setText(message);
     }
 
     @Override
