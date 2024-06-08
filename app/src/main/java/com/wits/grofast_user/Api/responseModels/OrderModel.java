@@ -20,7 +20,7 @@ public class OrderModel {
 
     private String uuid;
 
-    private Integer order_status;
+    private String order_status;
 
     private Integer delivery_charges;
 
@@ -85,7 +85,7 @@ public class OrderModel {
         return uuid;
     }
 
-    public Integer getOrder_status() {
+    public String getOrder_status() {
         return order_status;
     }
 
