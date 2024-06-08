@@ -6,7 +6,6 @@ import static com.wits.grofast_user.CommonUtilities.validateReceiverName;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -217,8 +215,8 @@ public class PaymentDetails extends AppCompatActivity {
         call.enqueue(new Callback<AddressFetchResponse>() {
             @Override
             public void onResponse(Call<AddressFetchResponse> call, Response<AddressFetchResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
                     address_list_recyclerView.setVisibility(View.VISIBLE);
                     AddressFetchResponse addressFetchResponse = response.body();
                     addressList = addressFetchResponse.getAddressList();
@@ -240,6 +238,7 @@ public class PaymentDetails extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AddressFetchResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 t.printStackTrace();
             }
         });
