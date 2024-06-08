@@ -17,7 +17,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="@dimen/_200sdp"
         android:scaleType="fitXY"
         android:src="@drawable/background_login" />
 
@@ -30,10 +30,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/_10sdp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp">
+            app:cardCornerRadius="@dimen/card_corners"
+            app:cardElevation="@dimen/_4sdp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,18 +41,17 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="@dimen/_10sdp">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/_50sdp"
                     android:src="@drawable/icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/appname"
                     android:textColor="@color/main_heading_color"
@@ -63,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <View
@@ -95,9 +94,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:background="@drawable/textview_design"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -106,10 +105,10 @@
                         android:id="@+id/country_code"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/padding"
                         android:text="+91"
                         android:textColor="@color/textview_text_color"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/hint_text_size" />
 
                     <View
                         android:layout_width="1dp"
@@ -128,7 +127,7 @@
                         android:padding="10dp"
                         android:textColor="@color/textview_text_color"
                         android:textColorHint="@color/default_color"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/hint_text_size" />
 
                 </LinearLayout>
 
@@ -136,7 +135,7 @@
                     android:id="@+id/Continue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:background="@drawable/color_button"
                     android:text="@string/continue_button"
                     android:textAllCaps="false"
@@ -147,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="@string/login_end_title"
                     android:textColor="@color/line_text_color"
@@ -167,7 +166,7 @@
                         android:gravity="center"
                         android:text="@string/privacy_policy"
                         android:textColor="@color/line_text_color"
-                        android:textSize="@dimen/hint_text_size" />
+                        android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -177,7 +176,7 @@
                         android:gravity="center"
                         android:text="@string/terms_and_condition"
                         android:textColor="@color/line_text_color"
-                        android:textSize="@dimen/hint_text_size" />
+                        android:textSize="@dimen/small_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -187,7 +186,7 @@
                         android:gravity="center"
                         android:text="@string/content_policy"
                         android:textColor="@color/line_text_color"
-                        android:textSize="@dimen/hint_text_size" />
+                        android:textSize="@dimen/small_text" />
 
                 </LinearLayout>
 

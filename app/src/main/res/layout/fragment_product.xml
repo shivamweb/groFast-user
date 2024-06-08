@@ -8,11 +8,6 @@
     android:id="@+id/fram_product"
     tools:context=".MainHomePage.ProductFragment">
 
-    <RelativeLayout
-        android:id="@+id/relative_layout_product"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/show_product_data"
         android:layout_width="match_parent"
@@ -119,8 +114,6 @@
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size"
         android:layout_alignParentBottom="true" />
-
-    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/no_product_layout"
