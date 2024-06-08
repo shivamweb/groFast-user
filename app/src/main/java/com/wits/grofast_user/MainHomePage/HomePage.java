@@ -35,8 +35,10 @@ import com.wits.grofast_user.Details.Support;
 import com.wits.grofast_user.Details.Wallet;
 import com.wits.grofast_user.Details.Wallethistory;
 import com.wits.grofast_user.Enums.FragmentEnum;
+import com.wits.grofast_user.KeyboardUtil;
 import com.wits.grofast_user.MainActivity;
 import com.wits.grofast_user.R;
+import com.wits.grofast_user.session.CartDetailSession;
 import com.wits.grofast_user.session.UserActivitySession;
 import com.wits.grofast_user.session.UserDetailSession;
 
@@ -71,6 +73,7 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         UserActivitySession session = new UserActivitySession(getApplicationContext());
+        CartDetailSession cartDetailSession = new CartDetailSession(getApplicationContext());
         userDetailSession = new UserDetailSession(getApplicationContext());
 
         drawerLayout = findViewById(R.id.drawerlayout1);
@@ -107,7 +110,7 @@ public class HomePage extends AppCompatActivity {
 //                openlocationDialogbox();
 //            }
 //        });
-
+        final View rootLayout = findViewById(R.id.drawerlayout1);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         if (savedInstanceState == null) {
@@ -142,13 +145,24 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        KeyboardUtil.setKeyboardVisibilityListener(rootLayout, new KeyboardUtil.KeyboardVisibilityListener() {
+            @Override
+            public void onKeyboardVisibilityChanged(boolean isVisible) {
+                if (isVisible) {
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.menu_home) {
                     loadfragment(new HomeFragment(), FragmentEnum.HOME.getTag());
-                }  else if (id == R.id.menu_coupon) {
+                } else if (id == R.id.menu_coupon) {
                     startActivity(new Intent(HomePage.this, Coupon.class));
                 } else if (id == R.id.menu_offers) {
                     loadfragment(new OffersFragment(), FragmentEnum.OFFER.getTag());
@@ -168,7 +182,7 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, EditProfile.class));
                 } else if (id == R.id.menu_my_address) {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
-                }else if (id == R.id.menu_support) {
+                } else if (id == R.id.menu_support) {
                     startActivity(new Intent(HomePage.this, Support.class));
                 } else if (id == R.id.menu_language) {
 
@@ -176,6 +190,7 @@ public class HomePage extends AppCompatActivity {
                     session.setLoginStaus(false);
                     session.clearSession();
                     userDetailSession.clearSession();
+                    cartDetailSession.clearSession();
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);

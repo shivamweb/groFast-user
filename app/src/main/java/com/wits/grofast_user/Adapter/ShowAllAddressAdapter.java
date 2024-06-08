@@ -1,6 +1,8 @@
 package com.wits.grofast_user.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,12 +43,36 @@ public class ShowAllAddressAdapter extends RecyclerView.Adapter<ShowAllAddressAd
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                showEditDeleteDialog(item, position);
                 Intent in = new Intent(context, EditAddress.class);
                 in.putExtra("address", item);
                 in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
             }
         });
+    }
+
+    private void showEditDeleteDialog(AddressModel item, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.Choose_an_action));
+        builder.setItems(new CharSequence[]
+                        {context.getString(R.string.edit_address), context.getString(R.string.delete_address)},
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                Intent in = new Intent(context, EditAddress.class);
+                                in.putExtra("address", item);
+                                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(in);
+                                break;
+                            case 1:
+//                                deleteAddress(item, position);
+                                break;
+                        }
+                    }
+                });
+        builder.create().show();
     }
 
     @Override
