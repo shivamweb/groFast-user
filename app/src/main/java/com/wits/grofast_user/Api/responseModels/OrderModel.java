@@ -6,7 +6,7 @@ import java.util.List;
 
 public class OrderModel {
 
-    private Integer sgst;
+    private double sgst;
 
     private String country;
 
@@ -44,7 +44,7 @@ public class OrderModel {
 
     private String coupon;
 
-    private Integer cgst;
+    private double cgst;
 
     private String receiver_phone_no;
 
@@ -57,7 +57,7 @@ public class OrderModel {
     @SerializedName("customer_order_items")
     private List<OrderItemModel> orderItems;
 
-    public Integer getSgst() {
+    public double getSgst() {
         return sgst;
     }
 
@@ -133,7 +133,7 @@ public class OrderModel {
         return coupon;
     }
 
-    public Integer getCgst() {
+    public double getCgst() {
         return cgst;
     }
 
