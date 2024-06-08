@@ -42,6 +42,7 @@ public class CommonUtilities {
     public static void handleApiError(String TAG, Response response, Context context) {
         try {
             mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+            mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
             UserDetailSession userDetailSession = new UserDetailSession(context);
             Bundle bundle = new Bundle();
 
@@ -57,12 +58,12 @@ public class CommonUtilities {
             Log.e(TAG, "onResponse -> message      : " + message);
             Log.e(TAG, "onResponse -> errorMessage : " + errorMessage);
 
-            bundle.putInt("User Id ", userDetailSession.getUserId());
+            bundle.putInt("user_id", userDetailSession.getUserId());
             bundle.putString("user_name", userDetailSession.getName());
-            bundle.putString("TAG", TAG);
+            bundle.putString("tag", TAG);
             bundle.putString("status", status);
             bundle.putString("message", message);
-            bundle.putString("errorMessage", errorMessage);
+            bundle.putString("error_msg", errorMessage);
             mFirebaseAnalytics.logEvent("ApiError", bundle);
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
