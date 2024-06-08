@@ -79,12 +79,17 @@ public class MyAddress extends AppCompatActivity {
         call.enqueue(new Callback<AddressFetchResponse>() {
             @Override
             public void onResponse(Call<AddressFetchResponse> call, Response<AddressFetchResponse> response) {
+                HidePageLoader();
                 if (response.isSuccessful()) {
                     AddressFetchResponse addressFetchResponse = response.body();
                     addressList = addressFetchResponse.getAddressList();
                     showAllAddressAdapter = new ShowAllAddressAdapter(getApplicationContext(), addressList);
                     recyclerView.setAdapter(showAllAddressAdapter);
-                    HidePageLoader();
+
+                    if (addressList.isEmpty()){
+                        recyclerView.setVisibility(View.GONE);
+                        noaddresslayout.setVisibility(View.VISIBLE);
+                    }
                     Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
                 }
                 else if (response.code() == 422) {
@@ -106,6 +111,7 @@ public class MyAddress extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AddressFetchResponse> call, Throwable t) {
+                HidePageLoader();
                 t.printStackTrace();
             }
         });
