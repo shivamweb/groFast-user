@@ -10,20 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/padding">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding"
                 android:hint="@string/full_address"
                 app:boxStrokeColor="@color/active"
                 app:hintTextColor="@color/default_color">
@@ -41,7 +41,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding"
                 android:hint="@string/country"
                 app:boxStrokeColor="@color/active"
                 app:hintTextColor="@color/default_color">
@@ -63,7 +63,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding"
                 android:hint="@string/state"
                 app:boxStrokeColor="@color/active"
                 app:hintTextColor="@color/default_color">
@@ -85,7 +85,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding"
                 android:hint="@string/city"
                 app:boxStrokeColor="@color/active"
                 app:hintTextColor="@color/default_color">
@@ -103,7 +103,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding"
                 android:hint="@string/pincode"
                 app:boxStrokeColor="@color/active"
                 app:hintTextColor="@color/default_color">
@@ -122,12 +122,11 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/add_address_save_button"
-            android:layout_width="250dp"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="@dimen/padding"
             android:background="@drawable/round_background"
             android:gravity="center"
             android:text="@string/save_address_button"

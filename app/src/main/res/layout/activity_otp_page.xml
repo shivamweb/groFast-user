@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/round_background"
-            android:padding="5dp"
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/outline_arrow_back_24" />
 
         <TextView
@@ -44,9 +44,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/_15sdp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="@dimen/card_corners"
         app:cardElevation="10dp">
 
         <LinearLayout
@@ -55,7 +55,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="@dimen/_15sdp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="+91 - "
                     android:textColor="@color/textview_text_color"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
                     android:id="@+id/otp_phone_no"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:text="0000000000"
                     android:textColor="@color/textview_text_color"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/small_text" />
 
             </LinearLayout>
 
@@ -111,14 +111,14 @@
 
                     <EditText
                         android:id="@+id/otp_digit1"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/otp_edittext"
+                        android:layout_height="@dimen/otp_edittext"
                         android:background="@drawable/textview_design"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
                         android:textColor="@color/textview_text_color"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/hint_text_size" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -132,14 +132,14 @@
 
                     <EditText
                         android:id="@+id/otp_digit2"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/otp_edittext"
+                        android:layout_height="@dimen/otp_edittext"
                         android:background="@drawable/textview_design"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
                         android:textColor="@color/textview_text_color"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/hint_text_size" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -153,14 +153,14 @@
 
                     <EditText
                         android:id="@+id/otp_digit3"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/otp_edittext"
+                        android:layout_height="@dimen/otp_edittext"
                         android:background="@drawable/textview_design"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
                         android:textColor="@color/textview_text_color"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/hint_text_size"/>
 
                 </androidx.cardview.widget.CardView>
 
@@ -174,14 +174,14 @@
 
                     <EditText
                         android:id="@+id/otp_digit4"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/otp_edittext"
+                        android:layout_height="@dimen/otp_edittext"
                         android:background="@drawable/textview_design"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
                         android:textColor="@color/textview_text_color"
-                        android:textSize="24sp" />
+                        android:textSize="@dimen/hint_text_size" />
 
                 </androidx.cardview.widget.CardView>
 

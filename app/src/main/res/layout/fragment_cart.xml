@@ -452,11 +452,13 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:visibility="gone"
+        android:padding="@dimen/padding"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_150sdp"
+            android:scaleType="fitCenter"
             android:src="@drawable/empty_cart" />
 
         <TextView
@@ -465,6 +467,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:text="no data istory hhahaha"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size" />
@@ -476,7 +479,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="nodara "
+            android:text="nodara"
             android:textColor="@color/default_color"
             android:textSize="@dimen/hint_text_size"
             android:visibility="visible" />
@@ -489,6 +492,7 @@
             android:background="@drawable/round_background"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
+            android:textSize="@dimen/text_size"
             android:text="@string/start_shopping"
             android:textAllCaps="false"
             android:textColor="@color/white" />

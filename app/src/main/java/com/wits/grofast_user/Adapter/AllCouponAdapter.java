@@ -47,13 +47,6 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
         String EndDate = formatDate(item.getTo(), "yyyy-MM-dd", "dd-MM-yyyy");
         holder.from.setText(StartDate);
         holder.to.setText(EndDate);
-//        String discountText = item.getDiscount();
-//        if (item.getType() == 1) {
-//            discountText += "%";
-//        } else if (item.getType() == 2) {
-//            discountText += "₹";
-//        }
-//        holder.discount.setText(discountText);
         holder.amout.setText(item.getMax_amount());
         holder.code.setText(item.getCode());
 
@@ -69,19 +62,6 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
         Log.e("TAG", "onBindViewHolder: status : " + item.getStatus());
         Log.e("TAG", "onBindViewHolder: type : " + item.getType());
     }
-
-//    private String getStatusText(int status) {
-//        switch (status) {
-//            case 1:
-//                return context.getString(R.string.Active);
-//            case 2:
-//                return context.getString(R.string.Inactive);
-//            case 3:
-//                return context.getString(R.string.Expired);
-//            default:
-//                return "Unknown";
-//        }
-//    }
 
     private void setStatusColor(TextView textView, String status) {
         switch (status) {
