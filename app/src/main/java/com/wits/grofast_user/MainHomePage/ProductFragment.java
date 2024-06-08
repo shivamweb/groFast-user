@@ -63,7 +63,6 @@ public class ProductFragment extends Fragment {
     private UserActivitySession userActivitySession;
     AppCompatButton completeorderbtn;
     private ShimmerFrameLayout shimmerFrameLayout;
-    RelativeLayout product_layout;
     LinearLayout no_product_layout;
     TextView no_product_text;
 
@@ -82,7 +81,6 @@ public class ProductFragment extends Fragment {
         shimmerFrameLayout = root.findViewById(R.id.shimmer_layout_product);
         show_data = root.findViewById(R.id.show_product_data);
         completeorderbtn = root.findViewById(R.id.complete_order_btn);
-        product_layout = root.findViewById(R.id.relative_layout_product);
         no_product_layout = root.findViewById(R.id.no_product_layout);
         no_product_text = root.findViewById(R.id.no_product_text1);
 
@@ -197,7 +195,8 @@ public class ProductFragment extends Fragment {
     }
 
     private void showNoProductMessage(String message) {
-        product_layout.setVisibility(View.GONE);
+        show_data.setVisibility(View.GONE);
+        completeorderbtn.setVisibility(GONE);
         no_product_layout.setVisibility(View.VISIBLE);
         no_product_text.setText(message);
     }
