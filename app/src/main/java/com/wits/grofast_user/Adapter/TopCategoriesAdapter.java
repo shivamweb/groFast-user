@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
+import com.wits.grofast_user.Api.responseModels.HomeCategoryModel;
 import com.wits.grofast_user.MainHomePage.ProductFragment;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -26,11 +27,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdapter.ViewHolders> {
     private final String TAG = "TopCategoriesAdapter";
-    private List<CategoryModel> categoryList;
+    private List<HomeCategoryModel> categoryList;
     private Context context;
     private FragmentManager fragmentManager;
 
-    public TopCategoriesAdapter(List<CategoryModel> categoryList, Context context, FragmentManager fragmentManager) {
+    public TopCategoriesAdapter(List<HomeCategoryModel> categoryList, Context context, FragmentManager fragmentManager) {
         this.categoryList = categoryList;
         this.context = context;
         this.fragmentManager = fragmentManager;
@@ -45,7 +46,7 @@ public class TopCategoriesAdapter extends RecyclerView.Adapter<TopCategoriesAdap
     @Override
     public void onBindViewHolder(@NonNull TopCategoriesAdapter.ViewHolders holder, int position) {
         UserActivitySession userActivitySession = new UserActivitySession(context);
-        CategoryModel item = categoryList.get(position);
+        CategoryModel item = categoryList.get(position).getHomeCategory();
         holder.Name.setText(item.getCategory_name());
         Glide.with(context).load(domain + item.getImage()).placeholder(R.color.default_color).into(holder.Banner);
 

@@ -167,7 +167,7 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: getProductByCategory message " + productResponse.getMessage());
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
-//                    Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 422) {
                     try {
                         String errorBodyString = response.errorBody().string();
@@ -184,6 +184,7 @@ public class ProductFragment extends Fragment {
                 } else {
                     handleApiError(TAG, response, getContext());
                 }
+                HidePageLoader();
             }
 
             @Override
