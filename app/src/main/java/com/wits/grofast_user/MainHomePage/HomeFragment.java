@@ -129,6 +129,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                HidePageLoader();
                 t.printStackTrace();
                 isCategoriesLoaded = true;
             }

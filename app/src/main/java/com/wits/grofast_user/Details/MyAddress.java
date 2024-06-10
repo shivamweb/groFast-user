@@ -85,11 +85,6 @@ public class MyAddress extends AppCompatActivity {
                     addressList = addressFetchResponse.getAddressList();
                     showAllAddressAdapter = new ShowAllAddressAdapter(getApplicationContext(), addressList);
                     recyclerView.setAdapter(showAllAddressAdapter);
-
-                    if (addressList.isEmpty()){
-                        recyclerView.setVisibility(View.GONE);
-                        noaddresslayout.setVisibility(View.VISIBLE);
-                    }
                     Log.e(TAG, "onResponse: message : " + addressFetchResponse.getMessage());
                 }
                 else if (response.code() == 422) {

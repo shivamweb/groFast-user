@@ -1,11 +1,9 @@
 package com.wits.grofast_user.Details;
 
-import static android.view.View.GONE;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,25 +15,19 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.AllCouponAdapter;
-import com.wits.grofast_user.Adapter.AllProductAdapter;
-import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CouponInterface;
-import com.wits.grofast_user.Api.interfaces.ProductInerface;
 import com.wits.grofast_user.Api.paginatedResponses.CouponPaginationRes;
-import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.CouponResponse;
-import com.wits.grofast_user.Api.responseClasses.ProductResponse;
 import com.wits.grofast_user.Api.responseModels.CouponModel;
-import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +55,9 @@ public class Coupon extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.all_coupon_recycleview);
         load_data = findViewById(R.id.coupon_load);
+        nocouponlayout = findViewById(R.id.no_coupon_layout);
+        nocoupontext1 = findViewById(R.id.no_coupon_text1);
+        nocoupontext2 = findViewById(R.id.no_coupon_text2);
         data = findViewById(R.id.scroll_coupon_data);
 
         userActivitySession = new UserActivitySession(getApplicationContext());
@@ -80,20 +75,28 @@ public class Coupon extends AppCompatActivity {
         call.enqueue(new Callback<CouponResponse>() {
             @Override
             public void onResponse(Call<CouponResponse> call, Response<CouponResponse> response) {
-
+                HidePageLoader();
                 if (response.isSuccessful()) {
                     CouponResponse couponResponse = response.body();
                     CouponPaginationRes couponPaginationRes = couponResponse.getCouponPaginationRes();
                     couponModelList = couponPaginationRes.getCouponList();
                     allCouponAdapter = new AllCouponAdapter(getApplicationContext(), couponModelList);
                     recyclerView.setAdapter(allCouponAdapter);
-                    HidePageLoader();
-                    if (couponPaginationRes.getCouponList().isEmpty()) {
-                        data.setVisibility(View.GONE);
-                        nocouponlayout.setVisibility(View.VISIBLE);
-                    }
                     Log.i(TAG, "onResponse: total products " + couponPaginationRes.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + couponPaginationRes.getTo());
+                } else if (response.code() == 422) {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        Gson gson = new Gson();
+                        JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
+
+                        String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+                        String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
+
+                        showNoCouponMessage(message, errorMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     handleApiError(TAG, response, getApplicationContext());
                 }
@@ -101,7 +104,7 @@ public class Coupon extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CouponResponse> call, Throwable t) {
-
+                HidePageLoader();
             }
         });
     }
@@ -126,9 +129,10 @@ public class Coupon extends AppCompatActivity {
         data.setVisibility(View.VISIBLE);
     }
 
-    private void showNoWalletMessage(String message) {
+    private void showNoCouponMessage(String message, String errorMessage) {
         data.setVisibility(View.GONE);
         nocoupontext1.setText(message);
+        nocoupontext2.setText(errorMessage);
         nocouponlayout.setVisibility(View.VISIBLE);
     }
 }

@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wits.grofast_user.Adapter.AllHistoryAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.OrderInterface;
@@ -88,17 +90,26 @@ public class HistoryFragment extends Fragment {
         call.enqueue(new Callback<OrderHistoryResponse>() {
             @Override
             public void onResponse(Call<OrderHistoryResponse> call, Response<OrderHistoryResponse> response) {
+                HidePageLoader();
                 if (response.isSuccessful()) {
                     OrderHistoryResponse orderHistoryResponse = response.body();
                     orderList = orderHistoryResponse.getOrderList();
                     allHistoryAdapter = new AllHistoryAdapter(getContext(), orderList);
                     recyclerView.setAdapter(allHistoryAdapter);
-                    HidePageLoader();
-                    if (orderList.isEmpty()) {
-                        showdata.setVisibility(View.GONE);
-                        empty_layout.setVisibility(View.VISIBLE);
+                } else if (response.code() == 422) {
+                    try {
+                        String errorBodyString = response.errorBody().string();
+                        Gson gson = new Gson();
+                        JsonObject errorBodyJson = gson.fromJson(errorBodyString, JsonObject.class);
+
+                        String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
+                        String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
+
+                        showNoHistoryMessage(message, errorMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } else handleApiError(TAG, response, getContext());
+                }else handleApiError(TAG, response, getContext());
             }
 
             @Override

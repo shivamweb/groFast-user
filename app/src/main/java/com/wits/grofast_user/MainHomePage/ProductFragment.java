@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
@@ -64,7 +62,7 @@ public class ProductFragment extends Fragment {
     AppCompatButton completeorderbtn;
     private ShimmerFrameLayout shimmerFrameLayout;
     LinearLayout no_product_layout;
-    TextView no_product_text;
+    TextView no_product_text,no_product_text2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +81,7 @@ public class ProductFragment extends Fragment {
         completeorderbtn = root.findViewById(R.id.complete_order_btn);
         no_product_layout = root.findViewById(R.id.no_product_layout);
         no_product_text = root.findViewById(R.id.no_product_text1);
+        no_product_text2 = root.findViewById(R.id.no_product_text2);
 
         ShowPageLoader();
         //Product Item
@@ -156,6 +155,7 @@ public class ProductFragment extends Fragment {
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                HidePageLoader();
                 if (response.isSuccessful()) {
                     ProductResponse productResponse = response.body();
                     ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
@@ -167,8 +167,7 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: getProductByCategory message " + productResponse.getMessage());
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
-                    Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    HidePageLoader();
+//                    Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 } else if (response.code() == 422) {
                     try {
                         String errorBodyString = response.errorBody().string();
@@ -178,7 +177,7 @@ public class ProductFragment extends Fragment {
                         String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
                         String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
 
-                        showNoProductMessage(message);
+                        showNoProductMessage(message,errorMessage);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -189,15 +188,17 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
+                HidePageLoader();
                 t.printStackTrace();
             }
         });
     }
 
-    private void showNoProductMessage(String message) {
+    private void showNoProductMessage(String message, String errorMessage) {
         show_data.setVisibility(View.GONE);
         completeorderbtn.setVisibility(GONE);
         no_product_layout.setVisibility(View.VISIBLE);
+        no_product_text2.setText(errorMessage);
         no_product_text.setText(message);
     }
 
