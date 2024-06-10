@@ -6,7 +6,6 @@ import static com.wits.grofast_user.CommonUtilities.showToast;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CartInterface;
 import com.wits.grofast_user.Api.responseClasses.AddToCartResponse;
+import com.wits.grofast_user.Api.responseModels.HomeProductModel;
 import com.wits.grofast_user.Api.responseModels.ProductModel;
 import com.wits.grofast_user.Details.ProductDetailActivity;
 import com.wits.grofast_user.R;
@@ -34,11 +34,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProductAdapter.ViewHolders> {
-    private List<ProductModel> productList;
+    private List<HomeProductModel> productList;
     private Context context;
     private String TAG = "HomeViewProductAdapter";
 
-    public HomeViewProductAdapter(List<ProductModel> productList, Context context) {
+    public HomeViewProductAdapter(List<HomeProductModel> productList, Context context) {
         this.productList = productList;
         this.context = context;
     }
@@ -51,7 +51,7 @@ public class HomeViewProductAdapter extends RecyclerView.Adapter<HomeViewProduct
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewProductAdapter.ViewHolders holder, int position) {
-        ProductModel item = productList.get(position);
+        ProductModel item = productList.get(position).getProduct();
         holder.name.setText(item.getName());
         holder.weight.setText(item.getQuantity().toString() + " " + item.getUnitName());
         holder.price.setText(item.getFinal_price().toString());

@@ -23,11 +23,10 @@ import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CategoryInterface;
 import com.wits.grofast_user.Api.interfaces.ProductInerface;
-import com.wits.grofast_user.Api.paginatedResponses.ProductPaginatedRes;
 import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
-import com.wits.grofast_user.Api.responseClasses.ProductResponse;
+import com.wits.grofast_user.Api.responseClasses.HomeProductResponse;
 import com.wits.grofast_user.Api.responseModels.CategoryModel;
-import com.wits.grofast_user.Api.responseModels.ProductModel;
+import com.wits.grofast_user.Api.responseModels.HomeProductModel;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
 
@@ -44,7 +43,7 @@ public class HomeFragment extends Fragment {
     TopCategoriesAdapter topStoreAdapter;
     HomeViewProductAdapter productAdapter;
     private List<CategoryModel> categoryList = new ArrayList<>();
-    private List<ProductModel> productList = new ArrayList<>();
+    private List<HomeProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
     private ShimmerFrameLayout shimmerFrameLayout;
     TextView view_all_categories, view_all_product;
@@ -79,7 +78,7 @@ public class HomeFragment extends Fragment {
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
         product_recycleview.setLayoutManager(layoutManager);
-        getProducts();
+        getHomeProducts();
 
         view_all_categories.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,44 +120,45 @@ public class HomeFragment extends Fragment {
                     top_stores_recycleview.setAdapter(topStoreAdapter);
 
                     Log.i(TAG, "onResponse: total categories " + categoryList.size());
-                    isCategoriesLoaded = true;
-                    checkIfDataLoaded();
                 } else {
                     if (isAdded()) handleApiError(TAG, response, getContext());
                 }
+                isCategoriesLoaded = true;
+                checkIfDataLoaded();
             }
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable t) {
                 t.printStackTrace();
+                isCategoriesLoaded = true;
             }
         });
     }
 
-    private void getProducts() {
-        Call<ProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchProducts(1);
-        call.enqueue(new Callback<ProductResponse>() {
-            @SuppressLint("NotifyDataSetChanged")
+    private void getHomeProducts() {
+        Call<HomeProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchHomeProducts();
+
+        call.enqueue(new Callback<HomeProductResponse>() {
             @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+            public void onResponse(Call<HomeProductResponse> call, Response<HomeProductResponse> response) {
                 if (response.isSuccessful()) {
-                    ProductResponse productResponse = response.body();
-                    ProductPaginatedRes paginatedResponse = productResponse.getPaginatedProducts();
-                    productList = paginatedResponse.getProductList();
+                    HomeProductResponse homeProductResponse = response.body();
+                    productList = homeProductResponse.getProductList();
 
                     productAdapter = new HomeViewProductAdapter(productList, getContext());
                     product_recycleview.setAdapter(productAdapter);
 
-                    isProductsLoaded = true;
-                    checkIfDataLoaded();
                 } else {
                     if (isAdded()) handleApiError(TAG, response, getContext());
                 }
+                isProductsLoaded = true;
+                checkIfDataLoaded();
             }
 
             @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
+            public void onFailure(Call<HomeProductResponse> call, Throwable t) {
                 t.printStackTrace();
+                isProductsLoaded = true;
             }
         });
     }
