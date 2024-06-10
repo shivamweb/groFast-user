@@ -1,5 +1,7 @@
 package com.wits.grofast_user.Details;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +17,7 @@ public class SettingsPage extends AppCompatActivity {
     private ImageView languageToggle, policyToggle, accountToggle;
     private TextView titleLanguage, titlePolicy, titleAccount;
     private LinearLayout languageLayout, policyLayout, accountLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,5 +85,18 @@ public class SettingsPage extends AppCompatActivity {
         accountToggle.setOnClickListener(accountClickListner);
         titleAccount.setOnClickListener(accountClickListner);
 
+        policyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToWeb();
+            }
+        });
+
+    }
+
+    private void navigateToWeb() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://www.wingersitservices.co.in/"));
+        startActivity(intent);
     }
 }

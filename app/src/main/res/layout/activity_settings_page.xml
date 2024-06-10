@@ -126,6 +126,7 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:id="@+id/policy_privacy_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -135,15 +136,17 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_terms_and_conditions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/terms_and_condition"
+                        android:text="@string/settings_terms_and_conditions"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12sdp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_content_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -153,6 +156,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_refund_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -162,6 +166,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_cancellation_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -171,6 +176,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_delete_data_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -180,6 +186,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_delete_account_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -189,6 +196,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_report_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -198,6 +206,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_bsd_license_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -207,6 +216,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_infrigment_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
@@ -216,6 +226,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/policy_grievance_policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
