@@ -112,10 +112,7 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     HomeCategoryResponse homeCategoryResponse = response.body();
                     categoryList = homeCategoryResponse.getCategoryList();
-                    if (categoryList.size() > 8)
-                        categoryList = new ArrayList<>(categoryList.subList(0, 7));
-
-                    topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext(),getFragmentManager());
+                    topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext(), getFragmentManager());
                     top_stores_recycleview.setAdapter(topStoreAdapter);
 
                     Log.i(TAG, "onResponse: total categories " + categoryList.size());
@@ -133,6 +130,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     private void getHomeProducts() {
         Call<HomeProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchHomeProducts();
 
