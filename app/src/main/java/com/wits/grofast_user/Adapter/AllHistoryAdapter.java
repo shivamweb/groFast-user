@@ -3,6 +3,7 @@ package com.wits.grofast_user.Adapter;
 import static com.wits.grofast_user.CommonUtilities.getDateFromTimestamp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wits.grofast_user.Api.responseModels.OrderItemModel;
 import com.wits.grofast_user.Api.responseModels.OrderModel;
-import com.wits.grofast_user.Enums.OrderStatusEnum;
+import com.wits.grofast_user.Api.responseModels.OrderStatusModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.ViewHolders> {
     private List<OrderModel> orderList;
     private Context context;
+    private final String TAG = "AllHistoryAdapter";
 
     public AllHistoryAdapter(Context context, List<OrderModel> orderList) {
         this.context = context;
@@ -44,21 +46,10 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
             holder.ProductDate.setText(getDateFromTimestamp(item.getCreated_at()));
         } else holder.ProductDate.setText(item.getCreated_at());
 
-        String orderStatus = item.getOrder_status();
+        OrderStatusModel orderStatus = item.getOrderStatus();
         holder.ProductPrice.setText("" + item.getTotal_amount());
-        holder.ProductStatus.setText(orderStatus);
-
-        if (orderStatus.equals(OrderStatusEnum.Cancelled.getTag())) {
-            holder.ProductStatus.setTextColor(OrderStatusEnum.Cancelled.getColorCode());
-        } else if (orderStatus.equals(OrderStatusEnum.Delivered.getTag())) {
-            holder.ProductStatus.setTextColor(OrderStatusEnum.Delivered.getColorCode());
-        } else if (orderStatus.equals(OrderStatusEnum.Pending.getTag())) {
-            holder.ProductStatus.setTextColor(OrderStatusEnum.Pending.getColorCode());
-        } else if (orderStatus.equals(OrderStatusEnum.Processing.getTag())) {
-            holder.ProductStatus.setTextColor(OrderStatusEnum.Processing.getColorCode());
-        } else if (orderStatus.equals(OrderStatusEnum.Rejected.getTag())) {
-            holder.ProductStatus.setTextColor(OrderStatusEnum.Rejected.getColorCode());
-        }
+        holder.ProductStatus.setText(orderStatus.getStatus());
+        holder.ProductStatus.setTextColor(Color.parseColor(orderStatus.getColor()));
 
         List<OrderItemModel> orderItems = item.getOrderItems();
         AllInnerHistoryAdapter allInnerHistoryAdapter = new AllInnerHistoryAdapter(context, orderItems);

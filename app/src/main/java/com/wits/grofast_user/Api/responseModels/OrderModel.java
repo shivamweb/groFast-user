@@ -20,7 +20,8 @@ public class OrderModel {
 
     private String uuid;
 
-    private String order_status;
+    @SerializedName("order_status")
+    private OrderStatusModel orderStatus;
 
     private Integer delivery_charges;
 
@@ -85,8 +86,8 @@ public class OrderModel {
         return uuid;
     }
 
-    public String getOrder_status() {
-        return order_status;
+    public OrderStatusModel getOrderStatus() {
+        return orderStatus;
     }
 
     public Integer getDelivery_charges() {
