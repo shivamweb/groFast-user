@@ -2,7 +2,7 @@ package com.wits.grofast_user.Api.responseModels;
 
 import com.google.gson.annotations.SerializedName;
 
-public class HomeProductModel {
+public class HomeCategoryModel {
 
     private String updated_at;
 
@@ -14,8 +14,8 @@ public class HomeProductModel {
 
     private String uuid;
 
-    @SerializedName("home_product")
-    private ProductModel product;
+    @SerializedName("home_category")
+    private CategoryModel homeCategory;
 
     public String getUpdated_at() {
         return updated_at;
@@ -37,7 +37,7 @@ public class HomeProductModel {
         return uuid;
     }
 
-    public ProductModel getProduct() {
-        return product;
+    public CategoryModel getHomeCategory() {
+        return homeCategory;
     }
 }
