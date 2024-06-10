@@ -3,6 +3,7 @@ package com.wits.grofast_user.MainHomePage;
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -83,6 +84,7 @@ public class ShowAllCategories extends AppCompatActivity implements ShowAllCateg
                     categoryList = categoryResponse.getCategories();
                     showAllCategoriesAdapter = new ShowAllCategoriesAdapter(categoryList, getApplicationContext(), getSupportFragmentManager(), ShowAllCategories.this);
                     recyclerView.setAdapter(showAllCategoriesAdapter);
+                    Log.e(TAG, "onResponse: fragment Show all categories");
                 } else {
                     handleApiError(TAG, response, getApplicationContext());
                 }
@@ -117,6 +119,7 @@ public class ShowAllCategories extends AppCompatActivity implements ShowAllCateg
             getSupportFragmentManager().popBackStack();
             findViewById(R.id.fragment).setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            h.setVisibility(View.VISIBLE);
             alldata.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
