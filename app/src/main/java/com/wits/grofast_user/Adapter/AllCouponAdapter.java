@@ -1,22 +1,21 @@
 package com.wits.grofast_user.Adapter;
 
-import static com.wits.grofast_user.CommonUtilities.formatDate;
+import static com.wits.grofast_user.Api.RetrofitService.domain;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.wits.grofast_user.Api.responseModels.CouponModel;
+import com.wits.grofast_user.Details.CouponDetails;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -39,45 +38,39 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
     @Override
     public void onBindViewHolder(@NonNull AllCouponAdapter.ViewHolders holder, int position) {
         CouponModel item = AllCouponItems.get(position);
-        holder.name.setText(item.getName());
-        holder.status.setText(item.getStatus());
-        setStatusColor(holder.status, item.getStatus());
-        holder.description.setText(item.getDescription());
-        String StartDate = formatDate(item.getFrom(), "yyyy-MM-dd", "dd-MM-yyyy");
-        String EndDate = formatDate(item.getTo(), "yyyy-MM-dd", "dd-MM-yyyy");
-        holder.from.setText(StartDate);
-        holder.to.setText(EndDate);
-        holder.amout.setText(item.getMax_amount());
-        holder.code.setText(item.getCode());
+        Glide.with(context).load(domain + item.getImage()).placeholder(R.color.default_color).into(holder.imageView);
 
-        holder.copy.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("text", item.getCode());
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(context, context.getString(R.string.toast_coupon_code_copied), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context.getApplicationContext(), CouponDetails.class);
+                intent.putExtra("Code", item.getCode());
+                intent.putExtra("Description", item.getDescription());
+                intent.putExtra("image", domain + item.getImage());
+                intent.putExtra("Status",  item.getStatus());
+                setStatusColor(item.getStatus());
+                intent.putExtra("CouponId", item.getId());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
-        Log.e("TAG", "onBindViewHolder: status : " + item.getStatus());
-        Log.e("TAG", "onBindViewHolder: type : " + item.getType());
     }
 
-    private void setStatusColor(TextView textView, String status) {
-        switch (status) {
-            case "Active":
-                textView.setTextColor(context.getResources().getColor(R.color.active));
-                break;
-            case "Inactive":
-                textView.setTextColor(context.getResources().getColor(R.color.inactive));
-                break;
-            case "Expired":
-                textView.setTextColor(context.getResources().getColor(R.color.expired));
-                break;
-            default:
-                textView.setTextColor(context.getResources().getColor(android.R.color.black));
-                break;
-        }
+    private void setStatusColor(String status) {
+//        switch (status) {
+//            case "Active":
+//                textView.setTextColor(context.getResources().getColor(R.color.active));
+//                break;
+//            case "Inactive":
+//                textView.setTextColor(context.getResources().getColor(R.color.inactive));
+//                break;
+//            case "Expired":
+//                textView.setTextColor(context.getResources().getColor(R.color.expired));
+//                break;
+//            default:
+//                textView.setTextColor(context.getResources().getColor(android.R.color.black));
+//                break;
+//        }
     }
 
     @Override
@@ -86,20 +79,13 @@ public class AllCouponAdapter extends RecyclerView.Adapter<AllCouponAdapter.View
     }
 
     public class ViewHolders extends RecyclerView.ViewHolder {
-        TextView name, description, from, to, code, discount, amout, status;
-        AppCompatButton copy;
+        CardView cardView;
+        ImageView imageView;
 
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.all_coupon_name);
-            description = itemView.findViewById(R.id.all_coupon_subname);
-            from = itemView.findViewById(R.id.all_coupon_from);
-            to = itemView.findViewById(R.id.all_coupon_to);
-            code = itemView.findViewById(R.id.all_coupon_code);
-            discount = itemView.findViewById(R.id.all_coupon_discount);
-            amout = itemView.findViewById(R.id.all_coupon_amount);
-            status = itemView.findViewById(R.id.all_coupon_status);
-            copy = itemView.findViewById(R.id.all_coupon_copy);
+            cardView=itemView.findViewById(R.id.coupon_card);
+            imageView = itemView.findViewById(R.id.coupon_image);
         }
     }
 }

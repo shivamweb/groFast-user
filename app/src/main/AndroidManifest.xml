@@ -19,6 +19,9 @@
             android:name=".Details.SettingsPage"
             android:exported="false" />
         <activity
+            android:name=".Details.CouponDetails"
+            android:exported="false" />
+        <activity
             android:name=".Details.Support"
             android:exported="false" />
         <activity
@@ -60,7 +63,7 @@
         <activity
             android:name=".MainHomePage.HomePage"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".OtpPage"
             android:exported="false" />

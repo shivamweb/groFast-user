@@ -29,7 +29,7 @@
 
 
     <color name="active">#00ae65</color>
-    <color name="inactive">#7ad8b3</color>
+    <color name="inactive">#787a7d</color>
     <color name="expired">#E41D0E</color>
     <color name="shimmer_color">#9C9392</color>
 

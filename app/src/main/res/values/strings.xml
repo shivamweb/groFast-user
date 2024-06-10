@@ -144,6 +144,7 @@
     <!--    All Pages Name-->
 
     <string name="coupon_page_name">Coupon</string>
+    <string name="coupondetails_page_name">Coupon Detail</string>
     <string name="edit_profile_page_name">Edit Profile</string>
     <string name="my_address_page_name">My Address</string>
     <string name="product_details_page_name">Product Detail</string>
