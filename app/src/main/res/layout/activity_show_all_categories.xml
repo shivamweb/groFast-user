@@ -16,21 +16,19 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:id="@+id/linearlayout_all_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/h"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rectangle_serachview_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -57,16 +55,16 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleview_all_categories_view"
                 android:layout_width="match_parent"
+                android:padding="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />
 
             <FrameLayout
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="match_parent" />
 
         </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

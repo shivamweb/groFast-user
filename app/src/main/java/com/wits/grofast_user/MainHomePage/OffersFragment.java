@@ -52,20 +52,14 @@ public class OffersFragment extends Fragment {
 
         List<Map<String, Object>> innerData1 = new ArrayList<>();
         Map<String, Object> innerItem1 = new HashMap<>();
-        innerItem1.put("Name", "Inner Name 1");
-        innerItem1.put("SubName", "Inner SubName 1");
         innerItem1.put("image", R.drawable.of1);
         innerData1.add(innerItem1);
 
         Map<String, Object> innerItem2 = new HashMap<>();
-        innerItem2.put("Name", "Inner Name 2");
-        innerItem2.put("SubName", "Inner SubName 2");
         innerItem2.put("image", R.drawable.of2);
         innerData1.add(innerItem2);
 
         Map<String, Object> innerItem3 = new HashMap<>();
-        innerItem3.put("Name", "Inner Name 3");
-        innerItem3.put("SubName", "Inner SubName 3");
         innerItem3.put("image", R.drawable.of1);
         innerData1.add(innerItem3);
 
@@ -77,8 +71,6 @@ public class OffersFragment extends Fragment {
 
         List<Map<String, Object>> innerData2 = new ArrayList<>();
         Map<String, Object> innerItem5 = new HashMap<>();
-        innerItem5.put("Name", "Inner Name 2");
-        innerItem5.put("SubName", "Inner SubName 2");
         innerItem5.put("image", R.drawable.of2);
         innerData2.add(innerItem2);
         item2.put("InnerData", innerData2);
@@ -89,8 +81,6 @@ public class OffersFragment extends Fragment {
 
         List<Map<String, Object>> innerData3 = new ArrayList<>();
         Map<String, Object> innerItem10 = new HashMap<>();
-        innerItem10.put("Name", "Inner Name 3");
-        innerItem10.put("SubName", "Inner SubName 3");
         innerItem10.put("image", R.drawable.of2);
         innerData3.add(innerItem3);
         item3.put("InnerData", innerData3);

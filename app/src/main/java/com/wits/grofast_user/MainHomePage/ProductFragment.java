@@ -62,7 +62,7 @@ public class ProductFragment extends Fragment {
     AppCompatButton completeorderbtn;
     private ShimmerFrameLayout shimmerFrameLayout;
     LinearLayout no_product_layout;
-    TextView no_product_text,no_product_text2;
+    TextView no_product_text, no_product_text2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -167,6 +167,7 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: getProductByCategory message " + productResponse.getMessage());
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
+                    Log.e(TAG, "onResponse: fragment Show all Product");
                 } else if (response.code() == 422) {
                     try {
                         String errorBodyString = response.errorBody().string();
@@ -176,14 +177,13 @@ public class ProductFragment extends Fragment {
                         String errorMessage = errorBodyJson.has("errorMessage") ? errorBodyJson.get("errorMessage").getAsString() : "No errorMessage";
                         String message = errorBodyJson.has("message") ? errorBodyJson.get("message").getAsString() : "No message";
 
-                        showNoProductMessage(message,errorMessage);
+                        showNoProductMessage(message, errorMessage);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
                     handleApiError(TAG, response, getContext());
                 }
-                HidePageLoader();
             }
 
             @Override

@@ -187,8 +187,6 @@ public class HomePage extends AppCompatActivity {
                     startActivity(new Intent(HomePage.this, MyAddress.class));
                 } else if (id == R.id.menu_support) {
                     startActivity(new Intent(HomePage.this, Support.class));
-                } else if (id == R.id.menu_language) {
-
                 } else if (id == R.id.menu_logout) {
                     session.setLoginStaus(false);
                     session.clearSession();

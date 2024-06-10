@@ -9,7 +9,7 @@
     <dimen name="small_text">@dimen/_10sdp</dimen>
     <dimen name="top_margin">@dimen/_25sdp</dimen>
     <dimen name="notification_top">@dimen/_10sdp</dimen>
-    <dimen name="offer_image_size">@dimen/_80sdp</dimen>
+    <dimen name="offer_image_size">@dimen/_100sdp</dimen>
     <dimen name="textview_inner_padding">@dimen/_12sdp</dimen>
     <dimen name="padding_left_right">@dimen/_20sdp</dimen>
     <dimen name="padding">@dimen/_10sdp</dimen>

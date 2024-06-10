@@ -36,8 +36,6 @@ public class AllInnerOfferAdapter extends RecyclerView.Adapter<AllInnerOfferAdap
     @Override
     public void onBindViewHolder(@NonNull AllInnerOfferAdapter.ViewHolders holder, int position) {
         Map<String, Object> item = allinneroffersItem.get(position);
-        holder.name.setText((String) item.get("Name"));
-        holder.subname.setText((String) item.get("SubName"));
         holder.image.setImageResource((int) item.get("image"));
     }
 
@@ -52,8 +50,6 @@ public class AllInnerOfferAdapter extends RecyclerView.Adapter<AllInnerOfferAdap
 
         public ViewHolders(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.inner_offer_name);
-            subname = itemView.findViewById(R.id.inner_offer_sub_name);
             image = itemView.findViewById(R.id.inner_offer_image);
         }
     }

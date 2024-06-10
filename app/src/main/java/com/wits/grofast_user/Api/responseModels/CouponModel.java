@@ -11,6 +11,7 @@ public class CouponModel {
     private String discount;
     private String max_amount;
     private String status;
+    private String image;
     private Integer type;
 
     public Integer getId() {
@@ -55,5 +56,9 @@ public class CouponModel {
 
     public Integer getType() {
         return type;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
