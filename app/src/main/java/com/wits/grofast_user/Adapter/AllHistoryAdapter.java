@@ -3,6 +3,7 @@ package com.wits.grofast_user.Adapter;
 import static com.wits.grofast_user.CommonUtilities.getDateFromTimestamp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wits.grofast_user.Api.responseModels.OrderItemModel;
 import com.wits.grofast_user.Api.responseModels.OrderModel;
+import com.wits.grofast_user.Api.responseModels.OrderStatusModel;
 import com.wits.grofast_user.R;
 
 import java.util.List;
@@ -44,9 +46,10 @@ public class AllHistoryAdapter extends RecyclerView.Adapter<AllHistoryAdapter.Vi
             holder.ProductDate.setText(getDateFromTimestamp(item.getCreated_at()));
         } else holder.ProductDate.setText(item.getCreated_at());
 
-        String orderStatus = item.getOrder_status();
+        OrderStatusModel orderStatus = item.getOrderStatus();
         holder.ProductPrice.setText("" + item.getTotal_amount());
-        holder.ProductStatus.setText(orderStatus);
+        holder.ProductStatus.setText(orderStatus.getStatus());
+        holder.ProductStatus.setTextColor(Color.parseColor(orderStatus.getColor()));
 
         List<OrderItemModel> orderItems = item.getOrderItems();
         AllInnerHistoryAdapter allInnerHistoryAdapter = new AllInnerHistoryAdapter(context, orderItems);
