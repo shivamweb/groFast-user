@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -168,7 +167,6 @@ public class ProductFragment extends Fragment {
                     Log.i(TAG, "onResponse: total products " + paginatedResponse.getTotal());
                     Log.i(TAG, "onResponse: fetched products " + paginatedResponse.getTo());
                     Toast.makeText(getContext(), "" + productResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    HidePageLoader();
                 } else if (response.code() == 422) {
                     try {
                         String errorBodyString = response.errorBody().string();
@@ -185,6 +183,7 @@ public class ProductFragment extends Fragment {
                 } else {
                     handleApiError(TAG, response, getContext());
                 }
+                HidePageLoader();
             }
 
             @Override
