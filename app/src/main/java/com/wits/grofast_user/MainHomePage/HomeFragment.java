@@ -2,7 +2,6 @@ package com.wits.grofast_user.MainHomePage;
 
 import static com.wits.grofast_user.CommonUtilities.handleApiError;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +22,9 @@ import com.wits.grofast_user.Adapter.TopCategoriesAdapter;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.CategoryInterface;
 import com.wits.grofast_user.Api.interfaces.ProductInerface;
-import com.wits.grofast_user.Api.responseClasses.CategoryResponse;
+import com.wits.grofast_user.Api.responseClasses.HomeCategoryResponse;
 import com.wits.grofast_user.Api.responseClasses.HomeProductResponse;
-import com.wits.grofast_user.Api.responseModels.CategoryModel;
+import com.wits.grofast_user.Api.responseModels.HomeCategoryModel;
 import com.wits.grofast_user.Api.responseModels.HomeProductModel;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -42,7 +41,7 @@ public class HomeFragment extends Fragment {
     RecyclerView top_stores_recycleview, product_recycleview;
     TopCategoriesAdapter topStoreAdapter;
     HomeViewProductAdapter productAdapter;
-    private List<CategoryModel> categoryList = new ArrayList<>();
+    private List<HomeCategoryModel> categoryList = new ArrayList<>();
     private List<HomeProductModel> productList = new ArrayList<>();
     private GridLayoutManager layoutManager;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -73,7 +72,7 @@ public class HomeFragment extends Fragment {
         //Top Stores Item
         layoutManager = new GridLayoutManager(getContext(), 4);
         top_stores_recycleview.setLayoutManager(layoutManager);
-        getCategories();
+        getHomeCategories();
 
         //Product Item
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -104,15 +103,15 @@ public class HomeFragment extends Fragment {
         transaction.commit();
     }
 
-    private void getCategories() {
-        Call<CategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchCategories();
-        call.enqueue(new Callback<CategoryResponse>() {
-            @SuppressLint("NotifyDataSetChanged")
+    private void getHomeCategories() {
+        Call<HomeCategoryResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CategoryInterface.class).fetchHomeCategories();
+
+        call.enqueue(new Callback<HomeCategoryResponse>() {
             @Override
-            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+            public void onResponse(Call<HomeCategoryResponse> call, Response<HomeCategoryResponse> response) {
                 if (response.isSuccessful()) {
-                    CategoryResponse categoryResponse = response.body();
-                    categoryList = categoryResponse.getCategories();
+                    HomeCategoryResponse homeCategoryResponse = response.body();
+                    categoryList = homeCategoryResponse.getCategoryList();
                     if (categoryList.size() > 8)
                         categoryList = new ArrayList<>(categoryList.subList(0, 7));
 
@@ -128,13 +127,12 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+            public void onFailure(Call<HomeCategoryResponse> call, Throwable t) {
                 t.printStackTrace();
                 isCategoriesLoaded = true;
             }
         });
     }
-
     private void getHomeProducts() {
         Call<HomeProductResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(ProductInerface.class).fetchHomeProducts();
 
