@@ -33,6 +33,7 @@ import androidx.core.widget.NestedScrollView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.OtpInterface;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
@@ -248,7 +249,7 @@ public class EditProfile extends AppCompatActivity {
                 String enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
                 loadingOverlay.setVisibility(View.VISIBLE);
                 Integer userOtp = Integer.parseInt(enteredOtp);
-                Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).verifyOtp(phone, userOtp);
+                Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(OtpInterface.class).verifyOtp(phone, userOtp);
                 call.enqueue(new Callback<OtpVerifyResponse>() {
                     @Override
                     public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
@@ -430,7 +431,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void sendOtp(String phone) {
-        Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).login(phone);
+        Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(OtpInterface.class).login(phone);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override

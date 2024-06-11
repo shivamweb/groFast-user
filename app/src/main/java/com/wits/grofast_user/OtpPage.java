@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.OtpInterface;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
@@ -86,7 +87,7 @@ public class OtpPage extends AppCompatActivity {
                 if (isOtpValid()) {
                     loadingOverlay.setVisibility(View.VISIBLE);
                     Integer userOtp = Integer.parseInt(enteredOtp);
-                    Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).verifyOtp(receivedPhone, userOtp);
+                    Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(OtpInterface.class).verifyOtp(receivedPhone, userOtp);
                     call.enqueue(new Callback<OtpVerifyResponse>() {
                         @Override
                         public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
@@ -130,7 +131,7 @@ public class OtpPage extends AppCompatActivity {
             public void onClick(View v) {
                 if (countDownTimer.getText().toString().equals("00:00")) {
                     loadingOverlay.setVisibility(View.VISIBLE);
-                    Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).login(receivedPhone);
+                    Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(OtpInterface.class).login(receivedPhone);
 
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override

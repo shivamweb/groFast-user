@@ -2,13 +2,10 @@ package com.wits.grofast_user.Api.interfaces;
 
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
-import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -16,10 +13,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface UserInterface {
-    @FormUrlEncoded
-    @POST("login")
-    Call<LoginResponse> login(@Field("phone_no") String phone_no);
-
     @POST("editCustomerProfile")
     @Multipart
     Call<EditProfileResponse> updateProfile(
@@ -33,7 +26,7 @@ public interface UserInterface {
     @GET("removeProfileImage")
     Call<Void> removeUserProfile();
 
-    @POST("verifyOtp")
-    Call<OtpVerifyResponse> verifyOtp(@Query("phone_no") String phone_no , @Query("otp") Integer otp);
 
+    @POST("update-phone-no")
+    Call<LoginResponse> updateuserPhoneNo(@Query("phone_no") String phone_no, @Query("uuid") String uuid);
 }
