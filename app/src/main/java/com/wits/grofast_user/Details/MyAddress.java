@@ -140,9 +140,17 @@ public class MyAddress extends AppCompatActivity {
         noaddresstext.setText(message);
     }
 
+    private void hideNoAddressMessage() {
+        recyclerView.setVisibility(View.VISIBLE);
+        noaddresslayout.setVisibility(View.GONE);
+        add_address.setVisibility(View.GONE);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        hideNoAddressMessage();
+        ShowPageLoader();
         loadAddress();
     }
 }
