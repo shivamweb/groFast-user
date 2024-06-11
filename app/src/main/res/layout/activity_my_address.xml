@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/Add_address"
+            android:layout_marginBottom="2dp"
             android:clipToPadding="false"
             android:paddingBottom="16dp"
             android:visibility="visible" />
