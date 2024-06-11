@@ -143,7 +143,6 @@ public class MyAddress extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ShowPageLoader();
         loadAddress();
     }
 }
