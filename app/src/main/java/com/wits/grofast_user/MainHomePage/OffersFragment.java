@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wits.grofast_user.Adapter.AddLocationSerachResultAdapter;
-import com.wits.grofast_user.Adapter.AllOffersAdapter;
+import com.wits.grofast_user.Adapter.OffersAdapter;
 import com.wits.grofast_user.R;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 public class OffersFragment extends Fragment {
     RecyclerView recyclerView;
-    AllOffersAdapter allOffersAdapter;
+    OffersAdapter allOffersAdapter;
     List<Map<String, Object>> offerItems;
 
     @Override
@@ -40,7 +39,7 @@ public class OffersFragment extends Fragment {
         loadOffersItem();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        allOffersAdapter = new AllOffersAdapter(getContext(), offerItems);
+        allOffersAdapter = new OffersAdapter(getContext(), offerItems);
         recyclerView.setAdapter(allOffersAdapter);
         return root;
     }

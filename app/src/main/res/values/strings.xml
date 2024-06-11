@@ -148,6 +148,8 @@
     <string name="edit_profile_page_name">Edit Profile</string>
     <string name="my_address_page_name">My Address</string>
     <string name="product_details_page_name">Product Detail</string>
+    <string name="All_offer_page_name">Show All Offer</string>
+    <string name="All_offer_details_name">Offer Detail</string>
     <string name="wallet_page_name">Wallet</string>
     <string name="payment_page_name">Payment Details</string>
     <string name="notification_setting_page_name">Notification Preferences</string>

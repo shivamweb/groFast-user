@@ -4,7 +4,7 @@
     <dimen name="button_text_size">@dimen/_20sdp</dimen>
     <dimen name="hint_text_size">@dimen/_12sdp</dimen>
     <dimen name="text_size">@dimen/_15sdp</dimen>
-    <dimen name="card_corners">@dimen/_10sdp</dimen>
+    <dimen name="card_corners">@dimen/_5sdp</dimen>
     <dimen name="linear_padding">@dimen/_20sdp</dimen>
     <dimen name="small_text">@dimen/_10sdp</dimen>
     <dimen name="top_margin">@dimen/_25sdp</dimen>
@@ -15,4 +15,5 @@
     <dimen name="padding">@dimen/_10sdp</dimen>
     <dimen name="drawable_icon">@dimen/_24sdp</dimen>
     <dimen name="otp_edittext">@dimen/_50sdp</dimen>
+    <dimen name="view_height">1dp</dimen>
 </resources>

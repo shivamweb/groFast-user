@@ -31,6 +31,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
 import com.wits.grofast_user.Api.RetrofitService;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
@@ -64,7 +65,7 @@ public class EditProfile extends AppCompatActivity {
     private File imageFile;
     private final String TAG = "EditProfile";
     private RadioButton radioMale, radioFemale, radioOther;
-    private EditText etName, etEmail, etLocation;
+    private TextInputEditText etName, etEmail;
     private TextView tvPhone;
     NestedScrollView scrollView;
     LinearLayout loadingOverlay;
@@ -100,7 +101,6 @@ public class EditProfile extends AppCompatActivity {
         etName = findViewById(R.id.edit_name);
         tvPhone = findViewById(R.id.show_phone_no);
         etEmail = findViewById(R.id.edit_email);
-        etLocation = findViewById(R.id.edit_location);
 
         tvPhone.setText(userDetailSession.getPhoneNo());
         etName.setText(userDetailSession.getName());
