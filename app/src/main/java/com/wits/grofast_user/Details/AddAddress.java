@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class AddAddress extends AppCompatActivity {
     private TextInputEditText address, country, state, city, pincode;
     private final String TAG = "AddAddress";
     private UserActivitySession userActivitySession;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class AddAddress extends AppCompatActivity {
         state = findViewById(R.id.add_address_state);
         city = findViewById(R.id.add_address_city);
         pincode = findViewById(R.id.add_address_pincode);
+        progressBar=findViewById(R.id.loader_save_address);
 
         saveAddress = findViewById(R.id.add_address_save_button);
 
@@ -80,12 +83,15 @@ public class AddAddress extends AppCompatActivity {
     }
 
     private void addAddress(String address, String country, String state, String city, String pincode) {
+        progressBar.setVisibility(View.VISIBLE);
+        saveAddress.setVisibility(View.GONE);
         Log.e(TAG, "addAddress(): Here address will be added");
         Call<AddressAddResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(AddressInterface.class).addCustomreAddress(address, country, state, city, pincode);
-
         call.enqueue(new Callback<AddressAddResponse>() {
             @Override
             public void onResponse(Call<AddressAddResponse> call, Response<AddressAddResponse> response) {
+                progressBar.setVisibility(View.GONE);
+                saveAddress.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     AddressAddResponse addressAddResponse = response.body();
                     Toast.makeText(AddAddress.this, "" + addressAddResponse.getMessage(), Toast.LENGTH_SHORT).show();

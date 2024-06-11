@@ -134,6 +134,16 @@
             android:textColor="@color/button_text_color"
             android:textSize="@dimen/button_text_size" />
 
+        <ProgressBar
+            android:id="@+id/loader_save_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/padding"
+            android:gravity="center"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
