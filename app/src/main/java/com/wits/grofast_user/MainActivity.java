@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.OtpInterface;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
 
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     showToastAndFocus(getString(R.string.toast_message_valid_number));
                 } else {
                     Log.e(TAG, "onClick: phone no " + phone);
-                    UserInterface userInterface = RetrofitService.getUnAuthorizedClient().create(UserInterface.class);
-                    Call<LoginResponse> call = userInterface.login(phone);
+                    OtpInterface otpInterface = RetrofitService.getUnAuthorizedClient().create(OtpInterface.class);
+                    Call<LoginResponse> call = otpInterface.login(phone);
                     loadingOverlay.setVisibility(View.VISIBLE);
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override

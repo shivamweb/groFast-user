@@ -33,10 +33,10 @@ import androidx.core.widget.NestedScrollView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.wits.grofast_user.Api.RetrofitService;
+import com.wits.grofast_user.Api.interfaces.OtpInterface;
 import com.wits.grofast_user.Api.interfaces.UserInterface;
 import com.wits.grofast_user.Api.responseClasses.EditProfileResponse;
 import com.wits.grofast_user.Api.responseClasses.LoginResponse;
-import com.wits.grofast_user.Api.responseClasses.OtpVerifyResponse;
 import com.wits.grofast_user.Api.responseModels.UserModel;
 import com.wits.grofast_user.R;
 import com.wits.grofast_user.session.UserActivitySession;
@@ -180,9 +180,7 @@ public class EditProfile extends AppCompatActivity {
                 if (newPhoneNumber.equals(currentPhoneNumber)) {
                     Toast.makeText(EditProfile.this, getString(R.string.toast_message_new_phone), Toast.LENGTH_SHORT).show();
                 } else {
-                    dialog.dismiss();
-                    sendOtp(newPhoneNumber);
-                    openOtpPage(newPhoneNumber);
+                    sendOtp(newPhoneNumber, dialog);
                 }
             }
         });
@@ -235,7 +233,7 @@ public class EditProfile extends AppCompatActivity {
                 if (countDownTimer.getText().toString().equals("00:00")) {
                     loadingOverlay.setVisibility(View.VISIBLE);
                     startCountdown(resentOtp, countDownTimer, getApplicationContext(), COUNTDOWN_TIME_MILLIS);
-                    sendOtp(phone);
+                    sendOtp(phone, null);
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_message_resend_otp), Toast.LENGTH_SHORT).show();
                 }
@@ -248,28 +246,21 @@ public class EditProfile extends AppCompatActivity {
                 String enteredOtp = digit1.getText().toString().trim() + digit2.getText().toString().trim() + digit3.getText().toString().trim() + digit4.getText().toString().trim();
                 loadingOverlay.setVisibility(View.VISIBLE);
                 Integer userOtp = Integer.parseInt(enteredOtp);
-                Call<OtpVerifyResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).verifyOtp(phone, userOtp);
-                call.enqueue(new Callback<OtpVerifyResponse>() {
+                Call<LoginResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OtpInterface.class).verifyPhoneUpdateOtp(phone, userOtp);
+                call.enqueue(new Callback<LoginResponse>() {
                     @Override
-                    public void onResponse(Call<OtpVerifyResponse> call, Response<OtpVerifyResponse> response) {
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         loadingOverlay.setVisibility(View.GONE);
                         if (response.isSuccessful()) {
-                            OtpVerifyResponse otpVerifyResponse = response.body();
-                            UserModel userModel = otpVerifyResponse.getUser();
-
-                            Log.e(TAG, "id " + userModel.getId());
-                            Log.e(TAG, "phone no " + userModel.getPhone_no());
-
-                            userDetailSession.setPhoneNo(userModel.getPhone_no());
-                            tvPhone.setText(userModel.getPhone_no());
-                            dialog.dismiss();
+                            LoginResponse otpVerifyResponse = response.body();
+                            updatePhoneNo(otpVerifyResponse.getPhone_no(), dialog);
                         } else {
                             handleApiError(TAG, response, getApplicationContext());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<OtpVerifyResponse> call, Throwable t) {
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
                         t.printStackTrace();
                     }
                 });
@@ -429,21 +420,22 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-    private void sendOtp(String phone) {
-        Call<LoginResponse> call = RetrofitService.getUnAuthorizedClient().create(UserInterface.class).login(phone);
+    private void sendOtp(String phone, AlertDialog dialog) {
+        Call<LoginResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(OtpInterface.class).sendPhoneUpdateOtp(phone);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                loadingOverlay.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    LoginResponse loginResponse = response.body();
-                    if (loginResponse != null) {
-                        Toast.makeText(getApplicationContext(), "" + loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        loadingOverlay.setVisibility(View.GONE);
+                    LoginResponse otpSendResponse = response.body();
+                    if (otpSendResponse != null) {
+                        openOtpPage(otpSendResponse.getPhone_no());
+                        Toast.makeText(getApplicationContext(), "" + otpSendResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                    if (dialog != null) dialog.dismiss();
                 } else {
                     handleApiError(TAG, response, getApplicationContext());
-                    loadingOverlay.setVisibility(View.GONE);
                 }
             }
 
@@ -451,6 +443,30 @@ public class EditProfile extends AppCompatActivity {
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 t.printStackTrace();
                 loadingOverlay.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void updatePhoneNo(String phone, AlertDialog dialog) {
+        Call<LoginResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(UserInterface.class).updateuserPhoneNo(phone);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    LoginResponse phoneUpdateResponse = response.body();
+
+                    userDetailSession.setPhoneNo(phoneUpdateResponse.getPhone_no());
+                    tvPhone.setText(phoneUpdateResponse.getPhone_no());
+                    Toast.makeText(EditProfile.this, "" + phoneUpdateResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onResponse: updated phone no " + phoneUpdateResponse.getPhone_no());
+                    dialog.dismiss();
+                } else handleApiError(TAG, response, getApplicationContext());
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }
