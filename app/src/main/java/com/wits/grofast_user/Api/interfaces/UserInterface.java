@@ -28,5 +28,5 @@ public interface UserInterface {
 
 
     @POST("update-phone-no")
-    Call<LoginResponse> updateuserPhoneNo(@Query("phone_no") String phone_no, @Query("uuid") String uuid);
+    Call<LoginResponse> updateuserPhoneNo(@Query("phone_no") String phone_no);
 }
