@@ -55,9 +55,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleview_all_categories_view"
                 android:layout_width="match_parent"
-                android:padding="10dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:padding="@dimen/_9sdp"
+                android:layout_height="wrap_content" />
 
             <FrameLayout
                 android:id="@+id/fragment"
