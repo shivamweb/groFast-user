@@ -36,6 +36,11 @@ public class ProductModel {
     private Integer id;
 
     private Integer supplier_id;
+    private Integer per;
+
+    public Integer getPer() {
+        return per;
+    }
 
     @SerializedName("unit_id")
     private String unitName;
