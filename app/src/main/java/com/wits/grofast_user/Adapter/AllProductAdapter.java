@@ -70,6 +70,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
                 intent.putExtra("quantity", holder.total_product_quantity.getText());
                 intent.putExtra("ProductId", item.getId());
                 intent.putExtra("CategoriesId", item.getCategory_id());
+
                 context.startActivity(intent);
             }
         });
