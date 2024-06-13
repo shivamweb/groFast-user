@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment {
                     categoryList = homeCategoryResponse.getCategoryList();
                     topStoreAdapter = new TopCategoriesAdapter(categoryList, getContext(), getFragmentManager());
                     top_stores_recycleview.setAdapter(topStoreAdapter);
-
                     Log.i(TAG, "onResponse: total categories " + categoryList.size());
                 } else {
                     if (isAdded()) handleApiError(TAG, response, getContext());

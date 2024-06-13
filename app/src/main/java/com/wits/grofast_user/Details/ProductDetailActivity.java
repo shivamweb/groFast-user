@@ -66,9 +66,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.loader_product_cart_item);
 
         int productId = getIntent().getIntExtra("ProductId", 0);
+        int categoriesId = getIntent().getIntExtra("CategoriesId", 0);
 
-        if (productId != 0) {
+        if (productId != 0 && categoriesId != 0) {
             Log.e("TAG", "Product ID: " + productId);
+            Log.e("TAG", "Categories ID: " + categoriesId);
         } else {
             Log.e("TAG", "No Product ID passed in the intent");
         }
@@ -122,7 +124,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void Addtocart(int id, int amount, int quantity) {
         UserActivitySession userActivitySession = new UserActivitySession(getApplicationContext());
-        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id,quantity);
+        Call<AddToCartResponse> call = RetrofitService.getClient(userActivitySession.getToken()).create(CartInterface.class).addToCart(id, quantity);
         call.enqueue(new Callback<AddToCartResponse>() {
             @Override
             public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {

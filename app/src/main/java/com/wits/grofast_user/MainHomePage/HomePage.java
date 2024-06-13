@@ -105,12 +105,6 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
-//        textview_set_location.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openlocationDialogbox();
-//            }
-//        });
         final View rootLayout = findViewById(R.id.drawerlayout1);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -121,12 +115,6 @@ public class HomePage extends AppCompatActivity {
 
 
         frameLayout = findViewById(R.id.fragmentnav);
-        bottomNavigationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -207,7 +195,7 @@ public class HomePage extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentnav, fragment, tag);
-        fragmentTransaction.addToBackStack(null); // Add to back stack for subsequent transactions
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
         if (fragment instanceof OffersFragment) {
@@ -226,56 +214,6 @@ public class HomePage extends AppCompatActivity {
     public void updateActionBar(String text, int leftDrawable, int rightDrawable) {
         textview_set_location.setText(text);
         textview_set_location.setCompoundDrawablesWithIntrinsicBounds(leftDrawable, 0, rightDrawable, 0);
-    }
-
-    private void openlocationDialogbox() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.add_location_design, null);
-        builder.setView(dialogView);
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-
-        ImageView close = dialogView.findViewById(R.id.close_add_location);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        RecyclerView recyclerView = dialogView.findViewById(R.id.recycleview_search_result_add_location);
-        LocationItems = new ArrayList<>();
-
-        loadlocationItem();
-
-        //Top Stores Item
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        addLocationSerachResultAdapter = new AddLocationSerachResultAdapter(LocationItems);
-        recyclerView.setAdapter(addLocationSerachResultAdapter);
-
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawableResource(R.drawable.dailogbox_background);
-        }
-        dialog.show();
-    }
-
-    private void loadlocationItem() {
-        Map<String, Object> item1 = new HashMap<>();
-        item1.put("LocationName", "Ankleshwar");
-        item1.put("SubName", "Bharuch");
-
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("LocationName", "Ankleshwar");
-        item2.put("SubName", "Bharuch");
-
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("LocationName", "Ankleshwar");
-        item3.put("SubName", "Bharuch");
-
-        LocationItems.add(item1);
-        LocationItems.add(item2);
-        LocationItems.add(item3);
     }
 
     @Override
